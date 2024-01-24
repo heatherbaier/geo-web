@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- <?php include 'config.php' ?> -->
+
   <head>
     <title>Sleepy Joint Turtle</title>
     <meta property="og:title" content="Sleepy Joint Turtle" />
@@ -946,8 +946,6 @@
       src="https://unpkg.com/@teleporthq/teleport-custom-scripts"
     ></script>
   </body>
-</html>
-
 
 <script src="country_centroids.js"></script>
 <script src="iso_map.js"></script>

@@ -61,7 +61,8 @@ function Identify(e) {
             // console.log(data["features"][0]["properties"]["geo_id"]);
             // console.log(data["features"][0]["properties"]);
             console.log(e.latlng)
-            popup.setContent(data["features"][0]["properties"]["geo_id"]);
+            popup_text = data["features"][0]["properties"]["geo_id"] + "<br>" + "<a href=''>Go to school page</a>"
+            popup.setContent(popup_text);
             // popup.setContent(data);
             popup.setLatLng(e.latlng);
             map.openPopup(popup);
