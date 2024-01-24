@@ -47,7 +47,8 @@ function Identify(e) {
     var HEIGHT = map.getSize().y;
     var X = Math.floor(map.layerPointToContainerPoint(e.layerPoint).x);
     var Y = Math.floor(map.layerPointToContainerPoint(e.layerPoint).y);
-    var URL = wms_server + '&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=geo:bol&QUERY_LAYERS=geo:bol&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=text%2Fhtml&SRS=EPSG%3A4326&X=' + X + '&Y=' + Y + '&buffer=10';
+    var URL = wms_server + '&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=geo:bol&QUERY_LAYERS=geo:bol&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=application/json&SRS=EPSG%3A4326&X=' + X + '&Y=' + Y + '&buffer=10';
+    // var URL = wms_server + '&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=geo:bol&QUERY_LAYERS=geo:bol&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=text%2Fhtml&SRS=EPSG%3A4326&X=' + X + '&Y=' + Y + '&buffer=10';
     console.log(URL);
     $.ajax({
         url: URL,
@@ -57,7 +58,11 @@ function Identify(e) {
             var popup = new L.popup({
                 maxWith: 300
             });
-            popup.setContent(data);
+            // console.log(data["features"][0]["properties"]["geo_id"]);
+            // console.log(data["features"][0]["properties"]);
+            console.log(e.latlng)
+            popup.setContent(data["features"][0]["properties"]["geo_id"]);
+            // popup.setContent(data);
             popup.setLatLng(e.latlng);
             map.openPopup(popup);
         }
@@ -66,22 +71,17 @@ function Identify(e) {
 
 
 
-
 // https://globaleducationobservatory.org/geoserver/geo/wms?
-// service=WMS&version=1.1.0
-// &request=GetFeatureInfo
-// &layers=geo%3Abol
-// &bbox=-69.56538391113281%2C-22.851396560668945%2C-57.71261978149414%2C-10.015067100524902
-// &query_layers=geo%3Abol
-// &info_format=text%2Fhtml
-// &height=600
-// &width=981
-// &x=521
-// &y=288
-// &srs=EPSG%3A4326
+// &SERVICE=WMS&VERSION=1.1.1
+// &REQUEST=GetFeatureInfo
+// &LAYERS=geo:bol
+// &QUERY_LAYERS=geo:bol
+// &BBOX=-86.00097656250001,-28.84467368077178,-42.890625,-3.7765593098768635
+// &FEATURE_COUNT=1
+// &HEIGHT=600
+// &WIDTH=981
+// &INFO_FORMAT=text%2Fhtml
+// &SRS=EPSG%3A4326
+// &X=491
+// &Y=348
 // &buffer=10
-// &format=application/openlayers
-
-// var wms_url = "http://localhost:8080/geoserver/geo/wms?service=wms&version=1.1.1&request=GetCapabilities";
-
-// axios.get(wms_url).then((res) => console.log(res.data));
