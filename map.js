@@ -1,6 +1,20 @@
-function loadMap(country) {
+// function loadMap(country) {
+
+    var dropdown = document.getElementById("country-select");
+    var displayElement = document.getElementById("country-label");
+
+    console.log(dropdown.options);
+
+// if (dropdown.options.length > 0) {
+
+    // console.log(dropdown);
+
+    // var firstItem = dropdown.options[0].text; // or .value, depending on what you want to display
+
 
     console.log("here1!")
+
+    var country = "Bolivia";
 
     var map = L.map('map').setView([51.505, -0.09], 2);
 
@@ -73,7 +87,7 @@ function loadMap(country) {
     }
 
 
-}
+// }
 
 // https://globaleducationobservatory.org/geoserver/geo/wms?
 // &SERVICE=WMS&VERSION=1.1.1

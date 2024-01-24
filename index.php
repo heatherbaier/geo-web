@@ -630,15 +630,11 @@
 				displayElement.innerHTML = "No options available";
 			}
 
-			loadMap(firstItem)
-			
 		}
 
         window.onload = function() {
             populateCountryDropdown();
 			displayFirstDropdownItem()
-
-
         };
     </script>
 
