@@ -24,9 +24,10 @@ function updateMapCountry(country) {
         map.removeLayer(layer);
     });
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
     }).addTo(map);
 
     var iso = isos[country]
@@ -37,7 +38,7 @@ function updateMapCountry(country) {
     layer = "geo:".concat(iso);
 
     //load wms form geoserver
-    const mywms = L.tileLayer.wms("http://localhost:8080/geoserver/geo/wms", {
+    const mywms = L.tileLayer.wms("https://globaleducationobservatory.org/geoserver/geo/wms", {
         layers: layer,
         format: 'image/png',
         transparent: true,
