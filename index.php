@@ -1,4 +1,4 @@
-<?php include 'config.php' ?>
+<!-- <?php include 'includes/config.php' ?> -->
 
   <head>
     <title>Sleepy Joint Turtle</title>
