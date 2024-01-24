@@ -1,76 +1,79 @@
-console.log("here1!")
+function loadMap(country) {
 
-var map = L.map('map').setView([51.505, -0.09], 2);
+    console.log("here1!")
 
-console.log("here2!")
+    var map = L.map('map').setView([51.505, -0.09], 2);
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-	subdomains: 'abcd',
-	maxZoom: 20
-}).addTo(map);
+    console.log("here2!")
 
-console.log("here3!")
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
+    }).addTo(map);
 
-console.log(isos)
+    console.log("here3!")
 
-var country = document.getElementById("country-select")
-console.log(country.value);
-var iso = isos[country.value]
-var bounds = centroids[country.value]
-console.log(iso)
-layer = "geo:".concat(iso);
-console.log(layer)
+    console.log(isos)
 
-
-var host = "https://globaleducationobservatory.org/geoserver/geo/wms?";
-var wms_server = host;
+    // var country = document.getElementById("country-select")
+    // console.log(country.value);
+    var iso = isos[country]
+    var bounds = centroids[country]
+    console.log(iso)
+    layer = "geo:".concat(iso);
+    console.log(layer)
 
 
-//load wms form geoserver
-const mywms = L.tileLayer.wms("https://globaleducationobservatory.org/geoserver/geo/wms", {
-    layers: layer,
-    format: 'image/png',
-    transparent: true,
-    version: '1.1.0',
-    attribution: "country layer"
-});
-mywms.addTo(map);
-console.log(mywms); 
-map.setView(bounds, 5);
-map.addEventListener('click', Identify);
+    var host = "https://globaleducationobservatory.org/geoserver/geo/wms?";
+    var wms_server = host;
 
 
-function Identify(e) {
-    var BBOX = map.getBounds().toBBoxString();
-    var WIDTH = map.getSize().x;
-    var HEIGHT = map.getSize().y;
-    var X = Math.floor(map.layerPointToContainerPoint(e.layerPoint).x);
-    var Y = Math.floor(map.layerPointToContainerPoint(e.layerPoint).y);
-    var URL = wms_server + '&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=geo:bol&QUERY_LAYERS=geo:bol&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=application/json&SRS=EPSG%3A4326&X=' + X + '&Y=' + Y + '&buffer=10';
-    // var URL = wms_server + '&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=geo:bol&QUERY_LAYERS=geo:bol&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=text%2Fhtml&SRS=EPSG%3A4326&X=' + X + '&Y=' + Y + '&buffer=10';
-    console.log(URL);
-    $.ajax({
-        url: URL,
-        datatype: "html",
-        type: "GET",
-        success: function(data) {
-            var popup = new L.popup({
-                maxWith: 300
-            });
-            // console.log(data["features"][0]["properties"]["geo_id"]);
-            // console.log(data["features"][0]["properties"]);
-            console.log(e.latlng)
-            popup_text = data["features"][0]["properties"]["geo_id"] + "<br>" + "<a href=''>Go to school page</a>"
-            popup.setContent(popup_text);
-            // popup.setContent(data);
-            popup.setLatLng(e.latlng);
-            map.openPopup(popup);
-        }
+    //load wms form geoserver
+    const mywms = L.tileLayer.wms("https://globaleducationobservatory.org/geoserver/geo/wms", {
+        layers: layer,
+        format: 'image/png',
+        transparent: true,
+        version: '1.1.0',
+        attribution: "country layer"
     });
+    mywms.addTo(map);
+    console.log(mywms); 
+    map.setView(bounds, 5);
+    map.addEventListener('click', Identify);
+
+
+    function Identify(e) {
+        var BBOX = map.getBounds().toBBoxString();
+        var WIDTH = map.getSize().x;
+        var HEIGHT = map.getSize().y;
+        var X = Math.floor(map.layerPointToContainerPoint(e.layerPoint).x);
+        var Y = Math.floor(map.layerPointToContainerPoint(e.layerPoint).y);
+        var URL = wms_server + '&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=geo:bol&QUERY_LAYERS=geo:bol&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=application/json&SRS=EPSG%3A4326&X=' + X + '&Y=' + Y + '&buffer=10';
+        // var URL = wms_server + '&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=geo:bol&QUERY_LAYERS=geo:bol&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=text%2Fhtml&SRS=EPSG%3A4326&X=' + X + '&Y=' + Y + '&buffer=10';
+        console.log(URL);
+        $.ajax({
+            url: URL,
+            datatype: "html",
+            type: "GET",
+            success: function(data) {
+                var popup = new L.popup({
+                    maxWith: 300
+                });
+                // console.log(data["features"][0]["properties"]["geo_id"]);
+                // console.log(data["features"][0]["properties"]);
+                console.log(e.latlng)
+                popup_text = data["features"][0]["properties"]["geo_id"] + "<br>" + "<a href=''>Go to school page</a>"
+                popup.setContent(popup_text);
+                // popup.setContent(data);
+                popup.setLatLng(e.latlng);
+                map.openPopup(popup);
+            }
+        });
+    }
+
+
 }
-
-
 
 // https://globaleducationobservatory.org/geoserver/geo/wms?
 // &SERVICE=WMS&VERSION=1.1.1

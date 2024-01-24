@@ -57,5 +57,6 @@ function updateMapCountry(country) {
 
 function updateCountry(country) {
     updateCText(country)
+    console.log("COUNTRY".concat(country))
     updateMapCountry(country)
 }
