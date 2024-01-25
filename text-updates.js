@@ -20,6 +20,8 @@ function updateMapCountry(country) {
     // }).addTo(map);
     // console.log("here3!")
 
+    map.removeEventListener('click') 
+
     map.eachLayer(function (layer) {
         map.removeLayer(layer);
     });
@@ -48,6 +50,43 @@ function updateMapCountry(country) {
     mywms.addTo(map);
     console.log(mywms); 
     map.setView(bounds, 5);
+    map.addEventListener('click', Identify);
+
+
+    function Identify(e) {
+        var BBOX = map.getBounds().toBBoxString();
+        var WIDTH = map.getSize().x;
+        var HEIGHT = map.getSize().y;
+        var X = Math.floor(map.layerPointToContainerPoint(e.layerPoint).x);
+        var Y = Math.floor(map.layerPointToContainerPoint(e.layerPoint).y);
+        var URL = wms_server + '&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=geo:' + iso + '&QUERY_LAYERS=geo:' + iso + '&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=application/json&SRS=EPSG%3A4326&X=' + X + '&Y=' + Y + '&buffer=10';
+        // var URL = wms_server + '&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=geo:bol&QUERY_LAYERS=geo:bol&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=text%2Fhtml&SRS=EPSG%3A4326&X=' + X + '&Y=' + Y + '&buffer=10';
+        console.log(URL);
+        $.ajax({
+            url: URL,
+            datatype: "html",
+            type: "GET",
+            success: function(data) {
+                var popup = new L.popup({
+                    maxWith: 300
+                });
+                // console.log(data["features"][0]["properties"]["geo_id"]);
+                // console.log(data["features"][0]["properties"]);
+                console.log(e.latlng)
+                popup_text = data["features"][0]["properties"]["geo_id"] + "<br>" + "<a href=''>Go to school page</a>"
+                popup.setContent(popup_text);
+                // popup.setContent(data);
+                popup.setLatLng(e.latlng);
+                map.openPopup(popup);
+            }
+        });
+    }
+
+
+
+
+
+
 
 
 }
