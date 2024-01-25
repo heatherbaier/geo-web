@@ -82,20 +82,35 @@ function updateMapCountry(country) {
         });
     }
 
-
-
-
-
-
-
-
 }
+
+
+function getNumSchools(country)
+    {
+        $.ajax({
+            type: "GET",
+            url: "get_num_schools.php",
+            data: "country=" + isos[country],
+            success: function(result) {
+                console.log("WE MADE IT HERE!!")
+                console.log(result);
+                var numSchoolsDiv = document.getElementById("num-schools");
+                numSchoolsDiv.innerHTML = Math.floor(result).toLocaleString('en-US').concat(" SCHOOLS MAPPED");
+            }
+        });
+    };
 
 
 
 
 function updateCountry(country) {
+
+    // Update the big country name
     updateCText(country)
-    console.log("COUNTRY".concat(country))
+
+    // Update the schools on the map
     updateMapCountry(country)
+
+    // Update the number of schools under the country name
+    getNumSchools(country)
 }
