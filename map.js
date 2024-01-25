@@ -28,7 +28,7 @@
 
     console.log("here3!")
 
-    console.log(isos)
+    // console.log(isos)
 
     // var country = document.getElementById("country-select")
     // console.log(country.value);
