@@ -85,7 +85,7 @@
         <div class="heroContainer home-hero">
           <div class="home-container02">
             <h1 class="home-hero-heading heading1" id="country-label">LABEL_HERE</h1>
-            <span class="home-hero-sub-heading">1,234 SCHOOLS MAPPED</span>
+            <span class="home-hero-sub-heading" id="num-schools"></span>
             <div class="home-btn-group">
               <div class="home-container03">
 
@@ -121,7 +121,7 @@
 							}
 						}
 					}
-				pg_close($con);
+				// pg_close($con);
 				?>
 
                 <label class="home-text">INDICATOR</label>
@@ -604,38 +604,41 @@
 
 
 <script>
-        function populateCountryDropdown() {
-			console.log("IN HERE YO DAWG");
-            var countrySelect = document.getElementById("country-select");
-            countrySelect.innerHTML = '';
-            <?php foreach ($tables as $iso): ?>
-                if (isoToCountryMap.hasOwnProperty("<?= $iso ?>")) {
-                    var option = document.createElement("option");
-                    option.value = isoToCountryMap["<?= $iso ?>"];
-					
-                    option.text = isoToCountryMap["<?= $iso ?>"];
-                    countrySelect.appendChild(option);
-                }
-            <?php endforeach; ?>
-        }
-
-		function displayFirstDropdownItem() {
-			var dropdown = document.getElementById("country-select");
-			var displayElement = document.getElementById("country-label");
-
-			if (dropdown.options.length > 0) {
-				var firstItem = dropdown.options[0].text; // or .value, depending on what you want to display
-				displayElement.innerHTML = firstItem;
-			} else {
-				displayElement.innerHTML = "No options available";
+	function populateCountryDropdown() {
+		console.log("IN HERE YO DAWG");
+		var countrySelect = document.getElementById("country-select");
+		countrySelect.innerHTML = '';
+		<?php foreach ($tables as $iso): ?>
+			if (isoToCountryMap.hasOwnProperty("<?= $iso ?>")) {
+				var option = document.createElement("option");
+				option.value = isoToCountryMap["<?= $iso ?>"];
+				
+				option.text = isoToCountryMap["<?= $iso ?>"];
+				countrySelect.appendChild(option);
 			}
+		<?php endforeach; ?>
+	}
 
+	function displayFirstDropdownItem() {
+		var dropdown = document.getElementById("country-select");
+		var displayElement = document.getElementById("country-label");
+
+		if (dropdown.options.length > 0) {
+			var firstItem = dropdown.options[0].text; // or .value, depending on what you want to display
+			displayElement.innerHTML = firstItem;
+		} else {
+			displayElement.innerHTML = "No options available";
 		}
 
-        window.onload = function() {
-            populateCountryDropdown();
-			displayFirstDropdownItem()
-        };
-    </script>
+		// Update the number of schools under the country name
+    	getNumSchools(firstItem)
 
-	<script src="map.js"></script>
+	}
+
+	window.onload = function() {
+		populateCountryDropdown();
+		displayFirstDropdownItem()
+	};
+</script>
+
+<script src="map.js"></script>
