@@ -583,7 +583,7 @@
         selectedCountry = isos[selectedCountry]
 
         // Construct the URL with the selected country's ISO code
-        var url = 'localhost:8888/geoweb/explore.php?country=' + encodeURIComponent(selectedCountry);
+        var url = address + 'explore.php?country=' + encodeURIComponent(selectedCountry);
 
         // Navigate to the new page
         window.location.href = window.location.protocol + "//" + url;

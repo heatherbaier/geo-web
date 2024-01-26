@@ -243,7 +243,7 @@ pg_close($con);
 
 <script>
     function redirectToSchool(geoId, countryISO) {
-        var url = window.location.protocol + "//" + "localhost:8888/geoweb/school.php?country=" + encodeURIComponent(countryISO) + "&id=" + encodeURIComponent(geoId);
+        var url = window.location.protocol + "//" + address + "school.php?country=" + encodeURIComponent(countryISO) + "&id=" + encodeURIComponent(geoId);
         window.location.href = url;
     }
 </script>
