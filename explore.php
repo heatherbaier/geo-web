@@ -1,5 +1,32 @@
-<?php include 'includes/config.php' ?>
 <?php include 'includes/head.php' ?>
+
+<?php
+// Check for the 'country' parameter and sanitize it
+$countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
+
+// Pagination settings
+$rowsPerPage = 10; // Set the number of rows per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $rowsPerPage;
+
+// Query to fetch rows for the current page
+$query = "SELECT * FROM schools WHERE country_iso = '$countryISO' LIMIT $rowsPerPage OFFSET $offset";
+$result = pg_query($con, $query);
+
+// Query to get the total number of rows
+$totalRowsQuery = "SELECT COUNT(*) FROM schools WHERE country_iso = '$countryISO'";
+$totalRowsResult = pg_query($con, $totalRowsQuery);
+$totalRows = pg_fetch_result($totalRowsResult, 0, 0);
+$totalPages = ceil($totalRows / $rowsPerPage);
+
+echo $totalRows . " Total rows!";
+
+// Close the database connection
+pg_close($con);
+
+?>
+
+
 
 <script src="iso_to_name.js"></script>
 
@@ -593,3 +620,6 @@
 
 
 <script src="map.js"></script>
+
+
+
