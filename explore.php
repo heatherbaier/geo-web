@@ -7,26 +7,33 @@ include 'includes/config.php';
 // Check for the 'country' parameter and sanitize it
 $countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
 
-echo $countryISO;
+// echo $countryISO;
 
 // Pagination settings
 $rowsPerPage = 10; // Set the number of rows per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $rowsPerPage;
 
-// Query to fetch rows for the current page
-$query = "SELECT * FROM " . $countryISO . " LIMIT $rowsPerPage OFFSET $offset";
+$countryBasic = $countryISO . "_basic";
+
+$query = "SELECT " . $countryISO . ".*, " . $countryBasic . ".* 
+          FROM " . $countryISO .
+          " INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id 
+          LIMIT $rowsPerPage OFFSET $offset";
+
 $result = pg_query($con, $query);
 
-echo "HERE: " . pg_fetch_result($result, 0, 0);
 
-// Query to get the total number of rows
-$totalRowsQuery = "SELECT COUNT(*) FROM " . $countryISO;
+
+$totalRowsQuery = "SELECT COUNT(*) 
+                   FROM " . $countryISO . " 
+                   INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id";
+
 $totalRowsResult = pg_query($con, $totalRowsQuery);
 $totalRows = pg_fetch_result($totalRowsResult, 0, 0);
 $totalPages = ceil($totalRows / $rowsPerPage);
 
-echo $totalRows . " Total rows!";
+// echo $totalRows . " Total rows!";
 
 $range = 5;  // Number of pages to show before and after the current page
 $start = max(1, $page - $range);
@@ -114,7 +121,11 @@ pg_close($con);
             <table>
                 <tr>
                     <th>Geo ID</th>
-                    <th>Latitude</th>
+                    <th>School Name</th>
+                    <th>Address</th>
+                    <th>ADM1</th>
+                    <th>ADM2</th>
+                    <th>ADM3</th>
                     <!-- Other headers... -->
                 </tr>
                 <?php while ($row = pg_fetch_assoc($result)): ?>
@@ -122,9 +133,11 @@ pg_close($con);
                         <td onclick="redirectToSchool('<?= htmlspecialchars($row['geo_id']) ?>', '<?= htmlspecialchars($countryISO) ?>')">
                             <?= htmlspecialchars($row['geo_id']) ?>
                         </td>
-                        <td>
-                            <?= htmlspecialchars($row['latitude']) ?>
-                        </td>
+                        <td> <?= htmlspecialchars($row['school_name']) ?> </td>
+                        <td> <?= htmlspecialchars($row['address']) ?> </td>
+                        <td> <?= htmlspecialchars($row['adm1']) ?> </td>
+                        <td> <?= htmlspecialchars($row['adm2']) ?> </td>
+                        <td> <?= htmlspecialchars($row['adm3']) ?> </td>
                         <!-- Other columns... -->
                     </tr>
                 <?php endwhile; ?>
