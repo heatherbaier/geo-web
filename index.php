@@ -580,6 +580,7 @@
 
         var countrySelect = document.getElementById('country-select');
         var selectedCountry = countrySelect.value;
+        selectedCountry = isos[selectedCountry]
 
         // Construct the URL with the selected country's ISO code
         var url = 'localhost:8888/geoweb/explore.php?country=' + encodeURIComponent(selectedCountry);

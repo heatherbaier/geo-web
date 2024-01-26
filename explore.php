@@ -1,25 +1,43 @@
 <?php include 'includes/head.php' ?>
 
 <?php
+
+include 'includes/config.php';
+
 // Check for the 'country' parameter and sanitize it
 $countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
+
+// echo $countryISO;
 
 // Pagination settings
 $rowsPerPage = 10; // Set the number of rows per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $rowsPerPage;
 
-// Query to fetch rows for the current page
-$query = "SELECT * FROM schools WHERE country_iso = '$countryISO' LIMIT $rowsPerPage OFFSET $offset";
+$countryBasic = $countryISO . "_basic";
+
+$query = "SELECT " . $countryISO . ".*, " . $countryBasic . ".* 
+          FROM " . $countryISO .
+          " INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id 
+          LIMIT $rowsPerPage OFFSET $offset";
+
 $result = pg_query($con, $query);
 
-// Query to get the total number of rows
-$totalRowsQuery = "SELECT COUNT(*) FROM schools WHERE country_iso = '$countryISO'";
+
+
+$totalRowsQuery = "SELECT COUNT(*) 
+                   FROM " . $countryISO . " 
+                   INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id";
+
 $totalRowsResult = pg_query($con, $totalRowsQuery);
 $totalRows = pg_fetch_result($totalRowsResult, 0, 0);
 $totalPages = ceil($totalRows / $rowsPerPage);
 
-echo $totalRows . " Total rows!";
+// echo $totalRows . " Total rows!";
+
+$range = 5;  // Number of pages to show before and after the current page
+$start = max(1, $page - $range);
+$end = min($totalPages, $page + $range);
 
 // Close the database connection
 pg_close($con);
@@ -47,41 +65,6 @@ pg_close($con);
             <span class="home-hero-sub-heading" id="num-schools"></span>
             <div class="home-btn-group">
               <div class="home-container03">
-
-				<?php
-
-					if (!$con) {
-						echo "Error: Unable to open database\n";
-
-					} else {
-						// Query to fetch table names
-						$result = pg_query($con, "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'");
-
-						if (!$result) {
-							echo "An error occurred.\n";
-							exit;
-						}
-
-						echo "<script>console.log('Debug Objects: " . $result . "' );</script>";
-
-						foreach ($arr as &$value) {
-							$value = $value * 2;
-						}
-
-						// Fetch the table names and extract ISO part
-						$tables = [];
-						while ($row = pg_fetch_assoc($result)) {
-							if ($row['table_name'] !== 'spatial_ref_sys' && strpos($row['table_name'], 'Resource id #5') === false) {
-							echo "<script>console.log('Debug Objects: " . $row['table_name'] . "' );</script>";
-							// CODE TO EXTRACT JUST THE ISO FROM THE <ISO_YEAR>
-							// if (preg_match('/^(\w+)_\d{4}$/', $row['table_name'], $matches)) {
-							// 	$tables[] = $matches[1]; // Assuming format <ISO_YEAR>
-							$tables[] = $row['table_name'];
-							}
-						}
-					}
-				// pg_close($con);
-				?>
 
                 <label class="home-text">INDICATOR</label>
                 <select class="home-select" id="indicator-select">
@@ -132,398 +115,54 @@ pg_close($con);
           </ul>
         </div>
         <div class="home-features">
-			<div id="map" &#x3c;="" div=""></div>
-          <!-- <div class="home-container06">
-            <span class="overline">
-              <span>features</span>
-              <br />
-            </span>
-            <h2 class="home-features-heading heading2">
-              Explore Data Like Never Before
-            </h2>
-            <span class="home-features-sub-heading bodyLarge">
-              <span>
-                <span>
-                  <span>
-                    Discover insights and make informed decisions with our
-                    powerful dashboard features
-                  </span>
-                  <span></span>
-                </span>
-                <span>
-                  <span></span>
-                  <span></span>
-                </span>
-              </span>
-              <span>
-                <span>
-                  <span></span>
-                  <span></span>
-                </span>
-                <span>
-                  <span></span>
-                  <span></span>
-                </span>
-              </span>
-            </span>
-          </div>
-          <div class="home-container07">
-            <div class="featuresCard feature-card-feature-card">
-              <svg viewBox="0 0 1024 1024" class="featuresIcon">
-                <path
-                  d="M809.003 291.328l-297.003 171.819-297.003-171.819 275.456-157.397c4.779-2.731 9.899-4.48 15.147-5.333 9.301-1.451 18.987 0.128 27.904 5.291zM491.776 979.669c6.016 3.243 12.928 5.077 20.224 5.077 7.381 0 14.336-1.877 20.395-5.163 15.189-2.475 29.909-7.68 43.392-15.36l298.709-170.709c26.368-15.232 45.269-38.315 55.424-64.597 5.675-14.592 8.619-30.165 8.747-46.251v-341.333c0-20.395-4.821-39.723-13.397-56.917-0.939-3.029-2.219-5.973-3.883-8.832-1.963-3.371-4.267-6.357-6.912-8.96-1.323-1.835-2.731-3.669-4.139-5.419-9.813-12.203-21.845-22.528-35.456-30.507l-299.051-170.88c-26.027-15.019-55.467-19.84-83.328-15.531-15.531 2.432-30.507 7.637-44.288 15.488l-298.709 170.709c-16.341 9.429-29.824 21.888-40.149 36.267-2.56 2.56-4.864 5.547-6.784 8.832-1.664 2.901-2.987 5.888-3.925 8.96-1.707 3.456-3.243 6.955-4.608 10.496-5.632 14.635-8.576 30.208-8.704 45.995v341.632c0.043 30.293 10.581 58.197 28.331 80.128 9.813 12.203 21.845 22.528 35.456 30.507l299.051 170.88c13.824 7.979 28.587 13.099 43.605 15.445zM469.333 537.045v340.949l-277.12-158.336c-4.736-2.773-8.832-6.315-12.16-10.411-5.931-7.381-9.387-16.512-9.387-26.581v-318.379zM554.667 877.995v-340.949l298.667-172.757v318.379c-0.043 5.163-1.067 10.496-2.987 15.445-3.413 8.789-9.6 16.384-18.176 21.333z"
-                ></path>
-              </svg>
-              <div class="feature-card-container">
-                <h3 class="feature-card-text heading3">
-                  <span>Interactive Map</span>
-                </h3>
-                <span class="bodySmall">
-                  <span>
-                    Easily navigate and explore data with a large, interactive
-                    map at the center of the dashboard
-                  </span>
-                </span>
-              </div>
+
+			<!-- <div id="map" &#x3c;="" div=""></div> -->
+
+            <table>
+                <tr>
+                    <th>Geo ID</th>
+                    <th>School Name</th>
+                    <th>Address</th>
+                    <th>ADM1</th>
+                    <th>ADM2</th>
+                    <th>ADM3</th>
+                    <!-- Other headers... -->
+                </tr>
+                <?php while ($row = pg_fetch_assoc($result)): ?>
+                    <tr>
+                        <td onclick="redirectToSchool('<?= htmlspecialchars($row['geo_id']) ?>', '<?= htmlspecialchars($countryISO) ?>')">
+                            <?= htmlspecialchars($row['geo_id']) ?>
+                        </td>
+                        <td> <?= htmlspecialchars($row['school_name']) ?> </td>
+                        <td> <?= htmlspecialchars($row['address']) ?> </td>
+                        <td> <?= htmlspecialchars($row['adm1']) ?> </td>
+                        <td> <?= htmlspecialchars($row['adm2']) ?> </td>
+                        <td> <?= htmlspecialchars($row['adm3']) ?> </td>
+                        <!-- Other columns... -->
+                    </tr>
+                <?php endwhile; ?>
+            </table>
+
+            <div class="pagination">
+                <?php if ($page > 1): ?>
+                    <a href="?country=<?= urlencode($countryISO) ?>&page=<?= $page - 1 ?>">&laquo;</a>
+                <?php endif; ?>
+
+                <?php for ($i = $start; $i <= $end; $i++): ?>
+                    <a href="?country=<?= urlencode($countryISO) ?>&page=<?= $i ?>" <?= ($i == $page) ? 'class="active"' : '' ?>><?= $i ?></a>
+                <?php endfor; ?>
+
+                <?php if ($page < $totalPages): ?>
+                    <a href="?country=<?= urlencode($countryISO) ?>&page=<?= $page + 1 ?>">&raquo;</a>
+                <?php endif; ?>
             </div>
-            <div class="featuresCard feature-card-feature-card">
-              <svg viewBox="0 0 1024 1024" class="featuresIcon">
-                <path
-                  d="M809.003 291.328l-297.003 171.819-297.003-171.819 275.456-157.397c4.779-2.731 9.899-4.48 15.147-5.333 9.301-1.451 18.987 0.128 27.904 5.291zM491.776 979.669c6.016 3.243 12.928 5.077 20.224 5.077 7.381 0 14.336-1.877 20.395-5.163 15.189-2.475 29.909-7.68 43.392-15.36l298.709-170.709c26.368-15.232 45.269-38.315 55.424-64.597 5.675-14.592 8.619-30.165 8.747-46.251v-341.333c0-20.395-4.821-39.723-13.397-56.917-0.939-3.029-2.219-5.973-3.883-8.832-1.963-3.371-4.267-6.357-6.912-8.96-1.323-1.835-2.731-3.669-4.139-5.419-9.813-12.203-21.845-22.528-35.456-30.507l-299.051-170.88c-26.027-15.019-55.467-19.84-83.328-15.531-15.531 2.432-30.507 7.637-44.288 15.488l-298.709 170.709c-16.341 9.429-29.824 21.888-40.149 36.267-2.56 2.56-4.864 5.547-6.784 8.832-1.664 2.901-2.987 5.888-3.925 8.96-1.707 3.456-3.243 6.955-4.608 10.496-5.632 14.635-8.576 30.208-8.704 45.995v341.632c0.043 30.293 10.581 58.197 28.331 80.128 9.813 12.203 21.845 22.528 35.456 30.507l299.051 170.88c13.824 7.979 28.587 13.099 43.605 15.445zM469.333 537.045v340.949l-277.12-158.336c-4.736-2.773-8.832-6.315-12.16-10.411-5.931-7.381-9.387-16.512-9.387-26.581v-318.379zM554.667 877.995v-340.949l298.667-172.757v318.379c-0.043 5.163-1.067 10.496-2.987 15.445-3.413 8.789-9.6 16.384-18.176 21.333z"
-                ></path>
-              </svg>
-              <div class="feature-card-container">
-                <h3 class="feature-card-text heading3">
-                  <span>Indicator Dropdowns</span>
-                </h3>
-                <span class="bodySmall">
-                  <span>
-                    Select specific indicators from the dropdown menus on the
-                    side of the map to customize your data view
-                  </span>
-                </span>
-              </div>
-            </div>
-            <div class="featuresCard feature-card-feature-card">
-              <svg viewBox="0 0 1024 1024" class="featuresIcon">
-                <path
-                  d="M809.003 291.328l-297.003 171.819-297.003-171.819 275.456-157.397c4.779-2.731 9.899-4.48 15.147-5.333 9.301-1.451 18.987 0.128 27.904 5.291zM491.776 979.669c6.016 3.243 12.928 5.077 20.224 5.077 7.381 0 14.336-1.877 20.395-5.163 15.189-2.475 29.909-7.68 43.392-15.36l298.709-170.709c26.368-15.232 45.269-38.315 55.424-64.597 5.675-14.592 8.619-30.165 8.747-46.251v-341.333c0-20.395-4.821-39.723-13.397-56.917-0.939-3.029-2.219-5.973-3.883-8.832-1.963-3.371-4.267-6.357-6.912-8.96-1.323-1.835-2.731-3.669-4.139-5.419-9.813-12.203-21.845-22.528-35.456-30.507l-299.051-170.88c-26.027-15.019-55.467-19.84-83.328-15.531-15.531 2.432-30.507 7.637-44.288 15.488l-298.709 170.709c-16.341 9.429-29.824 21.888-40.149 36.267-2.56 2.56-4.864 5.547-6.784 8.832-1.664 2.901-2.987 5.888-3.925 8.96-1.707 3.456-3.243 6.955-4.608 10.496-5.632 14.635-8.576 30.208-8.704 45.995v341.632c0.043 30.293 10.581 58.197 28.331 80.128 9.813 12.203 21.845 22.528 35.456 30.507l299.051 170.88c13.824 7.979 28.587 13.099 43.605 15.445zM469.333 537.045v340.949l-277.12-158.336c-4.736-2.773-8.832-6.315-12.16-10.411-5.931-7.381-9.387-16.512-9.387-26.581v-318.379zM554.667 877.995v-340.949l298.667-172.757v318.379c-0.043 5.163-1.067 10.496-2.987 15.445-3.413 8.789-9.6 16.384-18.176 21.333z"
-                ></path>
-              </svg>
-              <div class="feature-card-container">
-                <h3 class="feature-card-text heading3">
-                  <span>Charts &amp; Graphs</span>
-                </h3>
-                <span class="bodySmall">
-                  <span>
-                    Visualize data trends and patterns with a variety of charts
-                    and graphs displayed below the map
-                  </span>
-                </span>
-              </div>
-            </div>
-            <div class="featuresCard feature-card-feature-card">
-              <svg viewBox="0 0 1024 1024" class="featuresIcon">
-                <path
-                  d="M809.003 291.328l-297.003 171.819-297.003-171.819 275.456-157.397c4.779-2.731 9.899-4.48 15.147-5.333 9.301-1.451 18.987 0.128 27.904 5.291zM491.776 979.669c6.016 3.243 12.928 5.077 20.224 5.077 7.381 0 14.336-1.877 20.395-5.163 15.189-2.475 29.909-7.68 43.392-15.36l298.709-170.709c26.368-15.232 45.269-38.315 55.424-64.597 5.675-14.592 8.619-30.165 8.747-46.251v-341.333c0-20.395-4.821-39.723-13.397-56.917-0.939-3.029-2.219-5.973-3.883-8.832-1.963-3.371-4.267-6.357-6.912-8.96-1.323-1.835-2.731-3.669-4.139-5.419-9.813-12.203-21.845-22.528-35.456-30.507l-299.051-170.88c-26.027-15.019-55.467-19.84-83.328-15.531-15.531 2.432-30.507 7.637-44.288 15.488l-298.709 170.709c-16.341 9.429-29.824 21.888-40.149 36.267-2.56 2.56-4.864 5.547-6.784 8.832-1.664 2.901-2.987 5.888-3.925 8.96-1.707 3.456-3.243 6.955-4.608 10.496-5.632 14.635-8.576 30.208-8.704 45.995v341.632c0.043 30.293 10.581 58.197 28.331 80.128 9.813 12.203 21.845 22.528 35.456 30.507l299.051 170.88c13.824 7.979 28.587 13.099 43.605 15.445zM469.333 537.045v340.949l-277.12-158.336c-4.736-2.773-8.832-6.315-12.16-10.411-5.931-7.381-9.387-16.512-9.387-26.581v-318.379zM554.667 877.995v-340.949l298.667-172.757v318.379c-0.043 5.163-1.067 10.496-2.987 15.445-3.413 8.789-9.6 16.384-18.176 21.333z"
-                ></path>
-              </svg>
-              <div class="feature-card-container">
-                <h3 class="feature-card-text heading3">
-                  <span>Data Export</span>
-                </h3>
-                <span class="bodySmall">
-                  <span>
-                    Download data in JSON format for further analysis or
-                    integration with other systems
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div> -->
+
+
+
+
         </div>
-        <div class="pricingContainer">
-          <!-- <div class="home-container08"> -->
-            <!-- <span class="overline">
-              <span>Pricing</span>
-              <br />
-            </span> -->
-            <!-- <h2 class="heading2">Choose Your Plan</h2> -->
-            <!-- <span class="home-pricing-sub-heading bodyLarge">
-              <span><span>Select the perfect plan for your needs</span></span>
-            </span> -->
-          <!-- </div> -->
-          <div class="home-container09">
-            <div class="freePricingCard home-pricing-card">
-              <div class="home-container10">
-                <span class="home-text28 heading3">Data</span>
-                <span class="bodySmall">
-                  Explore school level data for COUNTRY XX
-                </span>
-              </div>
-              <div class="home-container11">
-                <!-- <span class="home-text29"> -->
-                  <!-- <span>$</span>
-                  <span></span> -->
-                <!-- </span> -->
-                <!-- <span class="home-free-plan-price">0</span> -->
-              </div>
-              <!-- <div class="home-container12">
-                <div class="home-container13">
-                  <span class="home-text32">✔</span>
-                  <span class="bodySmall">Feature 1 of the Free plan</span>
-                </div>
-                <div class="home-container14">
-                  <span class="home-text33">✔</span>
-                  <span class="bodySmall">Feature 2 of the Free plan</span>
-                </div>
-                <div class="home-container15">
-                  <span class="home-text34">✔</span>
-                  <span class="bodySmall">Feature 3 of the Free plan</span>
-                </div>
-                <div class="home-container16">
-                  <span class="home-text35">✔</span>
-                  <span class="bodySmall">Feature 4 of the Free plan</span>
-                </div>
-              </div> -->
-              <button class="home-button buttonOutline" id="exploreSchools">
-                Explore
-              </button>
-            </div>
-            <div class="basicPricingCard home-pricing-card1">
-              <div class="home-container17">
-                <span class="home-text36 heading3">BASIC</span>
-                <span class="bodySmall">
-                  A short description for the Basic plan
-                </span>
-              </div>
-              <div class="home-container18">
-                <span class="home-text37">
-                  <span>$</span>
-                  <span></span>
-                </span>
-                <span class="home-basic-plan-pricing">20</span>
-                <span class="home-text40">/ month</span>
-              </div>
-              <div class="home-container19">
-                <div class="home-container20">
-                  <span class="home-text41">✔</span>
-                  <span class="bodySmall">All features of FREE plan</span>
-                </div>
-                <div class="home-container21">
-                  <span class="home-text43">✔</span>
-                  <span class="bodySmall">Feature 1 of the Basic plan</span>
-                </div>
-                <div class="home-container22">
-                  <span class="home-text44">✔</span>
-                  <span class="bodySmall">Feature 2 of the Basic plan</span>
-                </div>
-                <div class="home-container23">
-                  <span class="home-text45">✔</span>
-                  <span class="bodySmall">Feature 3 of the Basic plan</span>
-                </div>
-                <div class="home-container24">
-                  <span class="home-text46">✔</span>
-                  <span class="bodySmall">Feature 4 of the Basic plan</span>
-                </div>
-              </div>
-              <button class="home-button1 buttonFilledSecondary">
-                Try the Basic plan
-              </button>
-            </div>
-            <div class="proPricingCard home-pricing-card2">
-              <div class="home-container25">
-                <span class="home-text47 heading3">
-                  <span>PRO</span>
-                  <br />
-                </span>
-                <span class="bodySmall">
-                  A short description for the Pro plan
-                </span>
-              </div>
-              <div class="home-container26">
-                <span class="home-text50">
-                  <span>$</span>
-                  <span></span>
-                </span>
-                <span class="home-pro-plan-pricing">50</span>
-                <span class="home-text53">/ month</span>
-              </div>
-              <div class="home-container27">
-                <div class="home-container28">
-                  <span class="home-text54">✔</span>
-                  <span class="bodySmall">
-                    &nbsp;All features of BASIC plan
-                  </span>
-                </div>
-                <div class="home-container29">
-                  <span class="home-text56">✔</span>
-                  <span class="bodySmall">Feature 1 of the Pro plan</span>
-                </div>
-                <div class="home-container30">
-                  <span class="home-text57">✔</span>
-                  <span class="bodySmall">Feature 2 of the Pro plan</span>
-                </div>
-                <div class="home-container31">
-                  <span class="home-text58">✔</span>
-                  <span class="bodySmall">Feature 3 of the Pro plan</span>
-                </div>
-                <div class="home-container32">
-                  <span class="home-text59">✔</span>
-                  <span class="bodySmall">Feature 4 of the Pro plan</span>
-                </div>
-              </div>
-              <button class="home-button2 buttonFilledSecondary">
-                Try the PRO plan
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="bannerContainer home-banner">
-          <h1 class="home-banner-heading heading2">
-            Unlock the Power of Data Visualization
-          </h1>
-          <span class="home-banner-sub-heading bodySmall">
-            <span>
-              <span>
-                <span>
-                  Our dashboard provides a comprehensive view of your data,
-                  allowing you to analyze trends, identify patterns, and gain
-                  valuable insights. With intuitive charts, graphs, and maps,
-                  you can easily navigate through your data and make data-driven
-                  decisions.
-                </span>
-                <span></span>
-              </span>
-              <span>
-                <span></span>
-                <span></span>
-              </span>
-            </span>
-            <span>
-              <span>
-                <span></span>
-                <span></span>
-              </span>
-              <span>
-                <span></span>
-                <span></span>
-              </span>
-            </span>
-          </span>
-          <button class="buttonFilled">Learn More</button>
-        </div>
-        <div class="home-faq">
-          <div class="home-container33">
-            <span class="overline">
-              <span>FAQ</span>
-              <br />
-            </span>
-            <h2 class="home-text77 heading2">Common questions</h2>
-            <span class="home-text78 bodyLarge">
-              <span>
-                Here are some of the most common questions that we get.
-              </span>
-              <br />
-            </span>
-          </div>
-          <div class="home-container34">
-            <div class="question1-container">
-              <span class="question1-text heading3">
-                <span>How do I navigate the map?</span>
-              </span>
-              <span class="bodySmall">
-                <span>
-                  To navigate the map, simply use your mouse or trackpad to drag
-                  and move the map around. You can also use the zoom controls on
-                  the map to zoom in and out.
-                </span>
-              </span>
-            </div>
-            <div class="question1-container">
-              <span class="question1-text heading3">
-                <span>How do I select indicators?</span>
-              </span>
-              <span class="bodySmall">
-                <span>
-                  To select indicators, use the dropdown menus on the side of
-                  the map. Choose the desired indicator from each dropdown to
-                  update the map and view the corresponding data.
-                </span>
-              </span>
-            </div>
-            <div class="question1-container">
-              <span class="question1-text heading3">
-                <span>Can I customize the charts and graphs?</span>
-              </span>
-              <span class="bodySmall">
-                <span>
-                  Yes, you can customize the charts and graphs below the map.
-                  Use the available options to adjust the display, select
-                  different data sets, and apply filters to visualize the
-                  information according to your preferences.
-                </span>
-              </span>
-            </div>
-            <div class="question1-container">
-              <span class="question1-text heading3">
-                <span>How often is the data updated?</span>
-              </span>
-              <span class="bodySmall">
-                <span>
-                  The data on the dashboard is regularly updated based on the
-                  latest available information. The frequency of updates may
-                  vary depending on the specific data source and indicator.
-                </span>
-              </span>
-            </div>
-            <div class="question1-container">
-              <span class="question1-text heading3">
-                <span>Is there a legend for the map indicators?</span>
-              </span>
-              <span class="bodySmall">
-                <span>
-                  Yes, there is a legend provided for each indicator on the map.
-                  The legend helps you understand the color coding or symbol
-                  representation used to depict different values or categories
-                  of data.
-                </span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="home-hero1"></div>
-        <div class="home-features1">
-          <div class="home-features-container featuresContainer"></div>
-        </div>
-        <div class="home-pricing1"></div>
-        <div class="home-banner1"></div>
-        <div class="home-footer"></div>
-        <div data-thq="thq-dropdown" class="home-thq-dropdown1 list-item">
-          <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle3">
-            <div
-              data-thq="thq-dropdown-arrow"
-              class="home-dropdown-arrow"
-            ></div>
-          </div>
-          <ul data-thq="thq-dropdown-list" class="home-dropdown-list1">
-            <li data-thq="thq-dropdown" class="home-dropdown3 list-item">
-              <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle4">
-                <span class="home-text81">Sub-menu Item</span>
-              </div>
-            </li>
-            <li data-thq="thq-dropdown" class="home-dropdown4 list-item">
-              <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle5">
-                <span class="home-text82">Sub-menu Item</span>
-              </div>
-            </li>
-            <li data-thq="thq-dropdown" class="home-dropdown5 list-item">
-              <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle6">
-                <span class="home-text83">Sub-menu Item</span>
-              </div>
-            </li>
-          </ul>
-        </div>
+
+
         <footer class="home-footer1">
           <img
             alt="logo"
@@ -601,25 +240,17 @@ pg_close($con);
 </script>
 
 
+
 <script>
-
-    document.getElementById('exploreSchools').addEventListener('click', function() {
-
-        var countrySelect = document.getElementById('country-select');
-        var selectedCountry = countrySelect.value;
-
-        // Construct the URL with the selected country's ISO code
-        var url = 'localhost:8888/geoweb/explore.php?country=' + encodeURIComponent(selectedCountry);
-
-        // Navigate to the new page
-        window.location.href = window.location.protocol + "//" + url;
-
-    });
-
+    function redirectToSchool(geoId, countryISO) {
+        var url = window.location.protocol + "//" + "localhost:8888/geoweb/school.php?country=" + encodeURIComponent(countryISO) + "&id=" + encodeURIComponent(geoId);
+        window.location.href = url;
+    }
 </script>
 
 
-<script src="map.js"></script>
+
+<!-- <script src="map.js"></script> -->
 
 
 
