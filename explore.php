@@ -53,7 +53,7 @@ $adm2Data = fetchAdmData('adm2', $countryISO, "*", "*", "*"); // Fetch ADM1 data
 $adm3Data = fetchAdmData('adm3', $countryISO, "*", "*", "*"); // Fetch ADM1 data
 
 
-echo "<script>console.log(" . json_encode($adm2Data) . ");</script>";
+echo "<script>console.log(" . json_encode($adm2Data) . ")</script>";
 
 
 // echo "ADM DATA: " . $adm1Data;
@@ -312,9 +312,6 @@ echo "<script>console.log(" . json_encode($adm2Data) . ");</script>";
             adm3Select.appendChild(option);
         });
 
-
-
-
     }
 </script>
 
@@ -329,10 +326,8 @@ function updateDropdowns(selectedAdm) {
     var adm2selectedValue = document.getElementById("adm2-select").value;
     var adm3selectedValue = document.getElementById("adm3-select").value;
     
-    <!-- console.log(selectedValue); -->
-
     // Construct the data to send in the AJAX request
-    var data = { admType: selectedAdm, adm1Selected: adm1selectedValue, adm2Selected: adm2selectedValue, adm2Selected: adm2selectedValue, adm3Selected: adm3selectedValue };
+    var data = { admType: selectedAdm, adm1Selected: adm1selectedValue, adm2Selected: adm2selectedValue, adm2Selected: adm2selectedValue, adm3Selected: adm3selectedValue, iso: '<?= $countryISO ?>'};
 
     // Create an AJAX request
     var xhr = new XMLHttpRequest();
@@ -411,4 +406,6 @@ function populateDropdown(dropdownId, data) {
     });
 }
 </script>
+
+
 

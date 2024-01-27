@@ -32,7 +32,7 @@ function fetchAdmData($admLevel, $iso, $adm1Sel, $adm2Sel, $adm3Sel) {
 
     return $data ? $data : [];
 
-};
+}
 
 
 // SELECT DISTINCT adm3 FROM phl_basic WHERE adm1='Region I' AND adm2='Batac City';

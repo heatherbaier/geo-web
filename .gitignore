@@ -1,3 +1,5 @@
 config.php
 error_log
 address.js
+.idea/
+node_modules/
