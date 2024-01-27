@@ -3,6 +3,7 @@
 <?php
 
 include 'includes/config.php';
+include 'admFetchFunc.php';
 
 // Check for the 'country' parameter and sanitize it
 $countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
@@ -18,7 +19,7 @@ $countryBasic = $countryISO . "_basic";
 
 $query = "SELECT " . $countryISO . ".*, " . $countryBasic . ".* 
           FROM " . $countryISO .
-          " INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id 
+          " INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id
           LIMIT $rowsPerPage OFFSET $offset";
 
 $result = pg_query($con, $query);
@@ -39,8 +40,27 @@ $range = 5;  // Number of pages to show before and after the current page
 $start = max(1, $page - $range);
 $end = min($totalPages, $page + $range);
 
+
+// $adm1Query = "SELECT DISTINCT adm1 FROM " . $countryBasic;
+// $adm2Query = "SELECT DISTINCT adm2 FROM " . $countryBasic;
+// $adm3Query = "SELECT DISTINCT adm3 FROM " . $countryBasic;
+
+// $adm1Query = "SELECT DISTINCT adm1 FROM " . $countryBasic;
+// $result = pg_query($con, $adm1Query);
+// $adm1Data = pg_fetch_all($result);
+$adm1Data = fetchAdmData('adm1', $countryISO, "*", "*", "*"); // Fetch ADM1 data
+$adm2Data = fetchAdmData('adm2', $countryISO, "*", "*", "*"); // Fetch ADM1 data
+$adm3Data = fetchAdmData('adm3', $countryISO, "*", "*", "*"); // Fetch ADM1 data
+
+
+echo "<script>console.log(" . json_encode($adm2Data) . ");</script>";
+
+
+// echo "ADM DATA: " . $adm1Data;
+
+
 // Close the database connection
-pg_close($con);
+// pg_close($con);
 
 ?>
 
@@ -66,24 +86,27 @@ pg_close($con);
             <div class="home-btn-group">
               <div class="home-container03">
 
-                <label class="home-text">INDICATOR</label>
-                <select class="home-select" id="indicator-select">
+                <label class="home-text">ADM1</label>
+                <select class="home-select" id="adm1-select" onchange="updateDropdowns('adm1')">
+                    <option value="*">All</option>
                   <!-- <option value="Option 1">Option 1</option>
                   <option value="Option 2">Option 2</option>
                   <option value="Option 3">Option 3</option> -->
                 </select>
               </div>
               <div class="home-container04">
-                <label class="home-text01">YEAR</label>
-                <select>
-                  <option value="Option 1">Option 1</option>
+                <label class="home-text01">ADM2</label>
+                <select id="adm2-select" onchange="updateDropdowns('adm2')">
+                    <option value="*">All</option>
+                  <!-- <option value="Option 1">Option 1</option>
                   <option value="Option 2">Option 2</option>
-                  <option value="Option 3">Option 3</option>
+                  <option value="Option 3">Option 3</option> -->
                 </select>
               </div>
               <div class="home-container05">
-                <label class="home-text02">COUNTRY</label>
-                <select class="home-select2" id="country-select" onchange="updateCountry(this.value)">
+                <label class="home-text02">ADM3</label>
+                <select class="home-select2" id="adm3-select">
+                    <option value="*">All</option>
                   <!-- <option value="Bahrain">Bahrain</option>
                   <option value="Bolivia" selected>Bolivia</option>
                   <option value="Nigeria">Nigeria</option>
@@ -92,6 +115,9 @@ pg_close($con);
                   <option value="Tanzania">Tanzania</option> -->
                 </select>
               </div>
+              <button class="home-text01">Filter</button>
+
+
             </div>
           </div>
         </div>
@@ -118,7 +144,8 @@ pg_close($con);
 
 			<!-- <div id="map" &#x3c;="" div=""></div> -->
 
-            <table>
+            <table id="schools-table">
+            <thead>
                 <tr>
                     <th>Geo ID</th>
                     <th>School Name</th>
@@ -128,7 +155,9 @@ pg_close($con);
                     <th>ADM3</th>
                     <!-- Other headers... -->
                 </tr>
+            </thead>
                 <?php while ($row = pg_fetch_assoc($result)): ?>
+                    <tbody>
                     <tr>
                         <td onclick="redirectToSchool('<?= htmlspecialchars($row['geo_id']) ?>', '<?= htmlspecialchars($countryISO) ?>')">
                             <?= htmlspecialchars($row['geo_id']) ?>
@@ -140,6 +169,7 @@ pg_close($con);
                         <td> <?= htmlspecialchars($row['adm3']) ?> </td>
                         <!-- Other columns... -->
                     </tr>
+                </tbody>
                 <?php endwhile; ?>
             </table>
 
@@ -250,7 +280,135 @@ pg_close($con);
 
 
 
-<!-- <script src="map.js"></script> -->
+<!-- Populate ADM1 dropdown -->
+<script type="text/javascript">
+
+    window.onload = function() {   
+
+        var adm1Select = document.getElementById('adm1-select');
+        var adm1Data = <?php echo json_encode($adm1Data); ?>;
+        adm1Data.forEach(function(adm) {
+            var option = document.createElement('option');
+            option.value = adm.adm1;
+            option.text = adm.adm1;
+            adm1Select.appendChild(option);
+        });
+
+        var adm2Select = document.getElementById('adm2-select');
+        var adm2Data = <?php echo json_encode($adm2Data); ?>;
+        adm2Data.forEach(function(adm) {
+            var option = document.createElement('option');
+            option.value = adm.adm2;
+            option.text = adm.adm2;
+            adm2Select.appendChild(option);
+        });
+
+        var adm3Select = document.getElementById('adm3-select');
+        var adm3Data = <?php echo json_encode($adm3Data); ?>;
+        adm3Data.forEach(function(adm) {
+            var option = document.createElement('option');
+            option.value = adm.adm3;
+            option.text = adm.adm3;
+            adm3Select.appendChild(option);
+        });
 
 
+
+
+    }
+</script>
+
+
+<script>
+
+function updateDropdowns(selectedAdm) {
+
+    console.log(document.getElementById(selectedAdm.concat("-select")));
+
+    var adm1selectedValue = document.getElementById("adm1-select").value;
+    var adm2selectedValue = document.getElementById("adm2-select").value;
+    var adm3selectedValue = document.getElementById("adm3-select").value;
+    
+    <!-- console.log(selectedValue); -->
+
+    // Construct the data to send in the AJAX request
+    var data = { admType: selectedAdm, adm1Selected: adm1selectedValue, adm2Selected: adm2selectedValue, adm2Selected: adm2selectedValue, adm3Selected: adm3selectedValue };
+
+    // Create an AJAX request
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'fetch_adm_data.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+            // Parse the response JSON
+            var response = JSON.parse(this.responseText);
+
+            console.log("RETURN HERE!!");
+            console.log(response['array1']);
+
+            // Populate the next dropdown based on the response
+            if (selectedAdm === 'adm1') {
+
+                var select = document.getElementById('adm2-select');
+                select.innerHTML = ''; // Clear existing options
+                var option = document.createElement('option');
+                option.value = "*";
+                option.text = "All";
+                select.appendChild(option);
+                response['array1'].forEach(function(item) {
+                    var option = document.createElement('option');
+                    option.value = item.adm2;
+                    option.text = item.adm2;
+                    select.appendChild(option);
+                });
+
+                var select = document.getElementById('adm3-select');
+                select.innerHTML = ''; // Clear existing options
+                var option = document.createElement('option');
+                option.value = "*";
+                option.text = "All";
+                select.appendChild(option);
+                response['array2'].forEach(function(item) {
+                    var option = document.createElement('option');
+                    option.value = item.adm3;
+                    option.text = item.adm3;
+                    select.appendChild(option);
+                });
+
+
+            } else if (selectedAdm === 'adm2') {
+
+                var select = document.getElementById('adm3-select');
+                select.innerHTML = ''; // Clear existing options
+                var option = document.createElement('option');
+                option.value = "*";
+                option.text = "All";
+                select.appendChild(option);
+                response.forEach(function(item) {
+                    var option = document.createElement('option');
+                    option.value = item.adm3;
+                    option.text = item.adm3;
+                    select.appendChild(option);
+                });
+
+                
+            }
+        }
+    };
+
+    xhr.send(JSON.stringify(data));
+}
+
+function populateDropdown(dropdownId, data) {
+    var select = document.getElementById(dropdownId);
+    select.innerHTML = ''; // Clear existing options
+    data.forEach(function(item) {
+        var option = document.createElement('option');
+        option.value = item.value;
+        option.text = item.text;
+        select.appendChild(option);
+    });
+}
+</script>
 
