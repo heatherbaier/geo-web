@@ -7,7 +7,7 @@ $admType = 'adm1';
 $adm1selectedValue = $_POST['adm1'];
 $adm2selectedValue = $_POST['adm2'];
 $adm3selectedValue = $_POST['adm3'];
-$iso = 'phl';
+$iso = $_POST['iso'];
 $countryBasic = $iso . "_basic";
 $page = $_POST['page'];
 

@@ -4,7 +4,10 @@
 window.onload = function() {
     console.log("THE PAGE HAS BEEN RELOADED!!")
     console.log("IN HERE YO DAWG!");
-    //console.log(<?php //= $page ?>//)
+
+    var countryLabel = document.getElementById("country-label")
+    countryLabel.innerHTML = isoToCountryMap['<?= $countryISO ?>'] + ' School Explorer';
+
     updateDropdowns('adm2')
     setFiltersAndRefreshTable(1)
 };
@@ -94,7 +97,7 @@ function updateTableData(page = 1) {
 
     // xhr.send(JSON.stringify(data));
     console.log("PAGE AQUI: " + page);
-    var params = "page=" + page + "&adm1=" + encodeURIComponent(adm1selectedValue) + "&adm2=" + encodeURIComponent(adm2selectedValue) + "&adm3=" + encodeURIComponent(adm3selectedValue);
+    var params = "page=" + page + "&adm1=" + encodeURIComponent(adm1selectedValue) + "&adm2=" + encodeURIComponent(adm2selectedValue) + "&adm3=" + encodeURIComponent(adm3selectedValue) + "&iso=" + encodeURIComponent('<?= $countryISO ?>');
     console.log(params);
     xhr.send(params);
 
