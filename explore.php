@@ -116,34 +116,7 @@ include 'includes/exploreFuncs.php';
 
 			<!-- <div id="map" &#x3c;="" div=""></div> -->
 
-            <table id="schools-table">
-            <thead>
-                <tr>
-                    <th>Geo ID</th>
-                    <th>School Name</th>
-                    <th>Address</th>
-                    <th>ADM1</th>
-                    <th>ADM2</th>
-                    <th>ADM3</th>
-                    <!-- Other headers... -->
-                </tr>
-            </thead>
-                <?php while ($row = pg_fetch_assoc($result)): ?>
-                    <tbody>
-                    <tr>
-                        <td onclick="redirectToSchool('<?= htmlspecialchars($row['geo_id']) ?>', '<?= htmlspecialchars($countryISO) ?>')">
-                            <?= htmlspecialchars($row['geo_id']) ?>
-                        </td>
-                        <td> <?= htmlspecialchars($row['school_name']) ?> </td>
-                        <td> <?= htmlspecialchars($row['address']) ?> </td>
-                        <td> <?= htmlspecialchars($row['adm1']) ?> </td>
-                        <td> <?= htmlspecialchars($row['adm2']) ?> </td>
-                        <td> <?= htmlspecialchars($row['adm3']) ?> </td>
-                        <!-- Other columns... -->
-                    </tr>
-                </tbody>
-                <?php endwhile; ?>
-            </table>
+            <table id="schools-table"></table>
 
             <div class="pagination" id="pagination"></div>
 
@@ -186,5 +159,5 @@ include 'includes/exploreFuncs.php';
     ></script>
   </body>
 
-<?php include 'includes/exploreFuncs.php' ?>;
+
 
