@@ -13,19 +13,19 @@ function redirectToSchool(geoId, countryISO) {
 }
 
 
-// Global variables to store current filter values
-var currentAdm1 = '';
-var currentAdm2 = '';
-var currentAdm3 = '';
+// // Global variables to store current filter values
+// var currentAdm1 = '';
+// var currentAdm2 = '';
+// var currentAdm3 = '';
 
 // Function to update filter variables and refresh table data
 function setFiltersAndRefreshTable() {
 
     console.log("BEFORE: ".concat(currentAdm1));
 
-    currentAdm1 = document.getElementById('adm1-select').value;
-    currentAdm2 = document.getElementById('adm2-select').value;
-    currentAdm3 = document.getElementById('adm3-select').value;
+    var currentAdm1 = document.getElementById('adm1-select').value;
+    var currentAdm2 = document.getElementById('adm2-select').value;
+    var currentAdm3 = document.getElementById('adm3-select').value;
 
     console.log("AFTER: ".concat(currentAdm1));
 
@@ -77,7 +77,9 @@ function updateTableData(page = 1) {
 
     xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
+            console.log("MADE IT BACK HERE TO JA BOOTY");
             var response = JSON.parse(this.responseText)
+            console.log(response);
             // Update table data
             // document.getElementById('schools-table').innerHTML = ""
             document.getElementById('schools-table').innerHTML = response['table'];
@@ -87,6 +89,7 @@ function updateTableData(page = 1) {
 
     // xhr.send(JSON.stringify(data));
     var params = "page=" + page + "&adm1=" + encodeURIComponent(adm1selectedValue) + "&adm2=" + encodeURIComponent(adm2selectedValue) + "&adm3=" + encodeURIComponent(adm3selectedValue);
+    console.log(params);
     xhr.send(params);
 
 }
@@ -120,7 +123,7 @@ function updateDropdowns(selectedAdm) {
                 var response = JSON.parse(this.responseText);
                 populateDropdown('adm1-select', response['array1'], "adm1", "adm1")
                 populateDropdown('adm2-select', response['array2'], "adm2", "adm2")
-                populateDropdown('adm3-select', response['array3'], "adm2", "adm3")
+                populateDropdown('adm3-select', response['array3'], "adm3", "adm3")
             }
         };
         xhr.send(JSON.stringify(data));

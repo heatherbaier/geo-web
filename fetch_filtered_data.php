@@ -17,34 +17,81 @@ $offset = ($page - 1) * $rowsPerPage;
 
 
 $firstCheck = $adm1selectedValue . $adm2selectedValue . $adm3selectedValue;
-$message = "<script>console.log('ADM! IN PHP FETCH FILE FIRST CHECK: " . $firstCheck . "')";
 
 
 // Define the query based on the ADM level
-if ($admType === 'adm1') {
+//if ($admType === 'adm1') {
 
-    if ($firstCheck == "***") {
-        $query = "SELECT " . $iso . ".*, " . $countryBasic . ".*
-                  FROM " . $iso .
-            " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-                  LIMIT $rowsPerPage OFFSET $offset";
-        $totalRowsQuery = "SELECT COUNT(*) 
-                       FROM " . $iso . " 
-                       INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id";
-    } elseif ($adm2selectedValue != '*') {
-        $query = "SELECT " . $iso . ".*, " . $countryBasic . ".* 
-                      FROM " . $iso .
-            " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-                        WHERE adm1='" . $adm1selectedValue . "'
-                      LIMIT $rowsPerPage OFFSET $offset";
-        $totalRowsQuery = "SELECT COUNT(*) 
+if ($firstCheck == "***") {
+    $query = "SELECT " . $iso . ".*, " . $countryBasic . ".*
+              FROM " . $iso .
+        " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
+              LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) 
+                   FROM " . $iso . " 
+                   INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id";
+}
+
+elseif ($adm2selectedValue == '*' & $adm1selectedValue != '*' & $adm3selectedValue == '*') {
+    $query = "SELECT " . $iso . ".*, " . $countryBasic . ".* 
+              FROM " . $iso .
+             " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
+               WHERE adm1='" . $adm1selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) 
                        FROM " . $iso . " 
                        INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
                         WHERE adm1='" . $adm1selectedValue . "'";
+}
 
-    };
+elseif ($adm2selectedValue != '*' & $adm1selectedValue != '*' & $adm3selectedValue == '*') {
+    $query = "SELECT " . $iso . ".*, " . $countryBasic . ".* 
+              FROM " . $iso .
+        " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
+               WHERE adm1='" . $adm1selectedValue . "' AND adm2='" . $adm2selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) FROM " . $iso . " INNER JOIN " .
+                        $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
+                        WHERE adm1='" . $adm1selectedValue . "' AND adm2='" . $adm2selectedValue . "'";
+
 
 }
+
+elseif ($adm3selectedValue != '*' & $adm1selectedValue == '*' & $adm2selectedValue == '*') {
+    $query = "SELECT " . $iso . ".*, " . $countryBasic . ".* 
+              FROM " . $iso .
+        " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
+               WHERE adm3='" . $adm3selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) 
+                       FROM " . $iso . " 
+                       INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
+                        WHERE adm3='" . $adm3selectedValue . "'";
+
+}
+
+elseif ($adm3selectedValue != '*' & $adm1selectedValue != "*" & $adm2selectedValue == "*") {
+    $query = "SELECT " . $iso . ".*, " . $countryBasic . ".* 
+              FROM " . $iso .
+        " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
+               WHERE adm1='" . $adm1selectedValue . "' AND adm3='" . $adm3selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) FROM " . $iso . " INNER JOIN " .
+        $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
+                        WHERE adm1='" . $adm1selectedValue . "' AND adm3='" . $adm3selectedValue . "'";
+}
+
+elseif ($adm2selectedValue != '*' & $adm1selectedValue == "*" & $adm3selectedValue == "*") {
+    $query = "SELECT " . $iso . ".*, " . $countryBasic . ".* 
+              FROM " . $iso .
+        " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
+               WHERE adm2='" . $adm2selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) 
+                       FROM " . $iso . " 
+                       INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
+                        WHERE adm2='" . $adm2selectedValue . "'";
+};
+
+//}
+
+$message = "<script>console.log('ADM! IN PHP FETCH FILE FIRST CHECK: " . $query . "')";
+
 
 
 
