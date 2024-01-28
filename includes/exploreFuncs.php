@@ -2,29 +2,9 @@
 
 
 window.onload = function() {
-
     console.log("IN HERE YO DAWG!");
-
     updateDropdowns('adm2')
     setFiltersAndRefreshTable()
-
-    // updateDropdowns('adm1')
-    // updateDropdowns('adm2')
-    // updateDropdowns('adm3')
-
-   // setFiltersAndRefreshTable();
-
-   //console.log("HERE IN ON LOAD!")
-   //
-   // var adm1Data = <?php //echo json_encode($adm1Data); ?>//;
-   // populateDropdown('adm1-select', adm1Data, 'adm1', 'adm1');
-   //
-   // var adm2Data = <?php //echo json_encode($adm2Data); ?>//;
-   // populateDropdown('adm2-select', adm2Data, 'adm2', 'adm2');
-   //
-   // var adm3Data = <?php //echo json_encode($adm3Data); ?>//;
-   // populateDropdown('adm3-select', adm3Data, 'adm3', 'adm3');
-
 };
 
 function redirectToSchool(geoId, countryISO) {
@@ -49,15 +29,10 @@ function setFiltersAndRefreshTable() {
 
     console.log("AFTER: ".concat(currentAdm1));
 
-    // console.log("currentAdm1: ".concat(currentAdm1));
-
     updateTableData(1); // Reset to page 1 whenever filters change
 }
 
-// Initialize filter values and update table data on page load
-// window.onload = function() {
-//
-// };
+
 
 function populateDropdown(dropdownId, data, valueKey, textKey) {
     var select = document.getElementById(dropdownId);
@@ -94,13 +69,6 @@ function updateTableData(page = 1) {
     var adm1selectedValue = document.getElementById('adm1-select').value;
     var adm2selectedValue = document.getElementById('adm2-select').value;
     var adm3selectedValue = document.getElementById('adm3-select').value;
-
-
-
-
-
-    //var data = { admType: selectedAdm, adm1Selected: adm1selectedValue, adm2Selected: adm2selectedValue, adm3Selected: adm3selectedValue, iso: '<?php //= $countryISO ?>//'};
-
 
     // Create an AJAX request to fetch updated data
     var xhr = new XMLHttpRequest();
@@ -167,26 +135,29 @@ function updateDropdowns(selectedAdm) {
             adm3Selected: adm3selectedValue,
             iso: '<?= $countryISO ?>'
         };
+        console.log("DATA: ")
+        console.log(data);
         var xhr = new XMLHttpRequest();
         xhr.open('POST', 'fetch_adm_data.php', true);
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
+
                 var response = JSON.parse(this.responseText);
                 console.log("SUCCCESFUL RESPOINSE!!", response);
 
                 if (selectedAdm == "adm1") {
-                    console.log("PINTO BEANS")
+                    console.log("PINTO BEANS", response)
                     populateDropdown('adm2-select', response['array1'], "adm2", "adm2")
                     populateDropdown('adm3-select', response['array2'], "adm3", "adm3")
                 } else {
-                    console.log("WHITE BEANS")
+                    console.log("WHITE BEANS", response)
                     populateDropdown('adm3-select', response, "adm3", "adm3")
                 }
 
+            }
+        }
         xhr.send(JSON.stringify(data));
     }
-
 }
-
 </script>

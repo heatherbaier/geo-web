@@ -7,7 +7,7 @@ include 'admFetchFunc.php';
 include 'includes/exploreFuncs.php';
 
 
-echo "<script>console.log('" . "AT TOP OF PHP SCRIPT" . "')</script>";
+//echo "<script>console.log('" . "AT TOP OF PHP SCRIPT" . "')</script>";
 
 // Check for the 'country' parameter and sanitize it
 $countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
@@ -57,7 +57,7 @@ $countryBasic = $countryISO . "_basic";
 //$adm3Data = fetchAdmData('adm3', $countryISO, "*", "*", "*"); // Fetch ADM1 data
 
 
-echo "<script>console.log(" . json_encode($adm1Data) . ")</script>";
+//echo "<script>console.log(" . json_encode($adm1Data) . ")</script>";
 
 
 // echo "ADM DATA: " . $adm1Data;

@@ -2,14 +2,6 @@
 
 include 'includes/config.php';
 
-//header('Content-Type: application/json');
-
-//$inputData = json_decode(file_get_contents('php://input'), true);
-
-// Retrieve POST data
-//$adm1 = $_POST['adm1'];
-//$adm2 = $_POST['adm2'];
-//$adm3 = $_POST['adm3'];
 
 $admType = 'adm1';
 $adm1selectedValue = $_POST['adm1'];
@@ -18,24 +10,10 @@ $adm3selectedValue = $_POST['adm3'];
 $iso = 'phl';
 $countryBasic = $iso . "_basic";
 
-//echo
-
-
-
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $rowsPerPage = 10; // Set the number of rows per page
 $offset = ($page - 1) * $rowsPerPage;
-
-//if ($page == 0) {
-//    $page = 1;
-//};
-
-
-//$query = "SELECT " . $iso . ".*, " . $countryBasic . ".*
-//          FROM " . $iso .
-//         " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-//          LIMIT $rowsPerPage OFFSET $offset";
 
 
 $firstCheck = $adm1selectedValue . $adm2selectedValue . $adm3selectedValue;
