@@ -13,6 +13,7 @@ window.onload = function() {
 };
 
 function redirectToSchool(geoId, countryISO) {
+    console.log("MADE IT HERE MI AMAIGA!!")
     var url = window.location.protocol + "//" + address + "school.php?country=" + encodeURIComponent(countryISO) + "&id=" + encodeURIComponent(geoId);
     window.location.href = url;
 }

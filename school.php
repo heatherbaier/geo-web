@@ -1,3 +1,6 @@
+<?php include 'includes/head.php' ?>
+
+
 <?php
 // Assume the same database connection setup as before
 

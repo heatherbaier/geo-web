@@ -117,9 +117,11 @@ $tableData .= "<thead>
 </thead>
 <tbody>";
 
+/*onclick="redirectToSchool('<?= htmlspecialchars($row['geo_id']) ?>'*/
+
 while ($row = pg_fetch_assoc($result)) {
     $tableData .= "<tr>";
-    $tableData .= "<td>" . htmlspecialchars($row['geo_id']) . "</td>";
+    $tableData .= "<td onclick='redirectToSchool(\"" . htmlspecialchars($row['geo_id']) . "\")'>" . htmlspecialchars($row['geo_id']) . "</td>";
     $tableData .= "<td>" . htmlspecialchars($row['school_name']) . "</td>";
     $tableData .= "<td>" . htmlspecialchars($row['address']) . "</td>";
     $tableData .= "<td>" . htmlspecialchars($row['adm1']) . "</td>";
