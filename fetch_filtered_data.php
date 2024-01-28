@@ -9,11 +9,18 @@ $adm2selectedValue = $_POST['adm2'];
 $adm3selectedValue = $_POST['adm3'];
 $iso = 'phl';
 $countryBasic = $iso . "_basic";
+$page = $_POST['page'];
+
+if ($page == "") {
+    $page = 1;
+}
 
 
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $rowsPerPage = 10; // Set the number of rows per page
 $offset = ($page - 1) * $rowsPerPage;
+
+$message = "<script>console.log('ADM! IN PHP FETCH FILE FIRST CHECK: " . $page . "')";
+
 
 
 $firstCheck = $adm1selectedValue . $adm2selectedValue . $adm3selectedValue;
@@ -72,7 +79,8 @@ elseif ($adm3selectedValue != '*' & $adm1selectedValue != "*" & $adm2selectedVal
               FROM " . $iso .
         " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
                WHERE adm1='" . $adm1selectedValue . "' AND adm3='" . $adm3selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
-    $totalRowsQuery = "SELECT COUNT(*) FROM " . $iso . " INNER JOIN " .
+    $totalRowsQuery = "SELECT COUNT(*) FROM " . $iso . " INNER JOIN "
+        .
         $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
                         WHERE adm1='" . $adm1selectedValue . "' AND adm3='" . $adm3selectedValue . "'";
 }
@@ -90,7 +98,6 @@ elseif ($adm2selectedValue != '*' & $adm1selectedValue == "*" & $adm3selectedVal
 
 //}
 
-$message = "<script>console.log('ADM! IN PHP FETCH FILE FIRST CHECK: " . $query . "')";
 
 
 
@@ -159,7 +166,8 @@ $totalPages = ceil($totalRows / $rowsPerPage);
 // Generate pagination links and store in a variable
 $paginationLinks = "";
 for ($i = 1; $i <= $totalPages; $i++) {
-    $paginationLinks .= "<a href='?country=" . urlencode($iso) . "&page=" . $i . "' onclick='setFiltersAndRefreshTable(" . $i . ")'>" . $i . "</a> ";
+//    $paginationLinks .= "<a href='?country=" . urlencode($iso) . "&page=" . $i . "' onclick='setFiltersAndRefreshTable(" . $i . ")'>" . $i . "</a> ";
+    $paginationLinks .= "<button onclick='setFiltersAndRefreshTable(" . $i . ")'>" . $i . "</button> ";
 }
 
 // Return both parts as a JSON object

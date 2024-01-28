@@ -2,9 +2,11 @@
 
 
 window.onload = function() {
+    console.log("THE PAGE HAS BEEN RELOADED!!")
     console.log("IN HERE YO DAWG!");
+    //console.log(<?php //= $page ?>//)
     updateDropdowns('adm2')
-    setFiltersAndRefreshTable()
+    setFiltersAndRefreshTable(1)
 };
 
 function redirectToSchool(geoId, countryISO) {
@@ -19,7 +21,10 @@ function redirectToSchool(geoId, countryISO) {
 // var currentAdm3 = '';
 
 // Function to update filter variables and refresh table data
-function setFiltersAndRefreshTable() {
+function setFiltersAndRefreshTable(page) {
+
+    console.log("PAGE: ");
+    console.log(page);
 
     console.log("BEFORE: ".concat(currentAdm1));
 
@@ -29,7 +34,7 @@ function setFiltersAndRefreshTable() {
 
     console.log("AFTER: ".concat(currentAdm1));
 
-    updateTableData(1); // Reset to page 1 whenever filters change
+    updateTableData(page); // Reset to page 1 whenever filters change
 }
 
 
@@ -56,9 +61,9 @@ function populateDropdown(dropdownId, data, valueKey, textKey) {
 
 
 
-function updateAll(selectedAdm) {
+function updateAll(page, selectedAdm) {
     updateDropdowns(selectedAdm)
-    setFiltersAndRefreshTable(selectedAdm)
+    setFiltersAndRefreshTable(page)
 
 }
 
@@ -88,6 +93,7 @@ function updateTableData(page = 1) {
     };
 
     // xhr.send(JSON.stringify(data));
+    console.log("PAGE AQUI: " + page);
     var params = "page=" + page + "&adm1=" + encodeURIComponent(adm1selectedValue) + "&adm2=" + encodeURIComponent(adm2selectedValue) + "&adm3=" + encodeURIComponent(adm3selectedValue);
     console.log(params);
     xhr.send(params);

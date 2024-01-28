@@ -2,69 +2,35 @@
 
 <?php
 
+
+
 include 'includes/config.php';
 include 'admFetchFunc.php';
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+echo $page;
+
 include 'includes/exploreFuncs.php';
+
+
 
 
 //echo "<script>console.log('" . "AT TOP OF PHP SCRIPT" . "')</script>";
 
-// Check for the 'country' parameter and sanitize it
+//// Check for the 'country' parameter and sanitize it
 $countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
-
-// echo $countryISO;
-
-// Pagination settings
-$rowsPerPage = 10; // Set the number of rows per page
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $rowsPerPage;
-
+//
+//// echo $countryISO;
+//
+//// Pagination settings
+//$rowsPerPage = 10; // Set the number of rows per page
+//$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+//$offset = ($page - 1) * $rowsPerPage;
+//
 $countryBasic = $countryISO . "_basic";
 
-//$query = "SELECT " . $countryISO . ".*, " . $countryBasic . ".*
-//          FROM " . $countryISO .
-//          " INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id
-//          LIMIT $rowsPerPage OFFSET $offset";
-//
-//$result = pg_query($con, $query);
 
-
-
-//$totalRowsQuery = "SELECT COUNT(*)
-//                   FROM " . $countryISO . "
-//                   INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id";
-//
-//$totalRowsResult = pg_query($con, $totalRowsQuery);
-//$totalRows = pg_fetch_result($totalRowsResult, 0, 0);
-//$totalPages = ceil($totalRows / $rowsPerPage);
-//
-//// echo $totalRows . " Total rows!";
-//
-//$range = 5;  // Number of pages to show before and after the current page
-//$start = max(1, $page - $range);
-//$end = min($totalPages, $page + $range);
-
-
-// $adm1Query = "SELECT DISTINCT adm1 FROM " . $countryBasic;
-// $adm2Query = "SELECT DISTINCT adm2 FROM " . $countryBasic;
-// $adm3Query = "SELECT DISTINCT adm3 FROM " . $countryBasic;
-
-// $adm1Query = "SELECT DISTINCT adm1 FROM " . $countryBasic;
-// $result = pg_query($con, $adm1Query);
-// $adm1Data = pg_fetch_all($result);
-//$adm1Data = fetchAdmData('adm1', $countryISO, "*", "*", "*"); // Fetch ADM1 data
-//$adm2Data = fetchAdmData('adm2', $countryISO, "*", "*", "*"); // Fetch ADM1 data
-//$adm3Data = fetchAdmData('adm3', $countryISO, "*", "*", "*"); // Fetch ADM1 data
-
-
-//echo "<script>console.log(" . json_encode($adm1Data) . ")</script>";
-
-
-// echo "ADM DATA: " . $adm1Data;
-
-
-// Close the database connection
-// pg_close($con);
 
 ?>
 
@@ -91,7 +57,7 @@ $countryBasic = $countryISO . "_basic";
               <div class="home-container03">
 
                 <label class="home-text">ADM1</label>
-                <select class="home-select" id="adm1-select" onchange="updateAll('adm1')">
+                <select class="home-select" id="adm1-select" onchange="updateAll(1, 'adm1')">
                     <option value="*">All</option>
                   <!-- <option value="Option 1">Option 1</option>
                   <option value="Option 2">Option 2</option>
@@ -100,7 +66,7 @@ $countryBasic = $countryISO . "_basic";
               </div>
               <div class="home-container04">
                 <label class="home-text01">ADM2</label>
-                <select id="adm2-select" onchange="updateAll('adm2')">
+                <select id="adm2-select" onchange="updateAll(1, 'adm2')">
                     <option value="*">All</option>
                   <!-- <option value="Option 1">Option 1</option>
                   <option value="Option 2">Option 2</option>
@@ -109,7 +75,7 @@ $countryBasic = $countryISO . "_basic";
               </div>
               <div class="home-container05">
                 <label class="home-text02">ADM3</label>
-                <select class="home-select2" id="adm3-select"  onchange="updateTableData('adm3')">
+                <select class="home-select2" id="adm3-select"  onchange="updateTableData()">
                     <option value="*">All</option>
                   <!-- <option value="Bahrain">Bahrain</option>
                   <option value="Bolivia" selected>Bolivia</option>
