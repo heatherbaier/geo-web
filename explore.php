@@ -2,45 +2,17 @@
 
 <?php
 
+
+
 include 'includes/config.php';
+include 'admFetchFunc.php';
 
-// Check for the 'country' parameter and sanitize it
-$countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
-
-// echo $countryISO;
-
-// Pagination settings
-$rowsPerPage = 10; // Set the number of rows per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $rowsPerPage;
 
+include 'includes/exploreFuncs.php';
+
+$countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
 $countryBasic = $countryISO . "_basic";
-
-$query = "SELECT " . $countryISO . ".*, " . $countryBasic . ".* 
-          FROM " . $countryISO .
-          " INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id 
-          LIMIT $rowsPerPage OFFSET $offset";
-
-$result = pg_query($con, $query);
-
-
-
-$totalRowsQuery = "SELECT COUNT(*) 
-                   FROM " . $countryISO . " 
-                   INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id";
-
-$totalRowsResult = pg_query($con, $totalRowsQuery);
-$totalRows = pg_fetch_result($totalRowsResult, 0, 0);
-$totalPages = ceil($totalRows / $rowsPerPage);
-
-// echo $totalRows . " Total rows!";
-
-$range = 5;  // Number of pages to show before and after the current page
-$start = max(1, $page - $range);
-$end = min($totalPages, $page + $range);
-
-// Close the database connection
-pg_close($con);
 
 ?>
 
@@ -49,7 +21,30 @@ pg_close($con);
 <script src="iso_to_name.js"></script>
 
 
+<style>
+    #schools-table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        /*width: 100%;*/
+        /*border-radius: 5px;*/
+        margin-top: 50px;
+    }
+    #schools-table td, #schools-table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    #schools-table tr:nth-child(even){background-color: #f2f2f2;}
 
+    #schools-table tr:hover {background-color: #ddd;}
+
+    #schools-table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: darkgray;
+        color: white;
+    }
+</style>
 
 
   <body>
@@ -66,24 +61,27 @@ pg_close($con);
             <div class="home-btn-group">
               <div class="home-container03">
 
-                <label class="home-text">INDICATOR</label>
-                <select class="home-select" id="indicator-select">
+                <label class="home-text">ADM1</label>
+                <select class="home-select" id="adm1-select" onchange="updateAll(1, 'adm1')">
+                    <option value="*">All</option>
                   <!-- <option value="Option 1">Option 1</option>
                   <option value="Option 2">Option 2</option>
                   <option value="Option 3">Option 3</option> -->
                 </select>
               </div>
               <div class="home-container04">
-                <label class="home-text01">YEAR</label>
-                <select>
-                  <option value="Option 1">Option 1</option>
+                <label class="home-text01">ADM2</label>
+                <select id="adm2-select" onchange="updateAll(1, 'adm2')">
+                    <option value="*">All</option>
+                  <!-- <option value="Option 1">Option 1</option>
                   <option value="Option 2">Option 2</option>
-                  <option value="Option 3">Option 3</option>
+                  <option value="Option 3">Option 3</option> -->
                 </select>
               </div>
               <div class="home-container05">
-                <label class="home-text02">COUNTRY</label>
-                <select class="home-select2" id="country-select" onchange="updateCountry(this.value)">
+                <label class="home-text02">ADM3</label>
+                <select class="home-select2" id="adm3-select"  onchange="updateTableData()">
+                    <option value="*">All</option>
                   <!-- <option value="Bahrain">Bahrain</option>
                   <option value="Bolivia" selected>Bolivia</option>
                   <option value="Nigeria">Nigeria</option>
@@ -92,6 +90,9 @@ pg_close($con);
                   <option value="Tanzania">Tanzania</option> -->
                 </select>
               </div>
+              <button class="home-text01">Filter</button>
+
+
             </div>
           </div>
         </div>
@@ -118,7 +119,8 @@ pg_close($con);
 
 			<!-- <div id="map" &#x3c;="" div=""></div> -->
 
-            <table>
+            <table id="schools-table">
+            <thead>
                 <tr>
                     <th>Geo ID</th>
                     <th>School Name</th>
@@ -128,7 +130,9 @@ pg_close($con);
                     <th>ADM3</th>
                     <!-- Other headers... -->
                 </tr>
+            </thead>
                 <?php while ($row = pg_fetch_assoc($result)): ?>
+                    <tbody>
                     <tr>
                         <td onclick="redirectToSchool('<?= htmlspecialchars($row['geo_id']) ?>', '<?= htmlspecialchars($countryISO) ?>')">
                             <?= htmlspecialchars($row['geo_id']) ?>
@@ -140,22 +144,11 @@ pg_close($con);
                         <td> <?= htmlspecialchars($row['adm3']) ?> </td>
                         <!-- Other columns... -->
                     </tr>
+                </tbody>
                 <?php endwhile; ?>
             </table>
 
-            <div class="pagination">
-                <?php if ($page > 1): ?>
-                    <a href="?country=<?= urlencode($countryISO) ?>&page=<?= $page - 1 ?>">&laquo;</a>
-                <?php endif; ?>
-
-                <?php for ($i = $start; $i <= $end; $i++): ?>
-                    <a href="?country=<?= urlencode($countryISO) ?>&page=<?= $i ?>" <?= ($i == $page) ? 'class="active"' : '' ?>><?= $i ?></a>
-                <?php endfor; ?>
-
-                <?php if ($page < $totalPages): ?>
-                    <a href="?country=<?= urlencode($countryISO) ?>&page=<?= $page + 1 ?>">&raquo;</a>
-                <?php endif; ?>
-            </div>
+            <div class="pagination" id="pagination"></div>
 
 
 
@@ -196,61 +189,5 @@ pg_close($con);
     ></script>
   </body>
 
-<script src="country_centroids.js"></script>
-<script src="iso_map.js"></script>
-<script src="text-updates.js"></script>
-
-
-<script>
-	function populateCountryDropdown() {
-		console.log("IN HERE YO DAWG");
-		var countrySelect = document.getElementById("country-select");
-		countrySelect.innerHTML = '';
-		<?php foreach ($tables as $iso): ?>
-			if (isoToCountryMap.hasOwnProperty("<?= $iso ?>")) {
-				var option = document.createElement("option");
-				option.value = isoToCountryMap["<?= $iso ?>"];
-				
-				option.text = isoToCountryMap["<?= $iso ?>"];
-				countrySelect.appendChild(option);
-			}
-		<?php endforeach; ?>
-	}
-
-	function displayFirstDropdownItem() {
-		var dropdown = document.getElementById("country-select");
-		var displayElement = document.getElementById("country-label");
-
-		if (dropdown.options.length > 0) {
-			var firstItem = dropdown.options[0].text; // or .value, depending on what you want to display
-			displayElement.innerHTML = firstItem;
-		} else {
-			displayElement.innerHTML = "No options available";
-		}
-
-		// Update the number of schools under the country name
-    	getNumSchools(firstItem)
-
-	}
-
-	window.onload = function() {
-		populateCountryDropdown();
-		displayFirstDropdownItem()
-	};
-</script>
-
-
-
-<script>
-    function redirectToSchool(geoId, countryISO) {
-        var url = window.location.protocol + "//" + address + "school.php?country=" + encodeURIComponent(countryISO) + "&id=" + encodeURIComponent(geoId);
-        window.location.href = url;
-    }
-</script>
-
-
-
-<!-- <script src="map.js"></script> -->
-
-
+<?php include 'includes/exploreFuncs.php' ?>;
 

@@ -98,7 +98,7 @@ function getNumSchools(country)
                 numSchoolsDiv.innerHTML = Math.floor(result).toLocaleString('en-US').concat(" SCHOOLS MAPPED");
             }
         });
-    };
+    }
 
 
 
