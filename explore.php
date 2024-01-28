@@ -2,17 +2,14 @@
 
 <?php
 
-
-
 include 'includes/config.php';
-include 'admFetchFunc.php';
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-
-include 'includes/exploreFuncs.php';
-
 $countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
 $countryBasic = $countryISO . "_basic";
+
+include 'admFetchFunc.php';
+include 'includes/exploreFuncs.php';
 
 ?>
 
