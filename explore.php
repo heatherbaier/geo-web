@@ -9,28 +9,10 @@ include 'admFetchFunc.php';
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
-echo $page;
-
 include 'includes/exploreFuncs.php';
 
-
-
-
-//echo "<script>console.log('" . "AT TOP OF PHP SCRIPT" . "')</script>";
-
-//// Check for the 'country' parameter and sanitize it
 $countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
-//
-//// echo $countryISO;
-//
-//// Pagination settings
-//$rowsPerPage = 10; // Set the number of rows per page
-//$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-//$offset = ($page - 1) * $rowsPerPage;
-//
 $countryBasic = $countryISO . "_basic";
-
-
 
 ?>
 
@@ -39,7 +21,30 @@ $countryBasic = $countryISO . "_basic";
 <script src="iso_to_name.js"></script>
 
 
+<style>
+    #schools-table {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        /*width: 100%;*/
+        /*border-radius: 5px;*/
+        margin-top: 50px;
+    }
+    #schools-table td, #schools-table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+    #schools-table tr:nth-child(even){background-color: #f2f2f2;}
 
+    #schools-table tr:hover {background-color: #ddd;}
+
+    #schools-table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: darkgray;
+        color: white;
+    }
+</style>
 
 
   <body>
@@ -143,19 +148,7 @@ $countryBasic = $countryISO . "_basic";
                 <?php endwhile; ?>
             </table>
 
-            <div class="pagination" id="pagination">
-                <?php if ($page > 1): ?>
-                    <a href="?country=<?= urlencode($countryISO) ?>&page=<?= $page - 1 ?>">&laquo;</a>
-                <?php endif; ?>
-
-                <?php for ($i = $start; $i <= $end; $i++): ?>
-                    <a href="?country=<?= urlencode($countryISO) ?>&page=<?= $i ?>" <?= ($i == $page) ? 'class="active"' : '' ?>><?= $i ?></a>
-                <?php endfor; ?>
-
-                <?php if ($page < $totalPages): ?>
-                    <a href="?country=<?= urlencode($countryISO) ?>&page=<?= $page + 1 ?>">&raquo;</a>
-                <?php endif; ?>
-            </div>
+            <div class="pagination" id="pagination"></div>
 
 
 

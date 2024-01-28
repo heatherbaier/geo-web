@@ -103,6 +103,20 @@ $result = pg_query($con, $query);
 
 
 $tableData = "";
+
+
+$tableData .= "<thead>
+    <tr>
+        <th>Geo ID</th>
+        <th>School Name</th>
+        <th>Address</th>
+        <th>ADM1</th>
+        <th>ADM2</th>
+        <th>ADM3</th>
+    </tr>
+</thead>
+<tbody>";
+
 while ($row = pg_fetch_assoc($result)) {
     $tableData .= "<tr>";
     $tableData .= "<td>" . htmlspecialchars($row['geo_id']) . "</td>";
