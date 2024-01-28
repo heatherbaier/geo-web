@@ -19,6 +19,9 @@ if ($page == "") {
 $rowsPerPage = 10; // Set the number of rows per page
 $offset = ($page - 1) * $rowsPerPage;
 
+
+
+
 $message = "<script>console.log('ADM! IN PHP FETCH FILE FIRST CHECK: " . $page . "')";
 
 
@@ -96,49 +99,8 @@ elseif ($adm2selectedValue != '*' & $adm1selectedValue == "*" & $adm3selectedVal
                         WHERE adm2='" . $adm2selectedValue . "'";
 };
 
-//}
-
-
-
-
-
-
-//echo "<script>console.log(" . $query . ")</script>";
-
-
-//elseif ($admLevel === 'adm2') {
-//    if ($adm1Sel === '*' & $adm2Sel === '*') {
-//        $query = "SELECT DISTINCT adm2 FROM " . $iso . "_basic"; // Replace with your actual query
-//    } elseif ($adm1Sel != '*' & $adm2Sel === '*') {
-//        $query = "SELECT DISTINCT adm3 FROM " . $iso . "_basic WHERE adm1='" . $adm1Sel . "'"; // Replace with your actual query
-//    } elseif ($adm1Sel != '*' & $adm2Sel != '*') {
-//        $query = "SELECT DISTINCT adm3 FROM " . $iso . "_basic WHERE adm1='" . $adm1Sel . "' AND adm2='" . $adm2Sel . "'"; // Replace with your actual query
-//    }
-//} elseif ($admLevel === 'adm3') {
-//    $query = "SELECT DISTINCT adm3 FROM " . $iso . "_basic"; // Replace with your actual query
-//} else {
-//    return []; // Return an empty array if the ADM level is not recognized
-//}
-
-
-
-// Construct and execute query based on the filters
-//$query = "SELECT * FROM your_table WHERE adm1_column = '$adm1' AND adm2_column = '$adm2' AND adm3_column = '$adm3'";
-// Note: Ensure to use prepared statements or parameterized queries to prevent SQL injection
-
 $result = pg_query($con, $query);
 
-//// Generate and echo table HTML based on the result
-//while ($row = pg_fetch_assoc($result)) {
-//    echo "<tr>";
-//        echo "<td>" . htmlspecialchars($row['geo_id']) . "</td>";
-//        echo "<td>" . htmlspecialchars($row['school_name']) . "</td>";
-//        echo "<td>" . htmlspecialchars($row['address']) . "</td>";
-//        echo "<td>" . htmlspecialchars($row['adm1']) . "</td>";
-//        echo "<td>" . htmlspecialchars($row['adm2']) . "</td>";
-//        echo "<td>" . htmlspecialchars($row['adm3']) . "</td>";
-//    echo "</tr>";
-//}
 
 $tableData = "";
 while ($row = pg_fetch_assoc($result)) {
@@ -163,12 +125,35 @@ $totalRows = pg_fetch_result($totalRowsResult, 0, 0);
 $totalRows = pg_fetch_result($totalRowsResult, 0, 0);
 $totalPages = ceil($totalRows / $rowsPerPage);
 
+
+$range = 5;  // Number of pages to show before and after the current page
+$start = max(1, $page - $range);
+$end = min($totalPages, $page + $range);
+
+$pagem1 = $page - 1;
+$pagep1 = $page + 1;
+
 // Generate pagination links and store in a variable
 $paginationLinks = "";
-for ($i = 1; $i <= $totalPages; $i++) {
-//    $paginationLinks .= "<a href='?country=" . urlencode($iso) . "&page=" . $i . "' onclick='setFiltersAndRefreshTable(" . $i . ")'>" . $i . "</a> ";
-    $paginationLinks .= "<button onclick='setFiltersAndRefreshTable(" . $i . ")'>" . $i . "</button> ";
+if ($page > 1) {
+    $paginationLinks .= "<button onclick='setFiltersAndRefreshTable(" . $pagem1 . ")'>&laquo</button>";
 }
+for ($i = $start; $i <= $end; $i++) {
+    if ($i == $page) {
+        $paginationLinks .= "<button style='font-weight: bold' onclick='setFiltersAndRefreshTable(" . $i . ")'>" . $i . "</button> ";
+    } else {
+        $paginationLinks .= "<button onclick='setFiltersAndRefreshTable(" . $i . ")'>" . $i . "</button> ";
+    }
+};
+if ($page < $totalPages) {
+    $paginationLinks .= "<button onclick='setFiltersAndRefreshTable(" . $pagep1 . ")'>&raquo</button>";
+}
+
+
+
+
+
+
 
 // Return both parts as a JSON object
 $response = array(
