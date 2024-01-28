@@ -15,7 +15,7 @@ include 'includes/exploreFuncs.php';
 
 
 
-<script src="iso_to_name.js"></script>
+<script src="js/iso_to_name.js"></script>
 
 
 <style>

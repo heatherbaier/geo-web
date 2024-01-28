@@ -1,7 +1,7 @@
 <?php include 'includes/config.php' ?>
 <?php include 'includes/head.php' ?>
 
-<script src="iso_to_name.js"></script>
+<script src="js/iso_to_name.js"></script>
 
 
 
@@ -530,9 +530,9 @@
     ></script>
   </body>
 
-<script src="country_centroids.js"></script>
-<script src="iso_map.js"></script>
-<script src="text-updates.js"></script>
+<script src="js/country_centroids.js"></script>
+<script src="js/iso_map.js"></script>
+<script src="js/text-updates.js"></script>
 
 
 <script>
@@ -593,4 +593,4 @@
 </script>
 
 
-<script src="map.js"></script>
+<script src="js/map.js"></script>
