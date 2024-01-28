@@ -4,6 +4,10 @@
 
 include 'includes/config.php';
 include 'admFetchFunc.php';
+include 'includes/exploreFuncs.php';
+
+
+echo "<script>console.log('" . "AT TOP OF PHP SCRIPT" . "')</script>";
 
 // Check for the 'country' parameter and sanitize it
 $countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
@@ -17,28 +21,28 @@ $offset = ($page - 1) * $rowsPerPage;
 
 $countryBasic = $countryISO . "_basic";
 
-$query = "SELECT " . $countryISO . ".*, " . $countryBasic . ".* 
-          FROM " . $countryISO .
-          " INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id
-          LIMIT $rowsPerPage OFFSET $offset";
+//$query = "SELECT " . $countryISO . ".*, " . $countryBasic . ".*
+//          FROM " . $countryISO .
+//          " INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id
+//          LIMIT $rowsPerPage OFFSET $offset";
+//
+//$result = pg_query($con, $query);
 
-$result = pg_query($con, $query);
 
 
-
-$totalRowsQuery = "SELECT COUNT(*) 
-                   FROM " . $countryISO . " 
-                   INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id";
-
-$totalRowsResult = pg_query($con, $totalRowsQuery);
-$totalRows = pg_fetch_result($totalRowsResult, 0, 0);
-$totalPages = ceil($totalRows / $rowsPerPage);
-
-// echo $totalRows . " Total rows!";
-
-$range = 5;  // Number of pages to show before and after the current page
-$start = max(1, $page - $range);
-$end = min($totalPages, $page + $range);
+//$totalRowsQuery = "SELECT COUNT(*)
+//                   FROM " . $countryISO . "
+//                   INNER JOIN " . $countryBasic . " ON " . $countryISO . ".geo_id = " . $countryBasic . ".geo_id";
+//
+//$totalRowsResult = pg_query($con, $totalRowsQuery);
+//$totalRows = pg_fetch_result($totalRowsResult, 0, 0);
+//$totalPages = ceil($totalRows / $rowsPerPage);
+//
+//// echo $totalRows . " Total rows!";
+//
+//$range = 5;  // Number of pages to show before and after the current page
+//$start = max(1, $page - $range);
+//$end = min($totalPages, $page + $range);
 
 
 // $adm1Query = "SELECT DISTINCT adm1 FROM " . $countryBasic;
@@ -48,12 +52,12 @@ $end = min($totalPages, $page + $range);
 // $adm1Query = "SELECT DISTINCT adm1 FROM " . $countryBasic;
 // $result = pg_query($con, $adm1Query);
 // $adm1Data = pg_fetch_all($result);
-$adm1Data = fetchAdmData('adm1', $countryISO, "*", "*", "*"); // Fetch ADM1 data
-$adm2Data = fetchAdmData('adm2', $countryISO, "*", "*", "*"); // Fetch ADM1 data
-$adm3Data = fetchAdmData('adm3', $countryISO, "*", "*", "*"); // Fetch ADM1 data
+//$adm1Data = fetchAdmData('adm1', $countryISO, "*", "*", "*"); // Fetch ADM1 data
+//$adm2Data = fetchAdmData('adm2', $countryISO, "*", "*", "*"); // Fetch ADM1 data
+//$adm3Data = fetchAdmData('adm3', $countryISO, "*", "*", "*"); // Fetch ADM1 data
 
 
-echo "<script>console.log(" . json_encode($adm2Data) . ")</script>";
+echo "<script>console.log(" . json_encode($adm1Data) . ")</script>";
 
 
 // echo "ADM DATA: " . $adm1Data;
@@ -87,7 +91,7 @@ echo "<script>console.log(" . json_encode($adm2Data) . ")</script>";
               <div class="home-container03">
 
                 <label class="home-text">ADM1</label>
-                <select class="home-select" id="adm1-select" onchange="updateDropdowns('adm1')">
+                <select class="home-select" id="adm1-select" onchange="updateAll('adm1')">
                     <option value="*">All</option>
                   <!-- <option value="Option 1">Option 1</option>
                   <option value="Option 2">Option 2</option>
@@ -96,7 +100,7 @@ echo "<script>console.log(" . json_encode($adm2Data) . ")</script>";
               </div>
               <div class="home-container04">
                 <label class="home-text01">ADM2</label>
-                <select id="adm2-select" onchange="updateDropdowns('adm2')">
+                <select id="adm2-select" onchange="updateAll('adm2')">
                     <option value="*">All</option>
                   <!-- <option value="Option 1">Option 1</option>
                   <option value="Option 2">Option 2</option>
@@ -105,7 +109,7 @@ echo "<script>console.log(" . json_encode($adm2Data) . ")</script>";
               </div>
               <div class="home-container05">
                 <label class="home-text02">ADM3</label>
-                <select class="home-select2" id="adm3-select">
+                <select class="home-select2" id="adm3-select"  onchange="updateTableData('adm3')">
                     <option value="*">All</option>
                   <!-- <option value="Bahrain">Bahrain</option>
                   <option value="Bolivia" selected>Bolivia</option>
@@ -173,7 +177,7 @@ echo "<script>console.log(" . json_encode($adm2Data) . ")</script>";
                 <?php endwhile; ?>
             </table>
 
-            <div class="pagination">
+            <div class="pagination" id="pagination">
                 <?php if ($page > 1): ?>
                     <a href="?country=<?= urlencode($countryISO) ?>&page=<?= $page - 1 ?>">&laquo;</a>
                 <?php endif; ?>
@@ -226,186 +230,5 @@ echo "<script>console.log(" . json_encode($adm2Data) . ")</script>";
     ></script>
   </body>
 
-<script src="country_centroids.js"></script>
-<script src="iso_map.js"></script>
-<script src="text-updates.js"></script>
-
-
-<script>
-	function populateCountryDropdown() {
-		console.log("IN HERE YO DAWG");
-		var countrySelect = document.getElementById("country-select");
-		countrySelect.innerHTML = '';
-		<?php foreach ($tables as $iso): ?>
-			if (isoToCountryMap.hasOwnProperty("<?= $iso ?>")) {
-				var option = document.createElement("option");
-				option.value = isoToCountryMap["<?= $iso ?>"];
-				
-				option.text = isoToCountryMap["<?= $iso ?>"];
-				countrySelect.appendChild(option);
-			}
-		<?php endforeach; ?>
-	}
-
-	function displayFirstDropdownItem() {
-		var dropdown = document.getElementById("country-select");
-		var displayElement = document.getElementById("country-label");
-
-		if (dropdown.options.length > 0) {
-			var firstItem = dropdown.options[0].text; // or .value, depending on what you want to display
-			displayElement.innerHTML = firstItem;
-		} else {
-			displayElement.innerHTML = "No options available";
-		}
-
-		// Update the number of schools under the country name
-    	getNumSchools(firstItem)
-
-	}
-
-	window.onload = function() {
-		populateCountryDropdown();
-		displayFirstDropdownItem()
-	};
-</script>
-
-
-
-<script>
-    function redirectToSchool(geoId, countryISO) {
-        var url = window.location.protocol + "//" + address + "school.php?country=" + encodeURIComponent(countryISO) + "&id=" + encodeURIComponent(geoId);
-        window.location.href = url;
-    }
-</script>
-
-
-
-<!-- Populate ADM1 dropdown -->
-<script type="text/javascript">
-
-    window.onload = function() {   
-
-        var adm1Select = document.getElementById('adm1-select');
-        var adm1Data = <?php echo json_encode($adm1Data); ?>;
-        adm1Data.forEach(function(adm) {
-            var option = document.createElement('option');
-            option.value = adm.adm1;
-            option.text = adm.adm1;
-            adm1Select.appendChild(option);
-        });
-
-        var adm2Select = document.getElementById('adm2-select');
-        var adm2Data = <?php echo json_encode($adm2Data); ?>;
-        adm2Data.forEach(function(adm) {
-            var option = document.createElement('option');
-            option.value = adm.adm2;
-            option.text = adm.adm2;
-            adm2Select.appendChild(option);
-        });
-
-        var adm3Select = document.getElementById('adm3-select');
-        var adm3Data = <?php echo json_encode($adm3Data); ?>;
-        adm3Data.forEach(function(adm) {
-            var option = document.createElement('option');
-            option.value = adm.adm3;
-            option.text = adm.adm3;
-            adm3Select.appendChild(option);
-        });
-
-    }
-</script>
-
-
-<script>
-
-function updateDropdowns(selectedAdm) {
-
-    console.log(document.getElementById(selectedAdm.concat("-select")));
-
-    var adm1selectedValue = document.getElementById("adm1-select").value;
-    var adm2selectedValue = document.getElementById("adm2-select").value;
-    var adm3selectedValue = document.getElementById("adm3-select").value;
-    
-    // Construct the data to send in the AJAX request
-    var data = { admType: selectedAdm, adm1Selected: adm1selectedValue, adm2Selected: adm2selectedValue, adm2Selected: adm2selectedValue, adm3Selected: adm3selectedValue, iso: '<?= $countryISO ?>'};
-
-    // Create an AJAX request
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'fetch_adm_data.php', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-
-    xhr.onreadystatechange = function() {
-        if (this.readyState === 4 && this.status === 200) {
-            // Parse the response JSON
-            var response = JSON.parse(this.responseText);
-
-            console.log("RETURN HERE!!");
-            console.log(response['array1']);
-
-            // Populate the next dropdown based on the response
-            if (selectedAdm === 'adm1') {
-
-                var select = document.getElementById('adm2-select');
-                select.innerHTML = ''; // Clear existing options
-                var option = document.createElement('option');
-                option.value = "*";
-                option.text = "All";
-                select.appendChild(option);
-                response['array1'].forEach(function(item) {
-                    var option = document.createElement('option');
-                    option.value = item.adm2;
-                    option.text = item.adm2;
-                    select.appendChild(option);
-                });
-
-                var select = document.getElementById('adm3-select');
-                select.innerHTML = ''; // Clear existing options
-                var option = document.createElement('option');
-                option.value = "*";
-                option.text = "All";
-                select.appendChild(option);
-                response['array2'].forEach(function(item) {
-                    var option = document.createElement('option');
-                    option.value = item.adm3;
-                    option.text = item.adm3;
-                    select.appendChild(option);
-                });
-
-
-            } else if (selectedAdm === 'adm2') {
-
-                var select = document.getElementById('adm3-select');
-                select.innerHTML = ''; // Clear existing options
-                var option = document.createElement('option');
-                option.value = "*";
-                option.text = "All";
-                select.appendChild(option);
-                response.forEach(function(item) {
-                    var option = document.createElement('option');
-                    option.value = item.adm3;
-                    option.text = item.adm3;
-                    select.appendChild(option);
-                });
-
-                
-            }
-        }
-    };
-
-    xhr.send(JSON.stringify(data));
-}
-
-function populateDropdown(dropdownId, data) {
-    var select = document.getElementById(dropdownId);
-    select.innerHTML = ''; // Clear existing options
-    data.forEach(function(item) {
-        var option = document.createElement('option');
-        option.value = item.value;
-        option.text = item.text;
-        select.appendChild(option);
-    });
-}
-</script>
-
-
+<?php include 'includes/exploreFuncs.php' ?>;
 

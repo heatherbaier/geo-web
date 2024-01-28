@@ -14,6 +14,12 @@ $adm2selectedValue = $inputData['adm2Selected'];
 $adm3selectedValue = $inputData['adm3Selected'];
 $iso = $inputData['iso'];
 
+if ($admType == "***") {
+    $responseDataAdm1 = fetchAdmData('adm1', $iso, $adm1selectedValue, $adm2selectedValue, $adm3selectedValue);
+    $responseDataAdm2 = fetchAdmData('adm2', $iso, $adm1selectedValue, $adm2selectedValue, $adm3selectedValue);
+    $responseDataAdm3 = fetchAdmData('adm3', $iso, $adm1selectedValue, $adm2selectedValue, $adm3selectedValue);
+    $return = ["array1"=>$responseDataAdm1, "array2"=>$responseDataAdm2, "array3"=>$responseDataAdm3];
+};
 if ($admType == "adm1") {
     $responseDataAdm2 = fetchAdmData($admType, $iso, $adm1selectedValue, $adm2selectedValue, $adm3selectedValue);
     $responseDataAdm3 = fetchAdmData("adm2", $iso, $adm1selectedValue, $adm2selectedValue, $adm3selectedValue);
