@@ -1,16 +1,6 @@
 <?php include 'includes/config.php' ?>
 <?php include 'includes/head.php' ?>
 
-
-<?php
-
-include 'includes/homeFuncs.php';
-
-$isoList = getISOlist();
-
-
-?>
-
 <script src="js/iso_to_name.js"></script>
 
 
@@ -26,29 +16,64 @@ $isoList = getISOlist();
         <?php include 'includes/header.php' ?>
         <div class="heroContainer home-hero">
           <div class="home-container02">
-            <h1 class="home-hero-heading heading1">Global Education Observatory</h1>
-              <span class="home-hero-sub-heading" id="num-countries"></span>
-            <span class="home-hero-sub-heading"></span>
-<!--            <div class="home-btn-group">-->
-<!--              <div class="home-container03">-->
-<!--                <label class="home-text">INDICATOR</label>-->
-<!--                <select class="home-select" id="indicator-select"></select>-->
-<!--              </div>-->
-<!--              <div class="home-container04">-->
-<!--                <label class="home-text01">YEAR</label>-->
-<!--                <select>-->
-<!--                  <option value="Option 1">Option 1</option>-->
-<!--                  <option value="Option 2">Option 2</option>-->
-<!--                  <option value="Option 3">Option 3</option>-->
-<!--                </select>-->
-<!--              </div>-->
-<!--              <div class="home-container05">-->
-<!--                <label class="home-text02">COUNTRY</label>-->
-<!--                <select class="home-select2" id="country-select" onchange="updateCountry(this.value)">-->
-<!--                </select>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
+            <h1 class="home-hero-heading heading1" id="country-label"></h1>
+            <span class="home-hero-sub-heading" id="num-schools"></span>
+            <div class="home-btn-group">
+              <div class="home-container03">
+
+				<?php
+
+					if (!$con) {
+						echo "Error: Unable to open database\n";
+
+					} else {
+						// Query to fetch table names
+						$result = pg_query($con, "SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE'");
+
+						if (!$result) {
+							echo "An error occurred.\n";
+							exit;
+						}
+
+						echo "<script>console.log('Debug Objects: " . $result . "' );</script>";
+
+						foreach ($arr as &$value) {
+							$value = $value * 2;
+						}
+
+						// Fetch the table names and extract ISO part
+						$tables = [];
+						while ($row = pg_fetch_assoc($result)) {
+							if ($row['table_name'] !== 'spatial_ref_sys' && strpos($row['table_name'], 'Resource id #5') === false) {
+							echo "<script>console.log('Debug Objects: " . $row['table_name'] . "' );</script>";
+							// CODE TO EXTRACT JUST THE ISO FROM THE <ISO_YEAR>
+							// if (preg_match('/^(\w+)_\d{4}$/', $row['table_name'], $matches)) {
+							// 	$tables[] = $matches[1]; // Assuming format <ISO_YEAR>
+							$tables[] = $row['table_name'];
+							}
+						}
+					}
+				// pg_close($con);
+				?>
+
+                <label class="home-text">INDICATOR</label>
+                <select class="home-select" id="indicator-select"></select>
+              </div>
+              <div class="home-container04">
+                <label class="home-text01">YEAR</label>
+                <select>
+                  <option value="Option 1">Option 1</option>
+                  <option value="Option 2">Option 2</option>
+                  <option value="Option 3">Option 3</option>
+                </select>
+              </div>
+              <div class="home-container05">
+                <label class="home-text02">COUNTRY</label>
+                <select class="home-select2" id="country-select" onchange="updateCountry(this.value)">
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
         <div data-thq="thq-dropdown" class="home-thq-dropdown list-item">
           <ul data-thq="thq-dropdown-list" class="home-dropdown-list">
@@ -71,7 +96,6 @@ $isoList = getISOlist();
         </div>
         <div class="home-features">
 			<div id="map" &#x3c;="" div=""></div>
-            <script src="homeMap.js"</script>
         </div>
         <div class="pricingContainer">
           <div class="home-container09">
@@ -355,15 +379,68 @@ $isoList = getISOlist();
     ></script>
   </body>
 
-<!--<script src="js/country_centroids.js"></script>-->
-<!--<script src="js/iso_map.js"></script>-->
-<!--<script src="js/text-updates.js"></script>-->
-
-<script src="js/homMap2.js"></script>
+<script src="js/country_centroids.js"></script>
+<script src="js/iso_map.js"></script>
+<script src="js/text-updates.js"></script>
 
 
+<script>
+	function populateCountryDropdown() {
+		console.log("IN HERE YO DAWG");
+		var countrySelect = document.getElementById("country-select");
+		countrySelect.innerHTML = '';
+		<?php foreach ($tables as $iso): ?>
+			if (isoToCountryMap.hasOwnProperty("<?= $iso ?>")) {
+				var option = document.createElement("option");
+				option.value = isoToCountryMap["<?= $iso ?>"];
+				
+				option.text = isoToCountryMap["<?= $iso ?>"];
+				countrySelect.appendChild(option);
+			}
+		<?php endforeach; ?>
+	}
+
+	function displayFirstDropdownItem() {
+
+		var dropdown = document.getElementById("country-select");
+		var displayElement = document.getElementById("country-label");
+
+		if (dropdown.options.length > 0) {
+			var firstItem = dropdown.options[0].text; // or .value, depending on what you want to display
+			displayElement.innerHTML = firstItem;
+		} else {
+			displayElement.innerHTML = "No options available";
+		}
+
+		// Update the number of schools under the country name
+    	getNumSchools(firstItem)
+
+	}
+
+	window.onload = function() {
+		populateCountryDropdown();
+		displayFirstDropdownItem()
+	};
+</script>
 
 
+<script>
+
+    document.getElementById('exploreSchools').addEventListener('click', function() {
+
+        var countrySelect = document.getElementById('country-select');
+        var selectedCountry = countrySelect.value;
+        selectedCountry = isos[selectedCountry]
+
+        // Construct the URL with the selected country's ISO code
+        var url = address + 'explore.php?country=' + encodeURIComponent(selectedCountry);
+
+        // Navigate to the new page
+        window.location.href = window.location.protocol + "//" + url;
+
+    });
+
+</script>
 
 
-<?php //include "homeMap.js" ?>
+<script src="js/map.js"></script>
