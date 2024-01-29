@@ -102,7 +102,7 @@
   justify-content: space-between;
 }
 .home-image {
-  height: 2rem;
+  height: 3rem;
 }
 .home-nav {
   flex: 0 0 auto;
@@ -930,7 +930,7 @@
   justify-content: space-between;
 }
 .home-image2 {
-  height: 2rem;
+  height: 3rem;
   object-fit: cover;
 }
 .home-icon-group1 {

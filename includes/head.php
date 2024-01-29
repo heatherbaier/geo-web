@@ -1,5 +1,5 @@
 <head>
-    <title>Sleepy Joint Turtle</title>
+    <title>Global Education Observatory</title>
     <meta property="og:title" content="Sleepy Joint Turtle" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />

@@ -1,7 +1,7 @@
 <footer class="home-footer1">
     <img
         alt="logo"
-        src="https://presentation-website-assets.teleporthq.io/logos/logo.png"
+        src="geo_logo.png"
         class="home-image2"
     />
     <span class="home-text84">
