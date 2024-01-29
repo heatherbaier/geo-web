@@ -193,6 +193,7 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
 </body>
 
 <script src="js/schoolFuncs.js"></script>
+<script src="js/home-menu.js"></script>
 
 
 </html>

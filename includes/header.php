@@ -8,7 +8,7 @@
             <nav class="navigation-links-nav navigation-links-root-class-name17">
 
                 <a href="index.php">
-                    <span class="navigation-links-text1"><span>HOME</span></span>
+                    <span class="navigation-links-text"><span>HOME</span></span>
                 </a>
 
                 <a href="country.php">
@@ -16,14 +16,12 @@
                 </a>
 
                 <a href="team.php">
-                    <span class="navigation-links-text1"><span>TEAM</span></span>
+                    <span class="navigation-links-text2"><span>TEAM</span></span>
                 </a>
 
                 <a href="export.php">
-                    <span class="navigation-links-text1"><span>EXPORT TOOL</span></span>
+                    <span class="navigation-links-text3"><span>EXPORT TOOL</span></span>
                 </a>
-
-
             </nav>
           </div>
           <div data-role="BurgerMenu" class="home-burger-menu">
@@ -52,12 +50,21 @@
               <nav
                 class="navigation-links-nav navigation-links-root-class-name18"
               >
-                <span class="navigation-links-text" href="data.php"><span>HOME</span></span>
-                <span class="navigation-links-text1"><span>TEAM</span></span>
-                <span class="navigation-links-text2"><span>DATA</span></span>
-                <span class="navigation-links-text3">
-                  <span>EXPORT TOOL</span>
-                </span>
+                  <a href="index.php">
+                      <span class="navigation-links-text1"><span>HOME</span></span>
+                  </a>
+
+                  <a href="country.php">
+                      <span class="navigation-links-text1"><span>COUNTRY PROFILES</span></span>
+                  </a>
+
+                  <a href="team.php">
+                      <span class="navigation-links-text1"><span>TEAM</span></span>
+                  </a>
+
+                  <a href="export.php">
+                      <span class="navigation-links-text1"><span>EXPORT TOOL</span></span>
+                  </a>
               </nav>
             </div>
             <div>

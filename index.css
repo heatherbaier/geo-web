@@ -131,6 +131,19 @@
   justify-content: space-between;
   background-color: #fff;
 }
+
+
+
+.home-mobile-menu {
+  display: none; /* Initially hidden */
+}
+
+.home-mobile-menu.active {
+  display: block; /* Shown when 'active' class is added */
+}
+
+
+
 .home-nav1 {
   display: flex;
   align-items: flex-start;
