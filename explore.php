@@ -6,7 +6,7 @@ include 'includes/config.php';
 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
-$countryBasic = $countryISO . "_basic";
+$countryBasic = $countryISO . "_geo";
 
 include 'admFetchFunc.php';
 include 'includes/exploreFuncs.php';

@@ -8,7 +8,7 @@ $adm1selectedValue = $_POST['adm1'];
 $adm2selectedValue = $_POST['adm2'];
 $adm3selectedValue = $_POST['adm3'];
 $iso = $_POST['iso'];
-$countryBasic = $iso . "_basic";
+$countryBasic = $iso . "_geo";
 $page = $_POST['page'];
 
 if ($page == "") {
@@ -33,70 +33,41 @@ $firstCheck = $adm1selectedValue . $adm2selectedValue . $adm3selectedValue;
 //if ($admType === 'adm1') {
 
 if ($firstCheck == "***") {
-    $query = "SELECT " . $iso . ".*, " . $countryBasic . ".*
-              FROM " . $iso .
-        " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-              LIMIT $rowsPerPage OFFSET $offset";
-    $totalRowsQuery = "SELECT COUNT(*) 
-                   FROM " . $iso . " 
-                   INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id";
+    $query = "SELECT * FROM " . $countryBasic . " LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) FROM " . $countryBasic;
 }
 
 elseif ($adm2selectedValue == '*' & $adm1selectedValue != '*' & $adm3selectedValue == '*') {
-    $query = "SELECT " . $iso . ".*, " . $countryBasic . ".* 
-              FROM " . $iso .
-             " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-               WHERE adm1='" . $adm1selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
-    $totalRowsQuery = "SELECT COUNT(*) 
-                       FROM " . $iso . " 
-                       INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-                        WHERE adm1='" . $adm1selectedValue . "'";
+    $query = "SELECT * FROM " . $countryBasic . " WHERE adm1='" . $adm1selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) FROM " . $countryBasic . " WHERE adm1='" . $adm1selectedValue . "'";
 }
 
 elseif ($adm2selectedValue != '*' & $adm1selectedValue != '*' & $adm3selectedValue == '*') {
-    $query = "SELECT " . $iso . ".*, " . $countryBasic . ".* 
-              FROM " . $iso .
-        " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-               WHERE adm1='" . $adm1selectedValue . "' AND adm2='" . $adm2selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
-    $totalRowsQuery = "SELECT COUNT(*) FROM " . $iso . " INNER JOIN " .
-                        $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-                        WHERE adm1='" . $adm1selectedValue . "' AND adm2='" . $adm2selectedValue . "'";
+    $query = "SELECT * FROM " . $countryBasic . " WHERE adm1='" . $adm1selectedValue . "' AND adm2='" . $adm2selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) FROM " . $countryBasic . " WHERE adm1='" . $adm1selectedValue . "' AND adm2='" . $adm2selectedValue . "'";
 
 
 }
 
 elseif ($adm3selectedValue != '*' & $adm1selectedValue == '*' & $adm2selectedValue == '*') {
-    $query = "SELECT " . $iso . ".*, " . $countryBasic . ".* 
-              FROM " . $iso .
-        " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-               WHERE adm3='" . $adm3selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
-    $totalRowsQuery = "SELECT COUNT(*) 
-                       FROM " . $iso . " 
-                       INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-                        WHERE adm3='" . $adm3selectedValue . "'";
+    $query = "SELECT * FROM " . $countryBasic . " WHERE adm3='" . $adm3selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) FROM " . $countryBasic . " WHERE adm3='" . $adm3selectedValue . "'";
 
 }
 
 elseif ($adm3selectedValue != '*' & $adm1selectedValue != "*" & $adm2selectedValue == "*") {
-    $query = "SELECT " . $iso . ".*, " . $countryBasic . ".* 
-              FROM " . $iso .
-        " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-               WHERE adm1='" . $adm1selectedValue . "' AND adm3='" . $adm3selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
-    $totalRowsQuery = "SELECT COUNT(*) FROM " . $iso . " INNER JOIN "
-        .
-        $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-                        WHERE adm1='" . $adm1selectedValue . "' AND adm3='" . $adm3selectedValue . "'";
+    $query = "SELECT * FROM " . $countryBasic . " WHERE adm1='" . $adm1selectedValue . "' AND adm3='" . $adm3selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) FROM " . $countryBasic . " WHERE adm1='" . $adm1selectedValue . "' AND adm3='" . $adm3selectedValue . "'";
+}
+
+elseif ($adm3selectedValue != '*' & $adm1selectedValue != "*" & $adm2selectedValue != "*") {
+    $query = "SELECT * FROM " . $countryBasic . " WHERE adm1='" . $adm1selectedValue . "' AND adm3='" . $adm3selectedValue . "' AND adm2='" . $adm2selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) FROM " . $countryBasic . " WHERE adm1='" . $adm1selectedValue . "' AND adm3='" . $adm3selectedValue . "' AND adm2='" . $adm2selectedValue . "'";
 }
 
 elseif ($adm2selectedValue != '*' & $adm1selectedValue == "*" & $adm3selectedValue == "*") {
-    $query = "SELECT " . $iso . ".*, " . $countryBasic . ".* 
-              FROM " . $iso .
-        " INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-               WHERE adm2='" . $adm2selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
-    $totalRowsQuery = "SELECT COUNT(*) 
-                       FROM " . $iso . " 
-                       INNER JOIN " . $countryBasic . " ON " . $iso . ".geo_id = " . $countryBasic . ".geo_id
-                        WHERE adm2='" . $adm2selectedValue . "'";
+    $query = "SELECT * FROM " . $countryBasic . " WHERE adm2='" . $adm2selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
+    $totalRowsQuery = "SELECT COUNT(*) FROM " . $countryBasic . " WHERE adm2='" . $adm2selectedValue . "'";
 };
 
 $result = pg_query($con, $query);

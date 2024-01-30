@@ -9,7 +9,7 @@ include 'includes/config.php';
 // Retrieve and sanitize the parameters
 $countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : '';
 $schoolID = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITIZE_STRING) : '';
-$countryBasic = $countryISO . "_basic";
+$countryBasic = $countryISO . "_geo";
 
 include 'includes/schoolFuncs.php';
 
