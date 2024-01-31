@@ -41,6 +41,21 @@ include 'includes/exploreFuncs.php';
         background-color: darkgray;
         color: white;
     }
+    .table-container {
+        overflow-x: auto; /* Enables horizontal scrolling */
+        margin-top: 50px;
+    }
+
+    /*#schools-table {*/
+    /*    font-family: Arial, Helvetica, sans-serif;*/
+    /*    border-collapse: collapse;*/
+    /*}*/
+
+    @media screen and (max-width: 768px) { /* Adjust this value based on your needs */
+        .table-container {
+            width: 100%;
+        }
+    }
 </style>
 
 
@@ -116,7 +131,11 @@ include 'includes/exploreFuncs.php';
 
 			<!-- <div id="map" &#x3c;="" div=""></div> -->
 
+            <div class="table-container">
+
             <table id="schools-table"></table>
+
+            </div>
 
             <div class="pagination" id="pagination"></div>
 
