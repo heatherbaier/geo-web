@@ -1,8 +1,8 @@
 // Set the inital value of the country name with the default selected (currently Bolivia)
-const myElement = document.getElementById("country-label");
-var country = document.getElementById("country-select")//.value;
-console.log(country.value);
-myElement.innerHTML = country.value;
+// const myElement = document.getElementById("country-label");
+// var country = document.getElementById("country-select")//.value;
+// console.log(country.value);
+// myElement.innerHTML = country.value;
 
 
 function updateCText(country) {
@@ -12,17 +12,15 @@ function updateCText(country) {
 
 
 function updateMapCountry(country) {
-    // map = L.map('map').setView([51.505, -0.09], 13);
-    // console.log("here2!")
-    // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //     maxZoom: 19,
-    //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    // }).addTo(map);
-    // console.log("here3!")
 
-    map.removeEventListener('click') 
+    // var map = L.map('map').setView([51.505, -0.09], 2);
+
+    console.log(map);
+
+    console.log(country, " IN DA MAP FUNCTION!!")
 
     map.eachLayer(function (layer) {
+        console.log(layer);
         map.removeLayer(layer);
     });
 

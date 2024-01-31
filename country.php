@@ -54,6 +54,7 @@
 						}
 					}
 				// pg_close($con);
+                asort($tables);
 				?>
 
 <!--                <label class="home-text">INDICATOR</label>-->
@@ -393,10 +394,10 @@
 
 	}
 
-	window.onload = function() {
-		populateCountryDropdown();
-		displayFirstDropdownItem()
-	};
+	// window.onload = function() {
+	// 	populateCountryDropdown();
+	// 	displayFirstDropdownItem();
+	// };
 </script>
 
 
@@ -418,6 +419,10 @@
 
 </script>
 
+<script>
+    populateCountryDropdown();
+    displayFirstDropdownItem();
+</script>
 
-<script src="js/map.js"></script>
 <script src="js/home-menu.js"></script>
+      <script src="map.js"></script>
