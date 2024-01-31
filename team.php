@@ -82,7 +82,7 @@
 
               <div class="home-container05">
                 <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  src="headshots/annamarie_warnke.JPG"
                   alt="image"
                   class="home-image03"
                 />
@@ -171,7 +171,7 @@
             <div class="home-container11">
               <div class="home-container12">
                 <img
-                  src="https://play.teleporthq.io/static/svg/default-img.svg"
+                  src="headshots/jane_siwek.JPG"
                   alt="image"
                   class="home-image08"
                 />
