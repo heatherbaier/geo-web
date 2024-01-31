@@ -27,7 +27,7 @@ $isoList = getISOlist();
         <div class="heroContainer home-hero">
           <div class="home-container02">
             <h1 class="home-hero-heading heading1">Global Education Observatory</h1>
-              <h2 style="font-family: PT Sans; font-weight: lighter">An open database of global education data.</h2>
+              <h2 class="home-hero-heading heading1" style="font-family: PT Sans; font-weight: lighter; font-size: 24px">An open database of global education data.</h2>
               <span class="home-hero-sub-heading" id="num-countries"></span>
             <span class="home-hero-sub-heading"></span>
           </div>
