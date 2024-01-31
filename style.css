@@ -172,7 +172,8 @@
   display: flex;
   padding: var(--dl-space-space-twounits);
   max-width: 450px;
-  min-height: 450px;
+  /*min-height: 450px;*/
+  height: 300px;
   align-items: flex-start;
   flex-direction: column;
   background-color: var(--dl-color-custom-accent1);
@@ -184,7 +185,8 @@
   display: flex;
   padding: var(--dl-space-space-twounits);
   max-width: 450px;
-  min-height: 450px;
+  /*min-height: 450px;*/
+  height: 300px;
   align-items: flex-start;
   flex-direction: column;
   background-color: var(--dl-color-custom-accent1);
@@ -196,7 +198,8 @@
   display: flex;
   padding: var(--dl-space-space-twounits);
   max-width: 450px;
-  min-height: 450px;
+  height: 300px;
+  /*min-height: 450px;*/
   align-items: flex-start;
   flex-direction: column;
   background-color: var(--dl-color-custom-accent1);

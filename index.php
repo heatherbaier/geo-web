@@ -54,107 +54,50 @@ $isoList = getISOlist();
 			<div id="map" &#x3c;="" div=""></div>
             <script src="homeMap.js"></script>
         </div>
+
+
         <div class="pricingContainer">
           <div class="home-container09">
+
             <div class="freePricingCard home-pricing-card">
               <div class="home-container10">
-                <span class="home-text28 heading3">Data</span>
+                <span class="home-text28 heading3">School Level Data</span>
                 <span class="bodySmall">
-                  Explore school level data for COUNTRY XX
+                  Explore data on resources, personnel, assessments and more at the school level.
                 </span>
               </div>
-              <div class="home-container11"></div>
-              <button class="home-button buttonOutline" id="exploreSchools">Explore</button>
+                <button class="home-button buttonFilledSecondary" id="exploreCountries">
+                    Explore
+                </button>
             </div>
+
             <div class="basicPricingCard home-pricing-card1">
               <div class="home-container17">
-                <span class="home-text36 heading3">BASIC</span>
+                <span class="home-text36 heading3">API</span>
                 <span class="bodySmall">
-                  A short description for the Basic plan
+                  Download any of the data we publish through our API.
                 </span>
-              </div>
-              <div class="home-container18">
-                <span class="home-text37">
-                  <span>$</span>
-                  <span></span>
-                </span>
-                <span class="home-basic-plan-pricing">20</span>
-                <span class="home-text40">/ month</span>
-              </div>
-              <div class="home-container19">
-                <div class="home-container20">
-                  <span class="home-text41">✔</span>
-                  <span class="bodySmall">All features of FREE plan</span>
-                </div>
-                <div class="home-container21">
-                  <span class="home-text43">✔</span>
-                  <span class="bodySmall">Feature 1 of the Basic plan</span>
-                </div>
-                <div class="home-container22">
-                  <span class="home-text44">✔</span>
-                  <span class="bodySmall">Feature 2 of the Basic plan</span>
-                </div>
-                <div class="home-container23">
-                  <span class="home-text45">✔</span>
-                  <span class="bodySmall">Feature 3 of the Basic plan</span>
-                </div>
-                <div class="home-container24">
-                  <span class="home-text46">✔</span>
-                  <span class="bodySmall">Feature 4 of the Basic plan</span>
-                </div>
               </div>
               <button class="home-button1 buttonFilledSecondary">
-                Try the Basic plan
+                API Documentation
               </button>
             </div>
+
             <div class="proPricingCard home-pricing-card2">
               <div class="home-container25">
-                <span class="home-text47 heading3">
-                  <span>PRO</span>
-                  <br />
-                </span>
+                <span class="home-text47 heading3">Machine Learning</span>
                 <span class="bodySmall">
-                  A short description for the Pro plan
+                  Out team trains a suite of machine learning models to fill in gaps in education data globally. Get the resources for those models on GitHub below.
                 </span>
               </div>
-              <div class="home-container26">
-                <span class="home-text50">
-                  <span>$</span>
-                  <span></span>
-                </span>
-                <span class="home-pro-plan-pricing">50</span>
-                <span class="home-text53">/ month</span>
-              </div>
-              <div class="home-container27">
-                <div class="home-container28">
-                  <span class="home-text54">✔</span>
-                  <span class="bodySmall">
-                    &nbsp;All features of BASIC plan
-                  </span>
-                </div>
-                <div class="home-container29">
-                  <span class="home-text56">✔</span>
-                  <span class="bodySmall">Feature 1 of the Pro plan</span>
-                </div>
-                <div class="home-container30">
-                  <span class="home-text57">✔</span>
-                  <span class="bodySmall">Feature 2 of the Pro plan</span>
-                </div>
-                <div class="home-container31">
-                  <span class="home-text58">✔</span>
-                  <span class="bodySmall">Feature 3 of the Pro plan</span>
-                </div>
-                <div class="home-container32">
-                  <span class="home-text59">✔</span>
-                  <span class="bodySmall">Feature 4 of the Pro plan</span>
-                </div>
-              </div>
-              <button class="home-button2 buttonFilledSecondary">
-                Try the PRO plan
+              <button class="home-button2 buttonFilledSecondary"  onclick="location.href = 'https://github.com/heatherbaier/torchGlobalEdu';" >
+                Go to GitHub
               </button>
             </div>
+
           </div>
         </div>
+
 <!--        <div class="bannerContainer home-banner">-->
 <!--          <h1 class="home-banner-heading heading2">-->
 <!--            Unlock the Power of Data Visualization-->
@@ -316,6 +259,26 @@ $isoList = getISOlist();
 
 
 <script src="js/home-menu.js"></script>
+
+<script>
+
+    document.getElementById('exploreCountries').addEventListener('click', function() {
+
+        console.log("EHEHEEHEH!")
+
+        // var countrySelect = document.getElementById('country-select');
+        // var selectedCountry = countrySelect.value;
+        // selectedCountry = isos[selectedCountry]
+
+        // Construct the URL with the selected country's ISO code
+        var url = address + 'country.php';
+
+        // Navigate to the new page
+        window.location.href = window.location.protocol + "//" + url;
+
+    });
+
+</script>
 
 
 <?php //include "homeMap.js" ?>
