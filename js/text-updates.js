@@ -99,6 +99,16 @@ function getNumSchools(country)
     }
 
 
+function populateSearchText(country) {
+
+    // var displayElement = document.getElementById("country-label");
+    var txt = document.getElementById("searchText");
+
+    txt.innerHTML = "Explore data on resources, personnel, assessments and more at the school level for " + country + ".";
+
+
+}
+
 
 
 function updateCountry(country) {
@@ -111,4 +121,6 @@ function updateCountry(country) {
 
     // Update the number of schools under the country name
     getNumSchools(country)
+
+    populateSearchText(country)
 }

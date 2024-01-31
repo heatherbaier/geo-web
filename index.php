@@ -211,38 +211,38 @@ $isoList = getISOlist();
 <!--            </div>-->
 <!--          </div>-->
 <!--        </div>-->
-        <div class="home-hero1"></div>
-        <div class="home-features1">
-          <div class="home-features-container featuresContainer"></div>
-        </div>
-        <div class="home-pricing1"></div>
-        <div class="home-banner1"></div>
-        <div class="home-footer"></div>
-        <div data-thq="thq-dropdown" class="home-thq-dropdown1 list-item">
-          <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle3">
-            <div
-              data-thq="thq-dropdown-arrow"
-              class="home-dropdown-arrow"
-            ></div>
-          </div>
-          <ul data-thq="thq-dropdown-list" class="home-dropdown-list1">
-            <li data-thq="thq-dropdown" class="home-dropdown3 list-item">
-              <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle4">
-                <span class="home-text81">Sub-menu Item</span>
-              </div>
-            </li>
-            <li data-thq="thq-dropdown" class="home-dropdown4 list-item">
-              <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle5">
-                <span class="home-text82">Sub-menu Item</span>
-              </div>
-            </li>
-            <li data-thq="thq-dropdown" class="home-dropdown5 list-item">
-              <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle6">
-                <span class="home-text83">Sub-menu Item</span>
-              </div>
-            </li>
-          </ul>
-        </div>
+<!--        <div class="home-hero1"></div>-->
+<!--        <div class="home-features1">-->
+<!--          <div class="home-features-container featuresContainer"></div>-->
+<!--        </div>-->
+<!--        <div class="home-pricing1"></div>-->
+<!--        <div class="home-banner1"></div>-->
+<!--        <div class="home-footer"></div>-->
+<!--        <div data-thq="thq-dropdown" class="home-thq-dropdown1 list-item">-->
+<!--          <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle3">-->
+<!--            <div-->
+<!--              data-thq="thq-dropdown-arrow"-->
+<!--              class="home-dropdown-arrow"-->
+<!--            ></div>-->
+<!--          </div>-->
+<!--          <ul data-thq="thq-dropdown-list" class="home-dropdown-list1">-->
+<!--            <li data-thq="thq-dropdown" class="home-dropdown3 list-item">-->
+<!--              <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle4">-->
+<!--                <span class="home-text81">Sub-menu Item</span>-->
+<!--              </div>-->
+<!--            </li>-->
+<!--            <li data-thq="thq-dropdown" class="home-dropdown4 list-item">-->
+<!--              <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle5">-->
+<!--                <span class="home-text82">Sub-menu Item</span>-->
+<!--              </div>-->
+<!--            </li>-->
+<!--            <li data-thq="thq-dropdown" class="home-dropdown5 list-item">-->
+<!--              <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle6">-->
+<!--                <span class="home-text83">Sub-menu Item</span>-->
+<!--              </div>-->
+<!--            </li>-->
+<!--          </ul>-->
+<!--        </div>-->
             <?php include 'includes/footer.php' ?>
         </div>
     </div>
@@ -263,19 +263,11 @@ $isoList = getISOlist();
 <script>
 
     document.getElementById('exploreCountries').addEventListener('click', function() {
-
-        console.log("EHEHEEHEH!")
-
-        // var countrySelect = document.getElementById('country-select');
-        // var selectedCountry = countrySelect.value;
-        // selectedCountry = isos[selectedCountry]
-
         // Construct the URL with the selected country's ISO code
         var url = address + 'country.php';
 
         // Navigate to the new page
         window.location.href = window.location.protocol + "//" + url;
-
     });
 
 </script>
