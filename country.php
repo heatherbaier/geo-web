@@ -7,7 +7,6 @@
 
 
 
-  <div>
     <link rel="stylesheet" href="./style.css" />
     <div>
       <link href="./index.css" rel="stylesheet" />
