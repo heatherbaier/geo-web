@@ -1191,10 +1191,15 @@
     margin: 0px;
   }
   .headshot {
-    margin-top: 50px;
+    margin: 50px 0px 15px 0px;
   }
   .home-features-heading {
     text-align: center;
+  }
+  .home-container14, .home-container16, .home-container17, .home-container18,
+  .home-container13, .home-container12, .home-container10, .home-container09,
+  .home-container08, .home-container06, .home-container05, .home-container04 {
+    margin: 0px;
   }
 }
 @media(max-width: 479px) {
