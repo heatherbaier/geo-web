@@ -55,18 +55,6 @@
 				// pg_close($con);
                 asort($tables);
 				?>
-
-<!--                <label class="home-text">INDICATOR</label>-->
-<!--                <select class="home-select" id="indicator-select"></select>-->
-<!--              </div>-->
-<!--              <div class="home-container04">-->
-<!--                <label class="home-text01">YEAR</label>-->
-<!--                <select>-->
-<!--                  <option value="Option 1">Option 1</option>-->
-<!--                  <option value="Option 2">Option 2</option>-->
-<!--                  <option value="Option 3">Option 3</option>-->
-<!--                </select>-->
-<!--              </div>-->
               <div class="home-container05">
                 <label class="home-text02">COUNTRY</label>
                 <select class="home-select2" id="country-select" onchange="updateCountry(this.value)">
@@ -75,6 +63,8 @@
             </div>
           </div>
         </div>
+
+
         <div data-thq="thq-dropdown" class="home-thq-dropdown list-item">
           <ul data-thq="thq-dropdown-list" class="home-dropdown-list">
             <li data-thq="thq-dropdown" class="home-dropdown list-item">

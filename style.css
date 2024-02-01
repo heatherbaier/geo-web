@@ -178,6 +178,35 @@
   flex-direction: column;
   background-color: var(--dl-color-custom-accent1);
 }
+.schoolMapCard {
+  gap: var(--dl-space-space-twounits);
+  color: var(--dl-color-custom-neutral-dark);
+  width: 100%;
+  display: flex;
+  padding: var(--dl-space-space-twounits);
+  max-width: 450px;
+  /*min-height: 450px;*/
+  height: 500px;
+  align-items: flex-start;
+  flex-direction: column;
+  background-color: var(--dl-color-custom-accent1);
+}
+.basicSchoolCard {
+  gap: var(--dl-space-space-twounits);
+  color: var(--dl-color-custom-neutral-dark);
+  width: 100%;
+  display: flex;
+  padding: var(--dl-space-space-twounits);
+  max-width: 450px;
+  /*min-height: 450px;*/
+  height: 500px;
+  align-items: flex-start;
+  flex-direction: column;
+  background-color: var(--dl-color-custom-accent1);
+}
+#basicInfo {
+  line-height: 40px;
+}
 .basicPricingCard {
   gap: var(--dl-space-space-twounits);
   color: var(--dl-color-custom-neutral-dark);

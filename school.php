@@ -18,22 +18,60 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
 
 ?>
 
+
+
 <html>
 
+
+<style>
+    #schoolMap { height: 35vw;
+                 width: 30vw;}
+</style>
 
 <body>
 <link rel="stylesheet" href="./style.css" />
 <div>
     <link href="./index.css" rel="stylesheet" />
 
+
+
     <div class="home-container">
         <?php include 'includes/header.php' ?>
+
+
+
+
+
+
         <div class="heroContainer home-hero">
             <div class="home-container02">
                 <h1 class="home-hero-heading heading1" id="school-name"><?= $schoolName ?></h1>
                 <span class="home-hero-sub-heading" id="num-schools"></span>
+                <div class="home-container05">
+                    <label class="home-text02">YEAR</label>
+                    <select class="home-select2" id="country-select" onchange="updateCountry(this.value)">
+                    </select>
+                </div>
             </div>
+
         </div>
+
+<!--        <div class="heroContainer home-hero">-->
+<!--            <div class="home-container02">-->
+<!--                <h1 class="home-hero-heading heading1" id="country-label"></h1>-->
+<!--                <span class="home-hero-sub-heading" id="num-schools"></span>-->
+<!--                <div class="home-btn-group">-->
+<!--                    <div class="home-container05">-->
+<!--                        <label class="home-text02">COUNTRY</label>-->
+<!--                        <select class="home-select2" id="country-select" onchange="updateCountry(this.value)">-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+
         <div data-thq="thq-dropdown" class="home-thq-dropdown list-item">
             <ul data-thq="thq-dropdown-list" class="home-dropdown-list">
                 <li data-thq="thq-dropdown" class="home-dropdown list-item">
@@ -55,61 +93,35 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
         </div>
         <div class="pricingContainer">
             <div class="home-container09">
-                <div class="freePricingCard home-pricing-card">
+
+
+                <div class="basicSchoolCard home-pricing-card">
                     <div class="home-container10">
                         <span class="home-text28 heading3">Basic</span>
-                        <span class="bodySmall">
+                        <span class="bodySmall" id="basicInfo">
                   Explore school level data for COUNTRY XX
                 </span>
                     </div>
                     <div class="home-container11">
                     </div>
-                    <button class="home-button buttonOutline" id="exploreSchools">
-                        Explore
-                    </button>
+<!--                    <button class="home-button buttonOutline" id="exploreSchools">-->
+<!--                        Explore-->
+<!--                    </button>-->
                 </div>
-                <div class="basicPricingCard home-pricing-card1">
+
+
+
+                <div class="schoolMapCard home-pricing-card1">
                     <div class="home-container17">
-                        <span class="home-text36 heading3">Personnel</span>
+                        <span class="home-text36 heading3">School Map</span>
                         <span class="bodySmall">
                             <div id="schoolMap"></div>
-<!--                  A short description for the Basic plan-->
-                </span>
+                        </span>
                     </div>
-                    <div class="home-container18">
-                <span class="home-text37">
-                  <span>$</span>
-                  <span></span>
-                </span>
-                        <span class="home-basic-plan-pricing">20</span>
-                        <span class="home-text40">/ month</span>
-                    </div>
-                    <div class="home-container19">
-                        <div class="home-container20">
-                            <span class="home-text41">✔</span>
-                            <span class="bodySmall">All features of FREE plan</span>
-                        </div>
-                        <div class="home-container21">
-                            <span class="home-text43">✔</span>
-                            <span class="bodySmall">Feature 1 of the Basic plan</span>
-                        </div>
-                        <div class="home-container22">
-                            <span class="home-text44">✔</span>
-                            <span class="bodySmall">Feature 2 of the Basic plan</span>
-                        </div>
-                        <div class="home-container23">
-                            <span class="home-text45">✔</span>
-                            <span class="bodySmall">Feature 3 of the Basic plan</span>
-                        </div>
-                        <div class="home-container24">
-                            <span class="home-text46">✔</span>
-                            <span class="bodySmall">Feature 4 of the Basic plan</span>
-                        </div>
-                    </div>
-                    <button class="home-button1 buttonFilledSecondary">
-                        Try the Basic plan
-                    </button>
                 </div>
+
+
+
                 <div class="proPricingCard home-pricing-card2">
                     <div class="home-container25">
                 <span class="home-text47 heading3">
@@ -120,42 +132,12 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
                   A short description for the Pro plan
                 </span>
                     </div>
-                    <div class="home-container26">
-                <span class="home-text50">
-                  <span>$</span>
-                  <span></span>
-                </span>
-                        <span class="home-pro-plan-pricing">50</span>
-                        <span class="home-text53">/ month</span>
-                    </div>
-                    <div class="home-container27">
-                        <div class="home-container28">
-                            <span class="home-text54">✔</span>
-                            <span class="bodySmall">
-                    &nbsp;All features of BASIC plan
-                  </span>
-                        </div>
-                        <div class="home-container29">
-                            <span class="home-text56">✔</span>
-                            <span class="bodySmall">Feature 1 of the Pro plan</span>
-                        </div>
-                        <div class="home-container30">
-                            <span class="home-text57">✔</span>
-                            <span class="bodySmall">Feature 2 of the Pro plan</span>
-                        </div>
-                        <div class="home-container31">
-                            <span class="home-text58">✔</span>
-                            <span class="bodySmall">Feature 3 of the Pro plan</span>
-                        </div>
-                        <div class="home-container32">
-                            <span class="home-text59">✔</span>
-                            <span class="bodySmall">Feature 4 of the Pro plan</span>
-                        </div>
-                    </div>
-                    <button class="home-button2 buttonFilledSecondary">
-                        Try the PRO plan
-                    </button>
+
                 </div>
+
+
+
+
             </div>
         </div>
 
