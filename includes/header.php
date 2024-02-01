@@ -11,12 +11,12 @@
                     <span class="navigation-links-text"><span>HOME</span></span>
                 </a>
 
-                <a href="country.php">
-                    <span class="navigation-links-text1"><span>COUNTRY PROFILES</span></span>
-                </a>
-
                 <a href="team.php">
                     <span class="navigation-links-text2"><span>TEAM</span></span>
+                </a>
+
+                <a href="country.php">
+                    <span class="navigation-links-text1"><span>COUNTRY PROFILES</span></span>
                 </a>
 
                 <a href="export.php">
