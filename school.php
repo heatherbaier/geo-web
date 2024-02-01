@@ -72,7 +72,8 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
                     <div class="home-container17">
                         <span class="home-text36 heading3">Personnel</span>
                         <span class="bodySmall">
-                  A short description for the Basic plan
+                            <div id="schoolMap"></div>
+<!--                  A short description for the Basic plan-->
                 </span>
                     </div>
                     <div class="home-container18">
@@ -158,7 +159,6 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
             </div>
         </div>
 
-
         <?php include 'includes/footer.php' ?>
 
     </div>
@@ -171,6 +171,7 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
 
 <script src="js/schoolFuncs.js"></script>
 <script src="js/home-menu.js"></script>
+<script src="js/school-map.js"></script>
 
 
 </html>
