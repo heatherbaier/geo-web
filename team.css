@@ -1157,6 +1157,45 @@
     margin-left: var(--dl-space-space-unit);
     margin-right: var(--dl-space-space-unit);
   }
+  .home-container03 {
+    /*width: 100%; !* Each container takes full width *!*/
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically if needed */
+    flex-direction: column; /* Stack children vertically */
+    margin: 0px;
+  }
+  .home-container07 {
+    /*width: 100%; !* Each container takes full width *!*/
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically if needed */
+    flex-direction: column; /* Stack children vertically */
+    margin: 0px;
+  }
+  .home-container11 {
+    /*width: 100%; !* Each container takes full width *!*/
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically if needed */
+    flex-direction: column; /* Stack children vertically */
+    margin: 0px;
+
+  }
+  .home-container15 {
+    /*width: 100%; !* Each container takes full width *!*/
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically if needed */
+    flex-direction: column; /* Stack children vertically */
+    margin: 0px;
+  }
+  .headshot {
+    margin-top: 50px;
+  }
+  .home-features-heading {
+    text-align: center;
+  }
 }
 @media(max-width: 479px) {
   .home-header {

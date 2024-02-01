@@ -84,7 +84,7 @@
                 <img
                   src="headshots/annamarie_warnke.JPG"
                   alt="image"
-                  class="home-image03"
+                  class="home-image03 headshot"
                 />
                 <span class="home-text23">
                   <span class="home-text24">Annamarie Warnke</span>
@@ -101,7 +101,7 @@
                 <img
                   src="https://play.teleporthq.io/static/svg/default-img.svg"
                   alt="image"
-                  class="home-image04"
+                  class="home-image04 headshot"
                 />
                 <span class="home-text29">
                   <span class="home-text30">Courtney Maynard</span>
@@ -115,12 +115,14 @@
                 </span>
               </div>
             </div>
+
+
             <div class="home-container07">
               <div class="home-container08">
                 <img
                   src="https://play.teleporthq.io/static/svg/default-img.svg"
                   alt="image"
-                  class="home-image05"
+                  class="home-image05 headshot"
                 />
                 <span class="home-text35">
                   <span class="home-text36">Zoe Cummings</span>
@@ -137,7 +139,7 @@
                 <img
                   src="https://play.teleporthq.io/static/svg/default-img.svg"
                   alt="image"
-                  class="home-image06"
+                  class="home-image06 headshot"
                 />
                 <span class="home-text41">
                   <span class="home-text42">Paola Gonzalez</span>
@@ -154,7 +156,7 @@
                 <img
                   src="https://play.teleporthq.io/static/svg/default-img.svg"
                   alt="image"
-                  class="home-image07"
+                  class="home-image07 headshot"
                 />
                 <span class="home-text47">
                   <span class="home-text48">Kayla Aviles</span>
@@ -168,12 +170,16 @@
                 </span>
               </div>
             </div>
+
+
+
+
             <div class="home-container11">
               <div class="home-container12">
                 <img
                   src="headshots/jane_siwek.JPG"
                   alt="image"
-                  class="home-image08"
+                  class="home-image08 headshot"
                 />
                 <span class="home-text53">
                   <span class="home-text54">Jane Siwek</span>
@@ -190,7 +196,7 @@
                 <img
                   src="https://play.teleporthq.io/static/svg/default-img.svg"
                   alt="image"
-                  class="home-image09"
+                  class="home-image09 headshot"
                 />
                 <span class="home-text59">
                   <span class="home-text60">Naomi Levin</span>
@@ -207,7 +213,7 @@
                 <img
                   src="https://play.teleporthq.io/static/svg/default-img.svg"
                   alt="image"
-                  class="home-image10"
+                  class="home-image10 headshot"
                 />
                 <span class="home-text65">
                   <span class="home-text66">Elias Wolman</span>
@@ -226,7 +232,7 @@
                 <img
                   src="https://play.teleporthq.io/static/svg/default-img.svg"
                   alt="image"
-                  class="home-image11"
+                  class="home-image11 headshot"
                 />
                 <span class="home-text71">
                   <span class="home-text72">Ali Reynolds</span>
@@ -243,7 +249,7 @@
                 <img
                   src="https://play.teleporthq.io/static/svg/default-img.svg"
                   alt="image"
-                  class="home-image12"
+                  class="home-image12 headshot"
                 />
                 <span class="home-text77">
                   <span class="home-text78">John Henin</span>
@@ -260,7 +266,7 @@
                 <img
                   src="https://play.teleporthq.io/static/svg/default-img.svg"
                   alt="image"
-                  class="home-image13"
+                  class="home-image13 headshot"
                 />
                 <span class="home-text83">
                   <span class="home-text84">Heather Baier</span>
