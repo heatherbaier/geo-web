@@ -49,7 +49,7 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
                 <span class="home-hero-sub-heading" id="num-schools"></span>
                 <div class="home-container05">
                     <label class="home-text02">YEAR</label>
-                    <select class="home-select2" id="country-select" onchange="updateCountry(this.value)">
+                    <select class="home-select2" id="year-select" onchange="updateYear(this.value)">
                     </select>
                 </div>
             </div>
@@ -125,11 +125,10 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
                 <div class="proPricingCard home-pricing-card2">
                     <div class="home-container25">
                 <span class="home-text47 heading3">
-                  <span>Testing</span>
+                  <span>Personnel</span>
                   <br />
                 </span>
-                        <span class="bodySmall">
-                  A short description for the Pro plan
+                        <span class="bodySmall" id="personnelInfo">
                 </span>
                     </div>
 
@@ -154,6 +153,46 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
 <script src="js/schoolFuncs.js"></script>
 <script src="js/home-menu.js"></script>
 <script src="js/school-map.js"></script>
+
+
+<script>
+    function populateYearDropdown(iso) {
+
+        console.log("IN HERE YO DAWG");
+
+        var yearSelect = document.getElementById("year-select");
+        yearSelect.innerHTML = '';
+
+        <?php
+            global $con;
+            $iso = substr($_SERVER['REQUEST_URI'], -10, 3);
+            $query = "SELECT DISTINCT year FROM " . $iso . "_personnel"; // Replace with your actual query
+            $result = pg_query($con, $query);
+            $data = pg_fetch_all($result);
+            echo $data;
+        ?>
+
+        <?php foreach ($data as $year): ?>
+            var option = document.createElement("option");
+            option.value = "<?= $year["year"] ?>";
+            option.text = "<?= $year["year"] ?>";
+            yearSelect.appendChild(option);
+        <?php endforeach; ?>
+    }
+
+    var iso = window.location.href.substr(-10, 3).toLowerCase();
+    console.log("ISO IS: " + iso)
+
+    populateYearDropdown();
+
+</script>
+
+
+<script src="js/personnel-data.js"></script>
+
+<script>populate_personel_data();</script>
+
+<script src="js/school-text-updates.js"></script>
 
 
 </html>
