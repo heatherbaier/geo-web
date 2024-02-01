@@ -27,6 +27,9 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
     #schoolMap {
         width: 26vw; /* Full width of the container */
         height: 26vw;
+        max-width: 360px;
+        min-width: 200px;
+        min-height: 360px;
     ;}
 </style>
 
