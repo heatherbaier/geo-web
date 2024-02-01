@@ -204,7 +204,7 @@
   flex-direction: column;
   background-color: var(--dl-color-custom-accent1);
 }
-#basicInfo {
+#basicInfo, #personnelInfo {
   line-height: 40px;
 }
 .basicPricingCard {

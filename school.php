@@ -24,8 +24,10 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
 
 
 <style>
-    #schoolMap { height: 35vw;
-                 width: 30vw;}
+    #schoolMap {
+        width: 26vw; /* Full width of the container */
+        height: 26vw;
+    ;}
 </style>
 
 <body>
@@ -91,6 +93,8 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
                 </li>
             </ul>
         </div>
+
+
         <div class="pricingContainer">
             <div class="home-container09">
 
@@ -98,15 +102,9 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
                 <div class="basicSchoolCard home-pricing-card">
                     <div class="home-container10">
                         <span class="home-text28 heading3">Basic</span>
-                        <span class="bodySmall" id="basicInfo">
-                  Explore school level data for COUNTRY XX
-                </span>
+                        <span class="bodySmall" id="basicInfo"></span>
                     </div>
-                    <div class="home-container11">
-                    </div>
-<!--                    <button class="home-button buttonOutline" id="exploreSchools">-->
-<!--                        Explore-->
-<!--                    </button>-->
+                    <div class="home-container11"></div>
                 </div>
 
 
@@ -122,7 +120,7 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
 
 
 
-                <div class="proPricingCard home-pricing-card2">
+                <div class="basicSchoolCard home-pricing-card2">
                     <div class="home-container25">
                 <span class="home-text47 heading3">
                   <span>Personnel</span>
