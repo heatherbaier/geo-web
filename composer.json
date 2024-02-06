@@ -1,0 +1,18 @@
+{
+    "name": "heatherbaier/geoweb",
+    "autoload": {
+        "psr-4": {
+            "Heatherbaier\\Geoweb\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "heatherbaier",
+            "email": "hmbaier@email.wm.edu"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9",
+        "sendgrid/sendgrid": "^8.1"
+    }
+}

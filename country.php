@@ -34,7 +34,7 @@
 							exit;
 						}
 
-						echo "<script>console.log('Debug Objects: " . $result . "' );</script>";
+//						echo "<script>console.log('Debug Objects: " . $result . "' );</script>";
 
 						foreach ($arr as &$value) {
 							$value = $value * 2;
@@ -44,7 +44,7 @@
 						$tables = [];
 						while ($row = pg_fetch_assoc($result)) {
 							if ($row['table_name'] !== 'spatial_ref_sys' && strpos($row['table_name'], 'Resource id #5') === false) {
-							echo "<script>console.log('Debug Objects: " . $row['table_name'] . "' );</script>";
+//							echo "<script>console.log('Debug Objects: " . $row['table_name'] . "' );</script>";
 							// CODE TO EXTRACT JUST THE ISO FROM THE <ISO_YEAR>
 							// if (preg_match('/^(\w+)_\d{4}$/', $row['table_name'], $matches)) {
 							// 	$tables[] = $matches[1]; // Assuming format <ISO_YEAR>

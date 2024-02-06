@@ -68,7 +68,7 @@ elseif ($adm3selectedValue != '*' & $adm1selectedValue != "*" & $adm2selectedVal
 elseif ($adm2selectedValue != '*' & $adm1selectedValue == "*" & $adm3selectedValue == "*") {
     $query = "SELECT * FROM " . $countryBasic . " WHERE adm2='" . $adm2selectedValue . "' LIMIT $rowsPerPage OFFSET $offset";
     $totalRowsQuery = "SELECT COUNT(*) FROM " . $countryBasic . " WHERE adm2='" . $adm2selectedValue . "'";
-};
+}
 
 $result = pg_query($con, $query);
 
@@ -131,7 +131,7 @@ for ($i = $start; $i <= $end; $i++) {
     } else {
         $paginationLinks .= "<button onclick='setFiltersAndRefreshTable(" . $i . ")'>" . $i . "</button> ";
     }
-};
+}
 if ($page < $totalPages) {
     $paginationLinks .= "<button onclick='setFiltersAndRefreshTable(" . $pagep1 . ")'>&raquo</button>";
 }

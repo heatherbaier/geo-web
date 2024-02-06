@@ -218,6 +218,13 @@
   padding-bottom: 8px;
   background-color: var(--dl-color-primary-500);
 }
+
+#export-country-select, #export-ind-select, #export-year-select{
+  width: 30vw;
+  min-width: 150px;
+  margin-left: 25px;
+}
+
 .home-text {
   font-weight: 700;
   border-color: var(--dl-color-gray-black);

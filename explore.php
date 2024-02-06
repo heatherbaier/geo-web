@@ -102,7 +102,7 @@ include 'includes/exploreFuncs.php';
                   <option value="Tanzania">Tanzania</option> -->
                 </select>
               </div>
-              <button class="home-text01">Filter</button>
+<!--              <button class="home-text01">Filter</button>-->
 
 
             </div>

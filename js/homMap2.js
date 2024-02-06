@@ -67,6 +67,6 @@ function loadGlobalMap() {
 
 
 
-};
+}
 
 loadGlobalMap()
