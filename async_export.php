@@ -5,9 +5,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 
-$data = unserialize($argv[1]);
-$userEmail = $data['email'];
-$filters = $data['filters'];
+//$data = unserialize($argv[1]);
+//$userEmail = $data['email'];
+//$filters = $data['filters'];
 
 
 $message = "test";
@@ -112,7 +112,7 @@ try {
     $mail->Port       = 587;
     $mail->Host       = "smtp.gmail.com";
     $mail->Username   = "globaledobservatory@gmail.com";
-    $mail->Password   = "gmlm kkez vupo bjhy";
+    $mail->Password   = "bjro esfd xnlx vgmh";
 
     // Recipients
     $mail->setFrom('globaledobservatory@gmail.com', 'Mailer'); // Sender's email address

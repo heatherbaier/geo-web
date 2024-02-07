@@ -125,6 +125,17 @@ try {
     $mail->Username   = "globaledobservatory@gmail.com";
     $mail->Password   = $email_password;
 
+    // Disable SSL certificate verification
+    $mail->SMTPOptions = array(
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        )
+    );
+
+
+
     // Recipients
     $mail->setFrom('globaledobservatory@gmail.com', 'Global Education Observatory'); // Sender's email address
     $mail->addAddress('hbaier20@gmail.com', 'Recipient Name'); // Recipient's email address

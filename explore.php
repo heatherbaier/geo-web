@@ -20,7 +20,7 @@ include 'includes/exploreFuncs.php';
 
 <style>
     #schools-table {
-        font-family: Arial, Helvetica, sans-serif;
+        /*font-family: Arial, Helvetica, sans-serif;*/
         border-collapse: collapse;
         /*width: 100%;*/
         /*border-radius: 5px;*/

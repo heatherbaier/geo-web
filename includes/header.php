@@ -11,6 +11,10 @@
                     <span class="navigation-links-text"><span>HOME</span></span>
                 </a>
 
+                <a href="about.php">
+                    <span class="navigation-links-text2"><span>ABOUT</span></span>
+                </a>
+
                 <a href="team.php">
                     <span class="navigation-links-text2"><span>TEAM</span></span>
                 </a>

@@ -373,6 +373,10 @@
       rel="stylesheet"
       href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&family=Montserrat:wght@100;200;400;700&display=swap" rel="stylesheet">
+
     <style>
       @keyframes fade-in-left {
         0% {

@@ -3,6 +3,7 @@
   display: flex;
   align-items: center;
   flex-direction: row;
+  font-weight: 400;
 }
 .navigation-links-text1 {
   margin-left: var(--dl-space-space-twounits);
@@ -217,6 +218,14 @@
   flex-direction: row;
   padding-bottom: 8px;
   background-color: var(--dl-color-primary-500);
+}
+
+#about-text {
+  font-weight: normal;
+  margin: 20 75px 20 75px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 2;
 }
 
 #export-country-select, #export-ind-select, #export-year-select{

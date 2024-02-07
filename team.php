@@ -11,6 +11,16 @@
 
       <div class="home-container">
           <?php include 'includes/header.php' ?>
+          <div class="heroContainer home-hero">
+              <div class="home-container02">
+                  <h1 class="home-hero-heading heading1">Meet the Team (Past &amp; Present)</h1>
+                  <!--                <h2 class="home-hero-heading heading1" style="font-family: PT Sans; font-weight: lighter; font-size: 24px">An open database of global education data.</h2>-->
+                  <span class="home-hero-sub-heading" id="num-countries"></span>
+                  <span class="home-hero-sub-heading"></span>
+              </div>
+          </div>
+
+
         <div data-thq="thq-dropdown" class="home-thq-dropdown list-item">
           <ul data-thq="thq-dropdown-list" class="home-dropdown-list">
             <li data-thq="thq-dropdown" class="home-dropdown list-item">
@@ -30,36 +40,8 @@
             </li>
           </ul>
         </div>
-        <div class="home-features">
+        <div class="home-features" style="background-color: #f5f4f4">
           <div class="home-container02">
-            <h2 class="home-features-heading heading2">
-              Meet the Team (Past &amp; Present)
-            </h2>
-<!--            <span class="home-features-sub-heading bodyLarge">-->
-<!--              <span>-->
-<!--                <span>-->
-<!--                  <span>-->
-<!--                    Discover insights and make informed decisions with our-->
-<!--                    powerful dashboard features-->
-<!--                  </span>-->
-<!--                  <span></span>-->
-<!--                </span>-->
-<!--                <span>-->
-<!--                  <span></span>-->
-<!--                  <span></span>-->
-<!--                </span>-->
-<!--              </span>-->
-<!--              <span>-->
-<!--                <span>-->
-<!--                  <span></span>-->
-<!--                  <span></span>-->
-<!--                </span>-->
-<!--                <span>-->
-<!--                  <span></span>-->
-<!--                  <span></span>-->
-<!--                </span>-->
-<!--              </span>-->
-<!--            </span>-->
             <div class="home-container03">
               <div class="home-container04">
                 <img
