@@ -16,7 +16,15 @@ function loadGlobalMap() {
         if (this.readyState === 4 && this.status === 200) {
 
             var response = JSON.parse(this.responseText);
+
+            console.log("HERE MAN!");
+            console.log(response);
+
             response = response.filter(item => item.length === 3);
+
+            console.log(response);
+
+
 
             var numSchools = document.getElementById("num-countries");
             console.log(response.length);

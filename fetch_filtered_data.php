@@ -8,7 +8,7 @@ $adm1selectedValue = $_POST['adm1'];
 $adm2selectedValue = $_POST['adm2'];
 $adm3selectedValue = $_POST['adm3'];
 $iso = $_POST['iso'];
-$countryBasic = $iso . "_geo";
+$countryBasic = $iso;// . "_geo";
 $page = $_POST['page'];
 
 if ($page == "") {

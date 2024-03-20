@@ -16,6 +16,8 @@ $isoList = getISOlist();
 
 $return = $isoList;
 
+//echo $return;
+
 echo json_encode($return);
 
 
