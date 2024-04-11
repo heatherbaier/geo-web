@@ -41,7 +41,7 @@ function loadGlobalMap() {
                 var layer = "geo:".concat(response[i]);
 
                 // load wms form geoserver
-                const mywms = L.tileLayer.wms("https://globaleducationobservatory.org/geoserver/geo/wms", {
+                const mywms = L.tileLayer.wms("http://34.224.89.239:8080/geoserver/geo/wms", {
                     layers: layer,
                     format: 'image/png',
                     transparent: true,
