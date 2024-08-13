@@ -275,6 +275,10 @@ $isoList = getISOlist();
     });
 
     document.getElementById('torchSDG').addEventListener('click', function() {
+
+        console.log("ADDRESS");
+        console.log(address);
+
         // Construct the URL with the selected country's ISO code
         var url = address + 'torchsdg.php';
 
