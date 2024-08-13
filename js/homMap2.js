@@ -38,7 +38,10 @@ function loadGlobalMap() {
 
                 console.log(response[i]);
 
-                var layer = "geo:".concat(response[i]);
+                // load the adm0 boundary with '_adm0'
+                var layer = "geo:".concat(response[i]).concat('_adm0');
+
+                console.log(layer);
 
                 // load wms form geoserver
                 const mywms = L.tileLayer.wms("http://18.212.233.65:8080/geoserver/geo/wms", {
