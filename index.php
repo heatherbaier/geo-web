@@ -79,9 +79,11 @@ $isoList = getISOlist();
                   Download any of the data we publish through our API.
                 </span>
               </div>
-              <button class="home-button1 buttonFilledSecondary">
-                API Documentation
-              </button>
+<!--                <a href="https://github.com/heatherbaier/geo-api/blob/master/documentation.md" target="_blank">-->
+                    <button class="home-button1 buttonFilledSecondary" onclick="window.location.href='https://github.com/heatherbaier/geo-api/blob/master/documentation.md';">
+                        API Documentation
+                    </button>
+<!--                </a>-->
             </div>
 
             <div class="proPricingCard home-pricing-card2">
