@@ -44,14 +44,14 @@
     layer = "geo:".concat(iso);
     console.log(layer)
 
-    var host = "http://18.212.233.65:8080/geoserver/geo/wms?";
+    var host = "https://globaleducationobservatory.org/geoserver/geo/wms?";
     var wms_server = host;
 
     var points = L.layerGroup();
 
 
     //load wms form geoserver
-    const mywms = L.tileLayer.wms("http://18.212.233.65:8080/geoserver/geo/wms", {
+    const mywms = L.tileLayer.wms("https://globaleducationobservatory.org/geoserver/geo/wms", {
         layers: layer,
         format: 'image/png',
         transparent: true,

@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }).addTo(map);
 
     // Add the GeoServer WMS layer
-    var geoServerLayer = L.tileLayer.wms('http://18.212.233.65:8080/geoserver/geo/wms', {
+    var geoServerLayer = L.tileLayer.wms('https://globaleducationobservatory.org/geoserver/geo/wms', {
         layers: 'geo:pry_parrate_f_5_2012_adm2',
         format: 'image/png',
         transparent: true,
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log(geoServerLayer)
 
     // Fetch the GeoJSON data from GeoServer and style it based on 'par_rate'
-    fetch('http://18.212.233.65:8080/geoserver/geo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geo:pry_parrate_f_5_2012_adm2&outputFormat=application/json')
+    fetch('https://globaleducationobservatory.org/geoserver/geo/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geo:pry_parrate_f_5_2012_adm2&outputFormat=application/json')
         .then(function(response) {
             return response.json();
         })
