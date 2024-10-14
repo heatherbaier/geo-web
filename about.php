@@ -94,47 +94,47 @@ $isoList = getISOlist();
         </div>
 
 
-        <div class="pricingContainer">
-            <div class="home-container09">
-
-                <div class="freePricingCard home-pricing-card">
-                    <div class="home-container10">
-                        <span class="home-text28 heading3">School Level Data</span>
-                        <span class="bodySmall">
-                  Explore data on resources, personnel, assessments and more at the school level.
-                </span>
-                    </div>
-                    <button class="home-button buttonFilledSecondary" id="exploreCountries">
-                        Explore
-                    </button>
-                </div>
-
-                <div class="basicPricingCard home-pricing-card1">
-                    <div class="home-container17">
-                        <span class="home-text36 heading3">API</span>
-                        <span class="bodySmall">
-                  Download any of the data we publish through our API.
-                </span>
-                    </div>
-                    <button class="home-button1 buttonFilledSecondary">
-                        API Documentation
-                    </button>
-                </div>
-
-                <div class="proPricingCard home-pricing-card2">
-                    <div class="home-container25">
-                        <span class="home-text47 heading3">Machine Learning</span>
-                        <span class="bodySmall">
-                  Out team trains a suite of machine learning models to fill in gaps in education data globally. Get the resources for those models on GitHub below.
-                </span>
-                    </div>
-                    <button class="home-button2 buttonFilledSecondary"  onclick="location.href = 'https://github.com/heatherbaier/torchGlobalEdu';" >
-                        Go to GitHub
-                    </button>
-                </div>
-
-            </div>
-        </div>
+<!--        <div class="pricingContainer">-->
+<!--            <div class="home-container09">-->
+<!---->
+<!--                <div class="freePricingCard home-pricing-card">-->
+<!--                    <div class="home-container10">-->
+<!--                        <span class="home-text28 heading3">School Level Data</span>-->
+<!--                        <span class="bodySmall">-->
+<!--                  Explore data on resources, personnel, assessments and more at the school level.-->
+<!--                </span>-->
+<!--                    </div>-->
+<!--                    <button class="home-button buttonFilledSecondary" id="exploreCountries">-->
+<!--                        Explore-->
+<!--                    </button>-->
+<!--                </div>-->
+<!---->
+<!--                <div class="basicPricingCard home-pricing-card1">-->
+<!--                    <div class="home-container17">-->
+<!--                        <span class="home-text36 heading3">API</span>-->
+<!--                        <span class="bodySmall">-->
+<!--                  Download any of the data we publish through our API.-->
+<!--                </span>-->
+<!--                    </div>-->
+<!--                    <button class="home-button1 buttonFilledSecondary">-->
+<!--                        API Documentation-->
+<!--                    </button>-->
+<!--                </div>-->
+<!---->
+<!--                <div class="proPricingCard home-pricing-card2">-->
+<!--                    <div class="home-container25">-->
+<!--                        <span class="home-text47 heading3">Machine Learning</span>-->
+<!--                        <span class="bodySmall">-->
+<!--                  Out team trains a suite of machine learning models to fill in gaps in education data globally. Get the resources for those models on GitHub below.-->
+<!--                </span>-->
+<!--                    </div>-->
+<!--                    <button class="home-button2 buttonFilledSecondary"  onclick="location.href = 'https://github.com/heatherbaier/torchGlobalEdu';" >-->
+<!--                        Go to GitHub-->
+<!--                    </button>-->
+<!--                </div>-->
+<!---->
+<!--            </div>-->
+<!--        </div>-->
 
         <!--        <div class="bannerContainer home-banner">-->
         <!--          <h1 class="home-banner-heading heading2">-->
