@@ -109,17 +109,14 @@
             </div>
 
 
-            <div class="basicPricingCard home-pricing-card1">
-              <div class="home-container17">
-                <span class="home-text36 heading3">References & Data Sources</span>
-                <span class="bodySmall">
-                  Data for XX orginates from the following sources:
-                </span>
-              </div>
-<!--              <button class="home-button1 buttonFilledSecondary">-->
-<!--                Try the Basic plan-->
-<!--              </button>-->
-            </div>
+<!--            <div class="basicPricingCard home-pricing-card1">-->
+<!--              <div class="home-container17">-->
+<!--                <span class="home-text36 heading3">References & Data Sources</span>-->
+<!--                <span class="bodySmall">-->
+<!--                  Data for XX orginates from the following sources:-->
+<!--                </span>-->
+<!--              </div>-->
+<!--            </div>-->
 
 
 
