@@ -314,7 +314,7 @@
   font-weight: 700;
 }
 .home-text20 {
-  font-size: 18px;
+  font-size: 12px;
   align-self: center;
   text-align: center;
 }
@@ -1120,6 +1120,15 @@
   width: var(--dl-size-size-xsmall);
   height: var(--dl-size-size-xsmall);
 }
+.home-image2 {
+  height: 3rem;
+  object-fit: cover;
+}
+
+
+
+
+
 @media(max-width: 991px) {
   .home-features-sub-heading {
     text-align: center;

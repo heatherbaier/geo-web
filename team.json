@@ -1,0 +1,32 @@
+{
+  "John Doe": {
+    "imgpath": "headshots/heather_baier.jpg",
+    "pronouns": "he/him",
+    "bio": "John is a senior developer with 10 years of experience."
+  },
+  "Annamarie Warnke": {
+    "imgpath": "headshots/annamarie_warnke.JPG",
+    "pronouns": "she/her",
+    "bio": "Jane is a project manager with a focus on agile methodologies."
+  },
+  "Courtney Maynard": {
+    "imgpath": "headshots/heather_baier.jpg",
+    "pronouns": "they/them",
+    "bio": "Alex is a data scientist specializing in machine learning."
+  },
+  "Zoe Cummings": {
+    "imgpath": "headshots/heather_baier.jpg",
+    "pronouns": "he/him",
+    "bio": "John is a senior developer with 10 years of experience."
+  },
+  "Paola Gonzalez": {
+    "imgpath": "headshots/heather_baier.jpg",
+    "pronouns": "she/her",
+    "bio": "Jane is a project manager with a focus on agile methodologies."
+  },
+  "Kayla Aviles": {
+    "imgpath": "headshots/heather_baier.jpg",
+    "pronouns": "they/them",
+    "bio": "Alex is a data scientist specializing in machine learning."
+  }
+}
