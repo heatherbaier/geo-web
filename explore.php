@@ -18,6 +18,7 @@
         padding: 20px;
         background-color: #f8f9fa;
         border-radius: 5px;
+        height: max-content;
     }
 
     .data-display {
@@ -153,13 +154,16 @@ if (!$result) {
     <!-- Filter Bar -->
     <div class="filter-bar">
         <h4>Filter Schools</h4>
+
+        <br>
+
         <form action="explore.php" method="get">
             <!-- Keep the country in the URL -->
             <input type="hidden" name="country" value="<?php echo htmlspecialchars($country); ?>">
 
             <!-- adm1 Filter -->
             <div class="form-group">
-                <label for="adm1">Admin Level 1</label>
+                <label for="adm1">Admin Level 1</label><br>
                 <select name="adm1" id="adm1" class="form-control">
                     <option value="">All</option> <!-- Default "All" option at the top -->
                     <?php while ($row = pg_fetch_assoc($adm1_options)) { ?>
@@ -170,9 +174,11 @@ if (!$result) {
                 </select>
             </div>
 
+            <br>
+
             <!-- adm2 Filter -->
             <div class="form-group">
-                <label for="adm2">Admin Level 2</label>
+                <label for="adm2">Admin Level 2</label><br>
                 <select name="adm2" id="adm2" class="form-control">
                     <option value="">All</option> <!-- Default "All" option at the top -->
                     <?php while ($row = pg_fetch_assoc($adm2_options)) { ?>
@@ -183,9 +189,11 @@ if (!$result) {
                 </select>
             </div>
 
+            <br>
+
             <!-- adm3 Filter -->
             <div class="form-group">
-                <label for="adm3">Admin Level 3</label>
+                <label for="adm3">Admin Level 3</label><br>
                 <select name="adm3" id="adm3" class="form-control">
                     <option value="">All</option> <!-- Default "All" option at the top -->
                     <?php while ($row = pg_fetch_assoc($adm3_options)) { ?>
@@ -195,6 +203,8 @@ if (!$result) {
                     <?php } ?>
                 </select>
             </div>
+
+            <br>
 
             <!-- Filter Button -->
             <button type="submit" class="btn btn-primary">Apply Filters</button>
