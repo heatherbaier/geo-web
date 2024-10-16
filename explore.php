@@ -1,163 +1,265 @@
+<?php include 'includes/config.php' ?>
 <?php include 'includes/head.php' ?>
-
-<?php
-
-include 'includes/config.php';
-
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$countryISO = isset($_GET['country']) ? filter_var($_GET['country'], FILTER_SANITIZE_STRING) : 'defaultCountry';
-$countryBasic = $countryISO . "_geo";
-
-include 'admFetchFunc.php';
-include 'includes/exploreFuncs.php';
-
-?>
-
-
-
-<script src="js/iso_to_name.js"></script>
 
 
 <style>
-    #schools-table {
-        /*font-family: Arial, Helvetica, sans-serif;*/
-        border-collapse: collapse;
-        /*width: 100%;*/
-        /*border-radius: 5px;*/
-        margin-top: 50px;
+    .page-layout {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        padding: 20px;
     }
-    #schools-table td, #schools-table th {
+
+    .filter-bar {
+        flex: 0 0 30%; /* Filter bar takes up 30% of the page width */
+        margin-right: 20px;
         border: 1px solid #ddd;
-        padding: 8px;
-    }
-    #schools-table tr:nth-child(even){background-color: #f2f2f2;}
-
-    #schools-table tr:hover {background-color: #ddd;}
-
-    #schools-table th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: darkgray;
-        color: white;
-    }
-    .table-container {
-        overflow-x: auto; /* Enables horizontal scrolling */
-        margin-top: 50px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
     }
 
-    /*#schools-table {*/
-    /*    font-family: Arial, Helvetica, sans-serif;*/
-    /*    border-collapse: collapse;*/
-    /*}*/
-
-    @media screen and (max-width: 768px) { /* Adjust this value based on your needs */
-        .table-container {
-            width: 100%;
-        }
+    .data-display {
+        flex: 1; /* Data list takes up the remaining space */
     }
+
+    .data-card {
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+
+    .data-card h4 {
+        color: #900D13;
+    }
+
+    .data-card p {
+        margin: 0;
+        padding: 10px 0;
+    }
+
+    .btn-primary {
+        background-color: #900D13;
+        border: none;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center; /* Center the pagination */
+        margin-top: 20px;
+    }
+
+    .pagination li {
+        display: inline-block;
+        padding: 10px
+    }
+
+    .page-item.active .page-link {
+        background-color: #900D13;
+        border-color: #900D13;
+    }
+
+
+
 </style>
 
+<?php
+// Get the country code from the URL, e.g., bgd for Bangladesh
+$country = isset($_GET['country']) ? pg_escape_string($con, $_GET['country']) : '';
 
-  <body>
+// Get filter values from URL parameters
+$adm1 = isset($_GET['adm1']) ? pg_escape_string($con, $_GET['adm1']) : '';
+$adm2 = isset($_GET['adm2']) ? pg_escape_string($con, $_GET['adm2']) : '';
+$adm3 = isset($_GET['adm3']) ? pg_escape_string($con, $_GET['adm3']) : '';
+
+// Get the current page number from URL, default to page 1
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$perPage = 10; // Number of results per page
+$offset = ($page - 1) * $perPage;
+
+// If no country is provided, display an error
+if (empty($country)) {
+    echo "<p>Error: No country specified.</p>";
+    exit;
+}
+
+// Dynamically determine the table name based on the country code
+$table_name = strtolower($country); // Assuming table names are lowercase ISO codes
+
+// Check if the table for the country exists
+$check_table_query = "SELECT to_regclass('public.$table_name')";
+$table_exists = pg_fetch_result(pg_query($con, $check_table_query), 0, 0);
+
+if (!$table_exists) {
+    echo "<p>Error: No data available for the selected country.</p>";
+    exit;
+}
+
+// Query to get unique values for adm1, adm2, and adm3 from the database
+$unique_adm1_query = "SELECT DISTINCT adm1 FROM $table_name ORDER BY adm1";
+$unique_adm2_query = "SELECT DISTINCT adm2 FROM $table_name ORDER BY adm2";
+$unique_adm3_query = "SELECT DISTINCT adm3 FROM $table_name ORDER BY adm3";
+
+$adm1_options = pg_query($con, $unique_adm1_query);
+$adm2_options = pg_query($con, $unique_adm2_query);
+$adm3_options = pg_query($con, $unique_adm3_query);
+
+// Construct the base query for filters
+$query = "SELECT * FROM $table_name WHERE 1=1";
+
+// Add filters to the query if they are set
+if (!empty($adm1)) {
+    $query .= " AND adm1 = '$adm1'";
+}
+if (!empty($adm2)) {
+    $query .= " AND adm2 = '$adm2'";
+}
+if (!empty($adm3)) {
+    $query .= " AND adm3 = '$adm3'";
+}
+
+// Query to get the total number of records (for pagination)
+$totalQuery = pg_query($con, str_replace("*", "COUNT(*) as total", $query));
+$totalResults = pg_fetch_assoc($totalQuery)['total'];
+$totalPages = ceil($totalResults / $perPage);
+
+// Add pagination (LIMIT and OFFSET) to the query
+$query .= " LIMIT $perPage OFFSET $offset";
+
+// Execute the paginated query
+$result = pg_query($con, $query);
+
+// If the query fails, display an error
+if (!$result) {
+    echo "<p>Error: Failed to retrieve data for $country.</p>";
+    exit;
+}
+?>
+
+<body>
     <link rel="stylesheet" href="./style.css" />
-    <div>
-      <link href="./index.css" rel="stylesheet" />
+    <link href="./index.css" rel="stylesheet" />
+    <?php include 'includes/header.php' ?>
 
-      <div class="home-container">
-        <?php include 'includes/header.php' ?>
-        <div class="heroContainer home-hero">
-          <div class="home-container02">
-            <h1 class="home-hero-heading heading1" id="country-label">LABEL_HERE</h1>
-            <span class="home-hero-sub-heading" id="num-schools"></span>
-            <div class="home-btn-group">
-              <div class="home-container03">
+<div class="page-layout">
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+        <h4>Filter Schools</h4>
+        <form action="explore.php" method="get">
+            <!-- Keep the country in the URL -->
+            <input type="hidden" name="country" value="<?php echo htmlspecialchars($country); ?>">
 
-                <label class="home-text">ADM1</label>
-                <select class="home-select" id="adm1-select" onchange="updateAll(1, 'adm1')">
-                    <option value="*">All</option>
-                  <!-- <option value="Option 1">Option 1</option>
-                  <option value="Option 2">Option 2</option>
-                  <option value="Option 3">Option 3</option> -->
+            <!-- adm1 Filter -->
+            <div class="form-group">
+                <label for="adm1">Admin Level 1</label>
+                <select name="adm1" id="adm1" class="form-control">
+                    <option value="">All</option>
+                    <?php while ($row = pg_fetch_assoc($adm1_options)) { ?>
+                        <option value="<?php echo htmlspecialchars($row['adm1']); ?>" <?php if ($adm1 == $row['adm1']) echo 'selected'; ?>>
+                            <?php echo htmlspecialchars($row['adm1']); ?>
+                        </option>
+                    <?php } ?>
                 </select>
-              </div>
-              <div class="home-container04">
-                <label class="home-text01">ADM2</label>
-                <select id="adm2-select" onchange="updateAll(1, 'adm2')">
-                    <option value="*">All</option>
-                  <!-- <option value="Option 1">Option 1</option>
-                  <option value="Option 2">Option 2</option>
-                  <option value="Option 3">Option 3</option> -->
-                </select>
-              </div>
-              <div class="home-container05">
-                <label class="home-text02">ADM3</label>
-                <select class="home-select2" id="adm3-select"  onchange="updateTableData()">
-                    <option value="*">All</option>
-                  <!-- <option value="Bahrain">Bahrain</option>
-                  <option value="Bolivia" selected>Bolivia</option>
-                  <option value="Nigeria">Nigeria</option>
-                  <option value="Peru">Peru</option>
-                  <option value="Philippines">Philippines</option>
-                  <option value="Tanzania">Tanzania</option> -->
-                </select>
-              </div>
-<!--              <button class="home-text01">Filter</button>-->
-
-
-            </div>
-          </div>
-        </div>
-        <div data-thq="thq-dropdown" class="home-thq-dropdown list-item">
-          <ul data-thq="thq-dropdown-list" class="home-dropdown-list">
-            <li data-thq="thq-dropdown" class="home-dropdown list-item">
-              <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle">
-                <span class="home-text03">Sub-menu Item</span>
-              </div>
-            </li>
-            <li data-thq="thq-dropdown" class="home-dropdown1 list-item">
-              <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle1">
-                <span class="home-text04">Sub-menu Item</span>
-              </div>
-            </li>
-            <li data-thq="thq-dropdown" class="home-dropdown2 list-item">
-              <div data-thq="thq-dropdown-toggle" class="home-dropdown-toggle2">
-                <span class="home-text05">Sub-menu Item</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="home-features">
-
-			<!-- <div id="map" &#x3c;="" div=""></div> -->
-
-            <div class="table-container">
-
-            <table id="schools-table"></table>
-
             </div>
 
-            <div class="pagination" id="pagination"></div>
+            <!-- adm2 Filter -->
+            <div class="form-group">
+                <label for="adm2">Admin Level 2</label>
+                <select name="adm2" id="adm2" class="form-control">
+                    <option value="">All</option>
+                    <?php while ($row = pg_fetch_assoc($adm2_options)) { ?>
+                        <option value="<?php echo htmlspecialchars($row['adm2']); ?>" <?php if ($adm2 == $row['adm2']) echo 'selected'; ?>>
+                            <?php echo htmlspecialchars($row['adm2']); ?>
+                        </option>
+                    <?php } ?>
+                </select>
+            </div>
 
+            <!-- adm3 Filter -->
+            <div class="form-group">
+                <label for="adm3">Admin Level 3</label>
+                <select name="adm3" id="adm3" class="form-control">
+                    <option value="">All</option>
+                    <?php while ($row = pg_fetch_assoc($adm3_options)) { ?>
+                        <option value="<?php echo htmlspecialchars($row['adm3']); ?>" <?php if ($adm3 == $row['adm3']) echo 'selected'; ?>>
+                            <?php echo htmlspecialchars($row['adm3']); ?>
+                        </option>
+                    <?php } ?>
+                </select>
+            </div>
 
-
-
-        </div>
-
-
-          <?php include 'includes/footer.php' ?>
-
-      </div>
+            <!-- Filter Button -->
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+        </form>
     </div>
-    <script
-      data-section-id="navbar"
-      src="https://unpkg.com/@teleporthq/teleport-custom-scripts"
-    ></script>
-  </body>
 
+    <!-- Data Display -->
+    <div class="data-display">
+        <div class="row">
+            <?php while ($row = pg_fetch_assoc($result)) { ?>
+                <div class="col-md-6 col-lg-4">
+                    <div class="data-card">
+                        <h4><?php echo htmlspecialchars($row['school_name']); ?></h4>
+                        <div class="row">
+                            <div class="col-12">
+                                <p><strong>Admin 1:</strong> <?php echo htmlspecialchars($row['adm1']); ?> |
+                                    <strong>Admin 2:</strong> <?php echo htmlspecialchars($row['adm2']); ?> |
+                                    <strong>Admin 3:</strong> <?php echo htmlspecialchars($row['adm3']); ?></p>
+                            </div>
+                        </div>
+                        <a href="school_profile.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-primary">View School Profile</a>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
 
+        <!-- Pagination Section -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <?php
+                // Determine the range of pages to show
+                $maxVisiblePages = 8; // Maximum number of pages to show
+                $startPage = max(1, $page - floor($maxVisiblePages / 2));
+                $endPage = min($totalPages, $startPage + $maxVisiblePages - 1);
 
-<script src="js/home-menu.js"></script>
+                // Adjust startPage if we're close to the end of the page range
+                if ($endPage - $startPage + 1 < $maxVisiblePages) {
+                    $startPage = max(1, $endPage - $maxVisiblePages + 1);
+                }
 
+                // Show previous arrow
+                if ($page > 1) { ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?country=<?php echo $country; ?>&page=<?php echo $page - 1; ?>&adm1=<?php echo $adm1; ?>&adm2=<?php echo $adm2; ?>&adm3=<?php echo $adm3; ?>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                <?php } ?>
 
+                <!-- Display page links in the defined range -->
+                <?php for ($i = $startPage; $i <= $endPage; $i++) { ?>
+                    <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+                        <a class="page-link" href="?country=<?php echo $country; ?>&page=<?php echo $i; ?>&adm1=<?php echo $adm1; ?>&adm2=<?php echo $adm2; ?>&adm3=<?php echo $adm3; ?>"><?php echo $i; ?></a>
+                    </li>
+                <?php } ?>
 
+                <!-- Show next arrow -->
+                <?php if ($page < $totalPages) { ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?country=<?php echo $country; ?>&page=<?php echo $page + 1; ?>&adm1=<?php echo $adm1; ?>&adm2=<?php echo $adm2; ?>&adm3=<?php echo $adm3; ?>" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+</body>
+
+<?php
+// Include your footer file if needed
+include('footer.php');
+?>

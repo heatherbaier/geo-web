@@ -99,7 +99,7 @@ $isoList = getISOlist();
 <!--<!--              <button class="home-button2 buttonFilledSecondary"  onclick="location.href = 'https://github.com/heatherbaier/torchGlobalEdu';" >-->-->
 <!--<!--                Go to GitHub-->-->
 <!--<!--              </button>-->-->
-<!--            </div>-->
+<!--            </div>-->git pull
 
           </div>
         </div>
