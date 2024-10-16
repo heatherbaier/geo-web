@@ -1,6 +1,7 @@
 <?php include 'includes/config.php' ?>
 <?php include 'includes/head.php' ?>
 
+<script src="js/school_redirect.js"></script>
 
 <style>
     .page-layout {
@@ -32,7 +33,7 @@
     }
 
     .data-card h4 {
-        color: #900D13;
+        color: #6495ED;
     }
 
     .data-card p {
@@ -41,7 +42,10 @@
     }
 
     .btn-primary {
-        background-color: #900D13;
+        /*border-color: #6495ED;*/
+        /*border-width: 10px;*/
+        /*background-color: #900D13;*/
+        color: #0047AB;
         border: none;
     }
     .pagination {
@@ -96,10 +100,10 @@ if (!$table_exists) {
     exit;
 }
 
-// Query to get unique values for adm1, adm2, and adm3 from the database
-$unique_adm1_query = "SELECT DISTINCT adm1 FROM $table_name ORDER BY adm1";
-$unique_adm2_query = "SELECT DISTINCT adm2 FROM $table_name ORDER BY adm2";
-$unique_adm3_query = "SELECT DISTINCT adm3 FROM $table_name ORDER BY adm3";
+// Query to get unique non-empty values for adm1, adm2, and adm3, alphabetically sorted
+$unique_adm1_query = "SELECT DISTINCT adm1 FROM $table_name WHERE adm1 IS NOT NULL AND TRIM(adm1) != '' ORDER BY adm1 ASC";
+$unique_adm2_query = "SELECT DISTINCT adm2 FROM $table_name WHERE adm2 IS NOT NULL AND TRIM(adm2) != '' ORDER BY adm2 ASC";
+$unique_adm3_query = "SELECT DISTINCT adm3 FROM $table_name WHERE adm3 IS NOT NULL AND TRIM(adm3) != '' ORDER BY adm3 ASC";
 
 $adm1_options = pg_query($con, $unique_adm1_query);
 $adm2_options = pg_query($con, $unique_adm2_query);
@@ -123,6 +127,9 @@ if (!empty($adm3)) {
 $totalQuery = pg_query($con, str_replace("*", "COUNT(*) as total", $query));
 $totalResults = pg_fetch_assoc($totalQuery)['total'];
 $totalPages = ceil($totalResults / $perPage);
+
+// Sort the results alphabetically by `school_name`
+$query .= " ORDER BY school_name ASC";
 
 // Add pagination (LIMIT and OFFSET) to the query
 $query .= " LIMIT $perPage OFFSET $offset";
@@ -154,7 +161,7 @@ if (!$result) {
             <div class="form-group">
                 <label for="adm1">Admin Level 1</label>
                 <select name="adm1" id="adm1" class="form-control">
-                    <option value="">All</option>
+                    <option value="">All</option> <!-- Default "All" option at the top -->
                     <?php while ($row = pg_fetch_assoc($adm1_options)) { ?>
                         <option value="<?php echo htmlspecialchars($row['adm1']); ?>" <?php if ($adm1 == $row['adm1']) echo 'selected'; ?>>
                             <?php echo htmlspecialchars($row['adm1']); ?>
@@ -167,7 +174,7 @@ if (!$result) {
             <div class="form-group">
                 <label for="adm2">Admin Level 2</label>
                 <select name="adm2" id="adm2" class="form-control">
-                    <option value="">All</option>
+                    <option value="">All</option> <!-- Default "All" option at the top -->
                     <?php while ($row = pg_fetch_assoc($adm2_options)) { ?>
                         <option value="<?php echo htmlspecialchars($row['adm2']); ?>" <?php if ($adm2 == $row['adm2']) echo 'selected'; ?>>
                             <?php echo htmlspecialchars($row['adm2']); ?>
@@ -180,7 +187,7 @@ if (!$result) {
             <div class="form-group">
                 <label for="adm3">Admin Level 3</label>
                 <select name="adm3" id="adm3" class="form-control">
-                    <option value="">All</option>
+                    <option value="">All</option> <!-- Default "All" option at the top -->
                     <?php while ($row = pg_fetch_assoc($adm3_options)) { ?>
                         <option value="<?php echo htmlspecialchars($row['adm3']); ?>" <?php if ($adm3 == $row['adm3']) echo 'selected'; ?>>
                             <?php echo htmlspecialchars($row['adm3']); ?>
@@ -208,7 +215,14 @@ if (!$result) {
                                     <strong>Admin 3:</strong> <?php echo htmlspecialchars($row['adm3']); ?></p>
                             </div>
                         </div>
-                        <a href="school_profile.php?id=<?php echo htmlspecialchars($row['id']); ?>" class="btn btn-primary">View School Profile</a>
+
+<!--                        $tableData .= "<td onclick='redirectToSchool(\"" . htmlspecialchars($row['geo_id']) . "\")'>" . htmlspecialchars($row['geo_id']) . "</td>";-->
+
+<!--                        onclick = redirectToSchool(\"" . htmlspecialchars($row['geo_id']) . "\")'-->
+
+                            <a href="#" onclick="redirectToSchool('<?php echo htmlspecialchars($row['geo_id']); ?>', '<?php echo htmlspecialchars($country); ?>')" class="btn btn-primary">View School Profile</a>
+
+<!--                        <a href="school_profile.php?id=--><?php //echo htmlspecialchars($row['id']); ?><!--" class="btn btn-primary">View School Profile</a>-->
                     </div>
                 </div>
             <?php } ?>
@@ -256,6 +270,7 @@ if (!$result) {
         </nav>
     </div>
 </div>
+
 
 </body>
 
