@@ -86,20 +86,6 @@ $isoList = getISOlist();
 <!--                </a>-->
             </div>
 
-<!--            <div class="proPricingCard home-pricing-card2">-->
-<!--              <div class="home-container25">-->
-<!--                <span class="home-text47 heading3">Machine Learning</span>-->
-<!--                <span class="bodySmall">-->
-<!--                  Out team trains a suite of machine learning models to fill in gaps in education data globally. Get the resources for those models on GitHub below.-->
-<!--                </span>-->
-<!--              </div>-->
-<!--                <button class="home-button buttonFilledSecondary" id="torchSDG">-->
-<!--                    Explore-->
-<!--                </button>-->
-<!--<!--              <button class="home-button2 buttonFilledSecondary"  onclick="location.href = 'https://github.com/heatherbaier/torchGlobalEdu';" >-->-->
-<!--<!--                Go to GitHub-->-->
-<!--<!--              </button>-->-->
-<!--            </div>-->git pull
 
           </div>
         </div>

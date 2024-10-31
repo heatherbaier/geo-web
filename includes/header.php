@@ -23,9 +23,9 @@
                     <span class="navigation-links-text1"><span>COUNTRY PROFILES</span></span>
                 </a>
 
-                <a href="export.php">
-                    <span class="navigation-links-text3"><span>EXPORT TOOL</span></span>
-                </a>
+<!--                <a href="export.php">-->
+<!--                    <span class="navigation-links-text3"><span>EXPORT TOOL</span></span>-->
+<!--                </a>-->
             </nav>
           </div>
           <div data-role="BurgerMenu" class="home-burger-menu">
