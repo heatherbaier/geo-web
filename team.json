@@ -1,32 +1,27 @@
 {
-  "John Doe": {
+  "Heather Baier": {
     "imgpath": "headshots/heather_baier.jpg",
     "pronouns": "he/him",
-    "bio": "John is a senior developer with 10 years of experience."
+    "bio": "Heather Baier started the GEO project in 2018. She is a fourth year Ph.D. candidate in the William & Mary geoLab in the Applied Sciences Department. Her research is on improving the spatial awareness of deep learning models that predict sociodemographic data. In her free time, she likes to run, bike, cook and play with her dog."
   },
   "Annamarie Warnke": {
     "imgpath": "headshots/annamarie_warnke.JPG",
     "pronouns": "she/her",
-    "bio": "Jane is a project manager with a focus on agile methodologies."
-  },
-  "Courtney Maynard": {
-    "imgpath": "headshots/heather_baier.jpg",
-    "pronouns": "they/them",
-    "bio": "Alex is a data scientist specializing in machine learning."
+    "bio": "Annamarie Warnke is the Student Director of the Global Education Observatory project. They are a Data Science major and Educational Studies minor graduating in Spring 2025. Their work on GEO has included locating and cleaning data, writing blog posts, standardizing metadata, and analyzing machine learning models. Their other research interests also lie at the intersection of data science and education; they include education policy analysis and classroom-level program evaluation."
   },
   "Zoe Cummings": {
-    "imgpath": "headshots/heather_baier.jpg",
-    "pronouns": "he/him",
-    "bio": "John is a senior developer with 10 years of experience."
+    "imgpath": "headshots/IMG_6325.jpeg",
+    "pronouns": "they/them",
+    "bio": "Zoe Cummings is a senior majoring in Data Science on the algorithms track and minoring in Math. This is her second year in the lab, and she works on cleaning and standardizing data for the GEO project. Outside of lab she loves travelling, spending time outside, and trying new foods!"
   },
   "Paola Gonzalez": {
-    "imgpath": "headshots/heather_baier.jpg",
-    "pronouns": "she/her",
-    "bio": "Jane is a project manager with a focus on agile methodologies."
-  },
-  "Kayla Aviles": {
-    "imgpath": "headshots/heather_baier.jpg",
+    "imgpath": "headshots/paolaphoto.png",
     "pronouns": "they/them",
-    "bio": "Alex is a data scientist specializing in machine learning."
+    "bio": "Paola Gonzalez is a Data Science major graduating in 2025. She has worked on standardizing school data for the GEO school database. Along with this, she is passionate about collecting and analyzing data related to socioeconomic and ethnic/racial inequality."
+  },
+  "Courtney Maynard": {
+    "imgpath": "headshots/courtneyheadshot.jpeg",
+    "pronouns": "they/them",
+    "bio": "Courtney Maynard is the Team Lead of the geoAnalytics team and has been on the GEO project for three years. She is a Data Science major and Math Minor graduating in Spring 2025. Throughout her time on GEO, she has contributed to building the website, bolstering the database through searching and scraping data, and analysis of convolutional neural networks. Outside of GEO, she does independent research on large language models and is passionate about model explainability."
   }
 }
