@@ -99,6 +99,8 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
 
 
         <div class="pricingContainer">
+
+
             <div class="home-container09">
 
 
@@ -125,20 +127,44 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
 
                 <div class="basicSchoolCard home-pricing-card2">
                     <div class="home-container25">
-                <span class="home-text47 heading3">
-                  <span>Personnel</span>
-                  <br />
-                </span>
-                        <span class="bodySmall" id="personnelInfo">
-                </span>
+                        <span class="home-text47 heading3">
+                          <span>Personnel</span>
+                          <br/>
+                        </span>
+                        <span class="bodySmall" id="personnelInfo"></span>
                     </div>
-
                 </div>
 
 
 
 
+
+
+
+
             </div>
+
+            <div class="home-container09">
+
+
+                <div class="basicSchoolCard home-pricing-card3">
+                    <div class="home-container25">
+                        <span class="home-text47 heading3">
+                          <span>Resources</span>
+                          <br/>
+                        </span>
+                        <span class="bodySmall" id="resourceInfo"></span>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+
+
         </div>
 
         <?php include 'includes/footer.php' ?>
@@ -190,8 +216,11 @@ $schoolName = getSchoolName($countryBasic, $schoolID);  // Replace with your act
 
 
 <script src="js/personnel-data.js"></script>
+<script src="js/resource-data.js"></script>
 
 <script>populate_personel_data();</script>
+<script>populate_resource_data();</script>
+
 
 <script src="js/school-text-updates.js"></script>
 

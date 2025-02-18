@@ -20,7 +20,7 @@ function populate_personel_data() {
 
     xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-            console.log("MADE IT BACK HERE TO JA BOOTY");
+            console.log("MADE IT BACK HERE TO JA BOOTY PERSONNEL");
             var response = JSON.parse(this.responseText)
             console.log(response);
 
@@ -61,7 +61,7 @@ function update_personnel_data(year) {
 
     xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-            console.log("MADE IT BACK HERE TO JA BOOTY");
+            console.log("MADE IT BACK HERE TO JA BOOTY PERSONNEL");
             var response = JSON.parse(this.responseText)
             console.log(response);
 
